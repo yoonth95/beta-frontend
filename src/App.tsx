@@ -1,9 +1,9 @@
-import Test from "@components/Test";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <Test />
+      <Outlet />
     </>
   );
 }
