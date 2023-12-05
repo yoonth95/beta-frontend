@@ -29,15 +29,15 @@ interface PropsType {
   borderRadius?: string;
 }
 
-const Button = ({ children, onClick, disabled, type, borderRadius }: PropsType) => {
+const Button: React.FC<PropsType> = ({ children, onClick, disabled, type, borderRadius = "5px" }) => {
   return (
     <>
       <button
         className={styles["button"]}
         onClick={onClick}
-        disabled={disabled ? disabled : false}
-        type={type ? type : "button"}
-        style={{ borderRadius: borderRadius ? borderRadius : "5px" }}
+        disabled={disabled || false}
+        type={type || "button"}
+        style={{ borderRadius: borderRadius }}
       >
         {children}
       </button>
