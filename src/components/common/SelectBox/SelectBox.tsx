@@ -15,13 +15,9 @@ const SelectBox: React.FC<PropsType> = ({ options, defaultOptionIndex = 0 }) => 
   };
 
   const handleSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    handleClose();
-    const buttonElement = e.target as HTMLButtonElement;
-    setSelectedOption(buttonElement.innerText);
-  };
-
-  const handleClose = () => {
     setIsOpen(false);
+    const buttonElement = e.currentTarget as HTMLButtonElement;
+    setSelectedOption(buttonElement.innerText);
   };
 
   return (
@@ -31,9 +27,9 @@ const SelectBox: React.FC<PropsType> = ({ options, defaultOptionIndex = 0 }) => 
       </button>
       {isOpen && (
         <ul className={styles.list}>
-          {options.map((option, index) => {
+          {options.map((option) => {
             return (
-              <li key={index}>
+              <li key={option}>
                 <button type="button" onClick={handleSelect} className={`${option === selectedOption && styles.selected}`}>
                   {option}
                 </button>
