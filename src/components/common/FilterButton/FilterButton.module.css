@@ -1,0 +1,21 @@
+.button {
+  border-radius: 24px;
+  padding: 0.75rem;
+  min-width: 5.625rem;
+  border: 1px solid var(--gray300-color);
+  background-color: white;
+  color: black;
+}
+
+.button:hover {
+  background-color: var(--gray100-color);
+}
+
+.button.selected {
+  background: var(--main-color);
+  color: white;
+}
+
+.button.selected:hover {
+  background-color: var(--main-color);
+}
