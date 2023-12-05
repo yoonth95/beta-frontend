@@ -1,0 +1,23 @@
+.card {
+  width: 13.125rem;
+}
+
+.card * {
+  width: 100%;
+  font-weight: bold;
+}
+
+.card__img-wrapper {
+  height: 17.5rem;
+  border: 2px solid var(--gray200-color);
+  margin-bottom: 1rem;
+}
+
+.card__img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__title {
+  font-size: 1.25rem;
+}
