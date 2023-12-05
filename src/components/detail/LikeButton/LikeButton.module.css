@@ -9,11 +9,11 @@
 }
 .like-button.active {
   background-color: var(--main-color);
-  color: fff;
+  color: #fff;
 }
 .like-button__svg {
   margin-right: 0.5rem;
 }
 .like-button.active .like-button__svg path {
-  stroke: fff;
+  stroke: #fff;
 }
