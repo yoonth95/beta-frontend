@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import CheckIcon from "@/assets/icon-check.svg?react";
 import styles from "./InputField.module.css";
+import classNames from "classnames/bind";
 
 /**
  * InputField Component
@@ -33,15 +34,17 @@ interface PropsType {
   isConfirm?: boolean;
 }
 
-const InputField = ({ children, type, placeholder, value, onChange, isConfirm }: PropsType) => {
+const cx = classNames.bind(styles);
+
+const InputField: React.FC<PropsType> = ({ children, type, placeholder, value, onChange, isConfirm }) => {
   const location = useLocation();
 
   return (
     <fieldset className={styles["fieldset-box"]}>
-      {children ? <label>{children}</label> : undefined}
-      <input type={type} placeholder={placeholder} value={value ? value : ""} onChange={onChange} />
+      {children && <label>{children}</label>}
+      <input type={type} placeholder={placeholder} value={value || ""} onChange={onChange} />
       {location.pathname.includes("signup") && type === "password" ? (
-        <CheckIcon className={`${styles["input-box__check"]} ${isConfirm ? styles.success : styles.fail}`} />
+        <CheckIcon className={cx("input-box__check", isConfirm ? "success" : "fail")} />
       ) : undefined}
     </fieldset>
   );
