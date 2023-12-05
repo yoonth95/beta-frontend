@@ -1,0 +1,33 @@
+.header {
+  width: 100%;
+  padding: 36px 0;
+  display: flex;
+  justify-items: space-between;
+}
+
+.header-wrapper {
+  max-width: 60rem;
+  width: calc(100% - 60px);
+  margin: 0px auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-txt {
+  font-weight: bold;
+  font-size: 1.875rem;
+  color: var(--main-color);
+}
+
+.button-login,
+.button-mypage {
+  display: flex;
+  align-items: center;
+  color: var(--gray400-color);
+  font-weight: bold;
+}
+
+.button-login {
+  margin-left: auto;
+  margin-right: 1.25rem;
+}
