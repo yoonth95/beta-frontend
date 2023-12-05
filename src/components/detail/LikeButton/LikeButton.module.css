@@ -1,0 +1,19 @@
+.like-button {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background-color: var(--sub-color);
+  color: var(--main-color);
+  border-radius: 8px;
+  font-weight: 400;
+}
+.like-button.active {
+  background-color: var(--main-color);
+  color: fff;
+}
+.like-button__svg {
+  margin-right: 0.5rem;
+}
+.like-button.active .like-button__svg path {
+  stroke: fff;
+}
