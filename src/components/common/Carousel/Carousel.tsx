@@ -14,7 +14,7 @@ const Carousel: React.FC<PropsType> = ({ imgs }) => {
     slidesToShow: 2,
     swipeToSlide: true,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 3000,
   };
 
   return (
