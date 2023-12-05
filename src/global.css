@@ -1,4 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --main-color: #da3017;
+  --sub-color: rgba(218, 48, 23, 0.25);
+  --gray100-color: #f2f2f2;
+  --gray200-color: #d9d9d9;
+  --gray300-color: #c4c4c4;
+  --gray400-color: #767676;
+  --modal-bg-color: rgba(0, 0, 0, 0.45);
+}
 
 html,
 body,
@@ -85,7 +101,7 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font-family: "Roboto", sans-serif;
+  font-family: "Pretendard-Regular", sans-serif;
   vertical-align: baseline;
 }
 article,
