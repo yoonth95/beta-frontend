@@ -180,6 +180,8 @@ table {
 }
 
 button {
+  font: inherit;
+  color: inherit;
   border: 0;
   margin: 0;
   padding: 0;
