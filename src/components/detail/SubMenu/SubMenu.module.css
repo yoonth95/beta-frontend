@@ -1,0 +1,12 @@
+.submenu {
+  width: 100%;
+  padding: 0.625rem;
+  border-bottom: 1px solid var(--gray200-color);
+  color: var(--gray200-color);
+  font-weight: 400;
+  text-align: center;
+}
+.submenu.selected {
+  border-bottom: 2px solid var(--main-color);
+  color: var(--main-color);
+}
