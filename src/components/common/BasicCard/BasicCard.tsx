@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 interface PropsType {
-  item: { title: string; location: string; time: string; imgSrc: string; id: string };
+  item: { title: string; location: string; date: string; imgSrc: string; id: string };
 }
 const BasicCard: React.FC<PropsType> = ({ item }) => {
   return (
@@ -15,7 +15,7 @@ const BasicCard: React.FC<PropsType> = ({ item }) => {
       </div>
       <h4 className={cx("card__title", "ellipsis")}>{item.title}</h4>
       <p className={cx("card__location", "ellipsis")}>{item.location}</p>
-      <p className={styles["card__time"]}>{item.time}</p>
+      <p className={styles["card__date"]}>{item.date}</p>
     </article>
   );
 };
