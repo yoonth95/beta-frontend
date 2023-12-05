@@ -1,0 +1,67 @@
+.login-main {
+  display: flex;
+  flex-direction: column;
+  width: 34.375rem;
+  height: 25.5rem;
+  position: relative;
+  margin: auto;
+  transform: translate(0, 50%);
+}
+
+.login-section {
+  height: 100%;
+  border: 1px solid var(--gray300-color);
+  border-radius: 0.625rem;
+}
+
+.login-section-buttons {
+  display: flex;
+  width: 100%;
+  height: 3.75rem;
+}
+
+.login-section-button {
+  width: 50%;
+  height: 100%;
+  font-family: inherit;
+  font-size: 1.125rem;
+  font-weight: 400;
+  background-color: var(--gray100-color);
+  border-bottom: 1px solid var(--gray300-color);
+}
+
+.login-section-button:first-child {
+  border-right: 1px solid var(--gray300-color);
+  border-top-left-radius: 0.625rem;
+}
+
+.login-section-button:last-child {
+  border-top-right-radius: 0.625rem;
+}
+
+.active {
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  font-weight: 600;
+}
+
+.login-section-form {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  gap: 1.875rem;
+  margin: 1.875rem 0;
+  padding: 0 2.1875rem;
+}
+
+.login-section-form .fieldset-box {
+  width: calc(100% - 4.375rem); /* 패딩 고려한 너비 조정 */
+}
+
+.login-link {
+  margin: 1.875rem auto;
+}
+
+.login-link-span {
+  margin: 0 0.875rem;
+}
