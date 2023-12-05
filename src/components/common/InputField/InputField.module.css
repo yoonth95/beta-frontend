@@ -1,0 +1,23 @@
+.fieldset-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  height: 5.25rem;
+  gap: 0.625rem;
+}
+
+.fieldset-box > label {
+  color: #767676;
+  font-size: 1rem;
+}
+
+.fieldset-box > input {
+  width: 100%;
+  height: 3.375rem;
+  border-radius: 5px;
+  border: 1px solid #c4c4c4;
+  padding: 0 1rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
