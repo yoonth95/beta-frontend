@@ -5,7 +5,7 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 const navList = [
-  { pathname: "/", text: "공연" },
+  { pathname: "/concert", text: "공연" },
   { pathname: "/exhibition", text: "전시" },
   { pathname: "/sports", text: "스포츠" },
 ];

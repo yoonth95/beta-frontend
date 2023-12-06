@@ -1,0 +1,20 @@
+.button {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--gray200-color);
+}
+
+.button.selected {
+  width: 3.75rem;
+  height: 3.75rem;
+  background-color: var(--main-color);
+  color: white;
+  font-weight: bold;
+}
+.button.selected span {
+  display: block;
+  font-size: 0.75rem;
+  margin-bottom: 0.25rem;
+}
