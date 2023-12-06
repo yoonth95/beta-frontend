@@ -7,9 +7,14 @@ const cx = classNames.bind(styles);
 interface PropsType {
   children: React.ReactNode;
   selected: boolean;
+  onClick: () => void;
 }
-const FilterButton: React.FC<PropsType> = ({ children, selected }) => {
-  return <button className={cx("button", selected && "selected")}>{children}</button>;
+const FilterButton: React.FC<PropsType> = ({ children, selected, onClick }) => {
+  return (
+    <button className={cx("button", selected && "selected")} onClick={onClick}>
+      {children}
+    </button>
+  );
 };
 
 export default FilterButton;
