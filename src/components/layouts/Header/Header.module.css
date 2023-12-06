@@ -1,14 +1,14 @@
 .header {
   width: 100%;
-  padding: 36px 0;
+  padding: 2.25rem 0;
   display: flex;
   justify-items: space-between;
 }
 
 .header-wrapper {
   max-width: 60rem;
-  width: calc(100% - 60px);
-  margin: 0px auto;
+  width: calc(100% - 3.75rem);
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
 }

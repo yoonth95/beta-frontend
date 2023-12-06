@@ -1,0 +1,25 @@
+.section {
+  padding: 2.5rem 0;
+}
+
+.date-btns-group {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.tabs {
+  display: flex;
+  gap: 2.5rem;
+  margin-bottom: 1.375rem;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13.125rem, 1fr));
+  gap: 2.5rem 1.25rem;
+  margin-bottom: 2.5rem;
+}
