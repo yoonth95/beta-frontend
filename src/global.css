@@ -193,3 +193,9 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
+main {
+  max-width: 60rem;
+  margin: 0 auto;
+  width: calc(100% - 3.75rem);
+}
