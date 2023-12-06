@@ -1,0 +1,64 @@
+.review {
+  position: relative;
+  margin-bottom: 2rem;
+}
+.review:hover .review__ellipsis {
+  display: block;
+}
+
+.review-content-top {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.review__userinfo {
+  display: flex;
+  gap: 1rem;
+}
+
+.review__userinfo .profile-img-cover {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.profile-img-cover svg {
+  width: 100%;
+  height: 100%;
+}
+
+.review__userinfo .username {
+  margin-top: 5px;
+}
+
+.review__userinfo .username::before {
+  content: "@";
+}
+
+.review__created-at {
+  font-size: 0.75rem;
+  color: var(--gray400-color);
+  margin-top: 7px;
+}
+
+.review__created-at::before {
+  content: "• ";
+}
+
+.review__text {
+  margin: 0 22px 0 52px;
+}
+
+.review__ellipsis {
+  display: none;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-left: auto;
+}
+
+.review__ellipsis img {
+  height: 100%;
+}
