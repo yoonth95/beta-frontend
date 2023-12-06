@@ -8,3 +8,15 @@
   color: #fff;
   background-color: var(--main-color);
 }
+
+.button.white {
+  border: 2px solid var(--gray200-color);
+  background: white;
+  color: black;
+}
+
+.button.white:hover {
+  border-color: var(--main-color);
+  background-color: var(--main-color);
+  color: white;
+}

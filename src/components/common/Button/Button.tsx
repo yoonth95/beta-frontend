@@ -1,5 +1,8 @@
 import React from "react";
 import styles from "./Button.module.css";
+import classNames from "classnames/bind";
+
+const cx = classNames.bind(styles);
 
 /**
  * Button Component
@@ -25,19 +28,20 @@ interface PropsType {
   children: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
-  type?: "button" | "submit";
+  type?: "submit";
   borderRadius?: string;
+  reverseColor?: boolean;
 }
 
-const Button: React.FC<PropsType> = ({ children, onClick, disabled, type, borderRadius = "5px" }) => {
+const Button: React.FC<PropsType> = ({ children, onClick, disabled, type, borderRadius = "5px", reverseColor }) => {
   return (
     <>
       <button
-        className={styles["button"]}
+        className={cx("button", reverseColor && "white")}
         onClick={onClick}
         disabled={disabled || false}
         type={type || "button"}
-        style={{ borderRadius: borderRadius }}
+        style={{ borderRadius }}
       >
         {children}
       </button>
