@@ -1,8 +1,25 @@
-.slider-wrapper {
-  max-width: 960px;
+.next-arrow {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 99;
+  text-align: left;
+  line-height: 1.875rem;
 }
-.slider__img {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: contain;
+
+.prev-arrow {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 99;
+  text-align: left;
+  line-height: 1.875rem;
 }
