@@ -1,0 +1,27 @@
+.section {
+  width: 100%;
+  margin: 2.5rem auto 2.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.header__story-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: url("@/assets/plus.svg") no-repeat center / 0.875rem;
+  background-color: var(--gray200-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin-left: auto; */
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+}
