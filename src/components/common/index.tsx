@@ -3,5 +3,7 @@ import InputField from "./InputField/InputField";
 import SignForm from "./SignForm/SignForm";
 import SelectBox from "./SelectBox/SelectBox";
 import Carousel from "./Carousel/Carousel";
+import BasicCard from "./BasicCard/BasicCard";
+import FilterButton from "./FilterButton/FilterButton";
 
-export { Button, InputField, SignForm, SelectBox, Carousel };
+export {Button, InputField, SignForm, SelectBox, Carousel, BasicCard, FilterButton };

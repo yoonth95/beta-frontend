@@ -1,5 +1,6 @@
 .card {
-  width: 13.125rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card * {
