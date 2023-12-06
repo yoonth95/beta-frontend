@@ -1,13 +1,13 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import ErrorPage from "@pages/Error/ErrorPage";
-import MainPage from "@pages/Main/MainPage";
-import DetailPage from "@pages/Detail/DetailPage";
-import LoginPage from "@pages/Login/LoginPage";
-import SignupPage from "@pages/Signup/SignupPage";
+import ErrorPage from "@/pages/Error/ErrorPage";
+import MainPage from "@/pages/Main/MainPage";
+import DetailPage from "@/pages/Detail/DetailPage";
+import LoginPage from "@/pages/Login/LoginPage";
+import SignupPage from "@/pages/Signup/SignupPage";
 import Info from "@/components/detail/Info/Info";
-import Review from "@/components/detail/Review/Review";
+// import Review from "@/components/detail/Review/Review";
 
 const router = createBrowserRouter([
   {
@@ -28,10 +28,10 @@ const router = createBrowserRouter([
             path: "info",
             element: <Info />,
           },
-          {
-            path: "review",
-            element: <Review />,
-          },
+          // {
+          //   path: "review",
+          //   element: <Review />,
+          // },
         ],
       },
       {
