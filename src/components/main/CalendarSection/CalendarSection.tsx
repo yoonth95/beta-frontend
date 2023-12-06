@@ -1,19 +1,25 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DateButton } from "@/components/main";
-import { BasicCard, FilterButton } from "@/components/common";
-import styles from "./CalendarSection.module.css";
+import { BasicCard, Button, FilterButton } from "@/components/common";
 import getStringDate from "@/utils/getStringDate";
 import getTodayStringDate from "@/utils/getTodayStringDate";
+import styles from "./CalendarSection.module.css";
 
-const tabsInfo = ["공연", "전시", "스포츠"];
+const tabsInfo = [
+  { url: "/concert", value: "공연" },
+  { url: "/exhibition", value: "전시" },
+  { url: "/sports", value: "스포츠" },
+];
 
 const Calendar = () => {
+  const navigate = useNavigate();
   const { todayYear, todayMonth, todayDay, todayString } = getTodayStringDate();
-  const [tab, setTab] = useState("공연");
+  const [selectedTab, setSelectedTab] = useState("/concert");
   const [selectedDate, setSelectedDate] = useState(todayString);
 
   const handleClickTab = (value: string) => () => {
-    setTab(value);
+    setSelectedTab(value);
   };
   const handleClickDateBtn = (value: string) => () => {
     setSelectedDate(value);
@@ -41,8 +47,8 @@ const Calendar = () => {
           })}
       </div>
       <div className={styles.tabs}>
-        {tabsInfo.map((value) => (
-          <FilterButton key={value} selected={tab === value} onClick={handleClickTab(value)}>
+        {tabsInfo.map(({ url, value }) => (
+          <FilterButton key={value} selected={selectedTab === url} onClick={handleClickTab(url)}>
             {value}
           </FilterButton>
         ))}
@@ -65,6 +71,14 @@ const Calendar = () => {
             );
           })}
       </div>
+      <Button
+        onClick={() => {
+          navigate(selectedTab);
+        }}
+        reverseColor={true}
+      >
+        더보기
+      </Button>
     </section>
   );
 };
