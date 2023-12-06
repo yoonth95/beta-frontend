@@ -17,13 +17,19 @@ const LoginPage = () => {
     <main className={styles["login-main"]}>
       <SignForm userType={userType} setUserType={setUserType}>
         <form onSubmit={handleSubmit} className={styles["login-section-form"]}>
-          <InputField type="text" placeholder="아이디를 입력해주세요." value={id} onChange={(e) => setId(e.target.value)}>
+          <InputField required={false} type="text" placeholder="아이디를 입력해주세요." value={id} onChange={(e) => setId(e.target.value)}>
             아이디
           </InputField>
-          <InputField type="password" placeholder="비밀번호를 입력해주세요." value={password} onChange={(e) => setPassword(e.target.value)}>
+          <InputField
+            required={false}
+            type="password"
+            placeholder="비밀번호를 입력해주세요."
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          >
             비밀번호
           </InputField>
-          <Button children="로그인" type="submit" />
+          <Button type="submit">로그인</Button>
         </form>
       </SignForm>
       <section className={styles["login-link"]}>
