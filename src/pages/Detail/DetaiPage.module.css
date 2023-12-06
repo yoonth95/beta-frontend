@@ -3,3 +3,10 @@
   aspect-ratio: 3/4;
   object-fit: contain;
 }
+
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}

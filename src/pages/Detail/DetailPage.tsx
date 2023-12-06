@@ -1,5 +1,5 @@
 import React from "react";
-import { Carousel } from "@/components/common";
+import { Button, Carousel } from "@/components/common";
 import { LikeButton, SubMenu } from "@/components/detail";
 import { Outlet, useLocation } from "react-router-dom";
 import styles from "./DetaiPage.module.css";
@@ -34,7 +34,10 @@ const DetailPage = () => {
           </div>
         ))}
       </Carousel>
-      <LikeButton active={false} />
+      <div className={styles["btn-group"]}>
+        <LikeButton active={false} />
+        <Button borderRadius="0.5rem">예매하기</Button>
+      </div>
       <section>
         <div style={{ display: "flex" }}>
           {submenuList.map((menu) => (
