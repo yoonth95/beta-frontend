@@ -6,6 +6,8 @@ import MainPage from "@pages/Main/MainPage";
 import DetailPage from "@pages/Detail/DetailPage";
 import LoginPage from "@pages/Login/LoginPage";
 import SignupPage from "@pages/Signup/SignupPage";
+import Info from "@/components/detail/Info/Info";
+import Review from "@/components/detail/Review/Review";
 
 const router = createBrowserRouter([
   {
@@ -19,8 +21,18 @@ const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
-        path: "/detail",
+        path: "/detail/:id",
         element: <DetailPage />,
+        children: [
+          {
+            path: "info",
+            element: <Info />,
+          },
+          {
+            path: "review",
+            element: <Review />,
+          },
+        ],
       },
       {
         path: "/login",
