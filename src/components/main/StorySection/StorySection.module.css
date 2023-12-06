@@ -6,22 +6,21 @@
 .header {
   display: flex;
   align-items: center;
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .header__story-btn {
-  width: 30px;
-  height: 30px;
+  width: 1.875rem;
+  height: 1.875rem;
   border-radius: 50%;
   background: url("@/assets/plus.svg") no-repeat center / 0.875rem;
   background-color: var(--gray200-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  /* margin-left: auto; */
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 0.625rem;
+  margin-right: 0.625rem;
   cursor: pointer;
 }

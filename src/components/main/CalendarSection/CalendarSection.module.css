@@ -13,7 +13,7 @@
 
 .tabs {
   display: flex;
-  gap: 2.5rem 40px;
+  gap: 2.5rem;
   margin-bottom: 1.375rem;
 }
 
