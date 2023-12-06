@@ -26,26 +26,26 @@ import classNames from "classnames/bind";
  */
 
 interface PropsType {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   type: "text" | "password";
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isConfirm?: boolean;
+  required?: boolean;
 }
 
 const cx = classNames.bind(styles);
 
-const InputField: React.FC<PropsType> = ({ children, type, placeholder, value, onChange, isConfirm }) => {
+const InputField: React.FC<PropsType> = ({ children, type, placeholder, value, onChange, isConfirm, required }) => {
   const location = useLocation();
+  const isSignupPassword = location.pathname === "/signup" && type === "password";
 
   return (
     <fieldset className={styles["fieldset-box"]}>
       {children && <label>{children}</label>}
-      <input type={type} placeholder={placeholder} value={value || ""} onChange={onChange} />
-      {location.pathname.includes("signup") && type === "password" ? (
-        <CheckIcon className={cx("input-box__check", isConfirm ? "success" : "fail")} />
-      ) : undefined}
+      <input required={required} type={type} placeholder={placeholder} value={value || ""} onChange={onChange} />
+      {isSignupPassword && <CheckIcon className={cx("input-box__check", isConfirm && "success")} />}
     </fieldset>
   );
 };
