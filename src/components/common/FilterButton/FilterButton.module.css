@@ -12,6 +12,7 @@
 }
 
 .button.selected {
+  border-color: var(--main-color);
   background: var(--main-color);
   color: white;
 }
