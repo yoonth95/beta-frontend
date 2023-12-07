@@ -27,7 +27,7 @@ const ReviewItem: React.FC<ReviewItemType> = ({ item }) => {
         </div>
         <span className={styles["review__created-at"]}>{getElapsedTime(item.createdAt)}</span>
       </div>
-      <p className={styles["review__text"]}>{item.text}</p>
+      <h4 className={styles["review__text"]}>{item.text}</h4>
 
       {/* 본인 댓글에만 더보기 버튼 */}
       {/* active로 제어 */}

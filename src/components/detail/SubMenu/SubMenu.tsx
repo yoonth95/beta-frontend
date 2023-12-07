@@ -14,7 +14,7 @@ interface PropsType {
 const SubMenu: React.FC<PropsType> = ({ children, selected, url }) => {
   return (
     <Link to={url} className={cx("submenu", selected && "selected")}>
-      {children}
+      <h2>{children}</h2>
     </Link>
   );
 };
