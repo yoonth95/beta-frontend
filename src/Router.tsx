@@ -4,10 +4,9 @@ import App from "./App";
 import ErrorPage from "@/pages/Error/ErrorPage";
 import MainPage from "@/pages/Main/MainPage";
 import DetailPage from "@/pages/Detail/DetailPage";
+import { Info, Review } from "@/components/detail";
 import LoginPage from "@/pages/Login/LoginPage";
 import SignupPage from "@/pages/Signup/SignupPage";
-import Info from "@/components/detail/Info/Info";
-import Review from "@/components/detail/Review/Review";
 
 const router = createBrowserRouter([
   {
