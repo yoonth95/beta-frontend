@@ -29,15 +29,16 @@ const ReviewItem: React.FC<ReviewItemType> = ({ item }) => {
       </div>
       <p className={styles["review__text"]}>{item.text}</p>
 
-      {/* 본인 댓글 시 수정/삭제 더보기 버튼 */}
-
+      {/* 본인 댓글에만 더보기 버튼 */}
+      {/* active로 제어 */}
       <button type="button" className={`${styles["review__ellipsis"]}`}>
         <img src={IconEllipsisVertical} />
       </button>
 
-      {/* <div className={styles["review__button-list"]}>
+      <div className={styles["review__button-list"]}>
+        <button type="button">수정</button>
         <button type="button">삭제</button>
-      </div> */}
+      </div>
     </div>
   );
 };

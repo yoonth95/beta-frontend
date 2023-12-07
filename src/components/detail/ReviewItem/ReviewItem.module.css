@@ -59,6 +59,39 @@
   margin-left: auto;
 }
 
+.review__ellipsis.active {
+  display: block;
+}
+
 .review__ellipsis img {
   height: 100%;
+}
+
+.review__button-list {
+  display: none;
+}
+
+.review__ellipsis.active + .review__button-list {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: -3.9rem;
+  top: 1.875rem;
+  z-index: 10;
+  background-color: #fff;
+  border: 1px solid var(--gray200-color);
+  border-radius: 0.625rem;
+  overflow: hidden;
+}
+
+.review__button-list button {
+  padding: 10px 0;
+  font-size: 0.75rem;
+}
+.review__button-list button:hover {
+  background-color: var(--gray100-color);
+}
+.review__button-list button:first-child {
+  border-bottom: 1px solid var(--gray200-color);
 }
