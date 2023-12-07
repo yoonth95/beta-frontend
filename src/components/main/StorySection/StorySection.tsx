@@ -3,6 +3,8 @@ import { Carousel } from "@/components/common";
 import styles from "./StorySection.module.css";
 
 const StorySection = () => {
+  const items = { imgSrc: "/public/story-img.jpg", title: "#멋지다신은수, #졸업축하해" };
+
   return (
     <section className={styles["section"]}>
       <div className={styles["header"]}>
@@ -14,9 +16,9 @@ const StorySection = () => {
 
       <Carousel index={1}>
         {Array(5)
-          .fill("/public/story-img.jpg")
-          .map((img, index) => (
-            <Story key={index} title={index.toString()} imgSrc={img} />
+          .fill(items)
+          .map(({ imgSrc, title }) => (
+            <Story key={title} title={title} imgSrc={imgSrc} />
           ))}
       </Carousel>
     </section>
