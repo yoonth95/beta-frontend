@@ -43,7 +43,8 @@ const Review = () => {
           </Button>
         )}
       </section>
-      <section>
+
+      <section className={styles["review-list-section"]}>
         <h3 className={styles["review-list-section__title"]}>{commentData.length}명 참여</h3>
         <ul>
           {commentData.map((comment) => (
@@ -54,6 +55,7 @@ const Review = () => {
         </ul>
         <Button reverseColor>더보기</Button>
       </section>
+
       {isOpenModal && (
         <Modal>
           <GuestAccess />

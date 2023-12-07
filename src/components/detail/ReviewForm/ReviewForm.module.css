@@ -11,6 +11,9 @@
   background-color: var(--gray100-color);
   margin-bottom: 1rem;
 }
+.review-form__textarea::placeholder {
+  color: var(--gray300-color);
+}
 
 .review-form button {
   width: 100%;
