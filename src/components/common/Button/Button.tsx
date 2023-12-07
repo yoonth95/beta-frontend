@@ -31,6 +31,7 @@ interface PropsType {
   type?: "submit";
   borderRadius?: string;
   reverseColor?: boolean;
+  className?: string;
 }
 
 const Button: React.FC<PropsType> = ({ children, onClick, disabled, type, borderRadius = "5px", reverseColor }) => {
