@@ -3,6 +3,7 @@ import { Button, Carousel } from "@/components/common";
 import { LikeButton, SubMenu } from "@/components/detail";
 import { Outlet, useLocation } from "react-router-dom";
 import styles from "./DetaiPage.module.css";
+import { NavBar } from "@/components/layouts";
 
 const item = {
   id: 1,
@@ -26,29 +27,32 @@ const submenuList = [
 const DetailPage = () => {
   const location = useLocation();
   return (
-    <main>
-      <Carousel index={0}>
-        {item.imgSrc.map((img, index) => (
-          <div key={index}>
-            <img src={img} className={styles["slider__img"]} />
-          </div>
-        ))}
-      </Carousel>
-      <div className={styles["btn-group"]}>
-        <LikeButton active={false} />
-        <Button borderRadius="0.5rem">예매하기</Button>
-      </div>
-      <section>
-        <div style={{ display: "flex" }}>
-          {submenuList.map((menu) => (
-            <SubMenu key={menu.text} selected={location.pathname.includes(menu.pathname)} url={`./${menu.pathname}`}>
-              {menu.text}
-            </SubMenu>
+    <>
+      <NavBar />
+      <main>
+        <Carousel index={0}>
+          {item.imgSrc.map((img, index) => (
+            <div key={index}>
+              <img src={img} className={styles["slider__img"]} />
+            </div>
           ))}
+        </Carousel>
+        <div className={styles["btn-group"]}>
+          <LikeButton active={false} />
+          <Button borderRadius="0.5rem">예매하기</Button>
         </div>
-        <Outlet context={{ item }} />
-      </section>
-    </main>
+        <section>
+          <div style={{ display: "flex" }}>
+            {submenuList.map((menu) => (
+              <SubMenu key={menu.text} selected={location.pathname.includes(menu.pathname)} url={`./${menu.pathname}`}>
+                {menu.text}
+              </SubMenu>
+            ))}
+          </div>
+          <Outlet context={{ item }} />
+        </section>
+      </main>
+    </>
   );
 };
 
