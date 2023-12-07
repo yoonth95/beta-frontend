@@ -1,0 +1,37 @@
+.profile-section-form {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  gap: 2.125rem;
+  margin-bottom: 1.875rem;
+  padding-left: 2.1875rem;
+}
+
+.profile-section-form label {
+  font-weight: 700;
+}
+
+.profile-section-form-group {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+.profile-section-form-group fieldset {
+  flex: 4;
+}
+.profile-section-form-group button {
+  height: 54px;
+  margin-left: 0.75rem;
+  flex: 1;
+}
+.profile-section-form-group.top-minus10 {
+  margin-top: -1.25rem;
+}
+.profile-submit-button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.profile-submit-button button {
+  width: 30%;
+}
