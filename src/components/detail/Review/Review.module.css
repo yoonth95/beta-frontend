@@ -1,4 +1,7 @@
-.comment-section__title {
+.review-upload-section {
+  margin: 2rem 0;
+}
+.review-list-section__title {
   margin-bottom: 1.875rem;
   font-size: 1rem;
   font-weight: bold;

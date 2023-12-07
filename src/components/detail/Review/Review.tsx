@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Review.module.css";
 import { Button } from "@/components/common";
 import ReviewItem from "../ReviewItem/ReviewItem";
+import ReviewForm from "../ReviewForm/ReviewForm";
+import GuestAccess from "../GuestAccess/GuestAccess";
 
 const commentData = [
   {
@@ -25,16 +27,29 @@ const commentData = [
 ];
 
 const Review = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [isOpenReviewForm, setIsOpenReviewForm] = useState(false);
+
+  const handleReviewWrite = () => {
+    setIsOpenReviewForm((prev) => !prev);
+  };
   return (
     <>
-      <section>
-        <Button reverseColor>
-          <h3>방명록 작성하기</h3>
-        </Button>
-        {/* <CommentForm /> */}
+      <section className={styles["review-upload-section"]}>
+        {isOpenReviewForm ? (
+          isLogin ? (
+            <ReviewForm />
+          ) : (
+            <GuestAccess />
+          )
+        ) : (
+          <Button reverseColor onClick={handleReviewWrite}>
+            <h3>방명록 작성하기</h3>
+          </Button>
+        )}
       </section>
       <section>
-        <h3 className={styles["comment-section__title"]}>{commentData.length}명 참여</h3>
+        <h3 className={styles["review-list-section__title"]}>{commentData.length}명 참여</h3>
         <ul>
           {commentData.map((comment) => (
             <li key={comment.id}>
