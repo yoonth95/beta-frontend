@@ -1,0 +1,103 @@
+.filter-row {
+  width: 100%;
+  padding: 1.25rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1.125rem;
+  border-bottom: 1px solid var(--gray200-color);
+  font-size: 0.875rem;
+}
+
+.filter-row.last {
+  margin-bottom: 0.625rem;
+}
+
+.filter-row__title {
+  word-break: keep-all;
+}
+
+.filter-contents {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: auto;
+  height: 100%;
+}
+
+.filter-contents::-webkit-scrollbar {
+  display: none;
+}
+
+/* 날짜 선택 */
+.date-select-container {
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.3s;
+  border: none;
+}
+
+.date-select-container.show {
+  height: auto;
+  padding: 1.25rem 0 1.25rem 3.5rem;
+  transition: all 0.3s;
+  border-bottom: 1px solid var(--gray200-color);
+  display: flex;
+  gap: 1.25rem;
+}
+
+.date-input {
+  display: inline-block;
+  border: 0;
+  border-bottom: 2px solid var(--gray300-color);
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.625rem;
+  outline: none;
+}
+
+.date-input:active,
+.date-input:focus {
+  border-bottom: 2px solid var(--main-color);
+}
+
+/* 지역 */
+.location-filter-contents {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.location-filter-contents::-webkit-scrollbar {
+  display: none;
+}
+
+.location-filter-contents ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  column-gap: 8px;
+  transition: all 0.3s;
+  padding: 0 1.875rem;
+}
+
+.arrow {
+  width: 1.875rem;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.prev {
+  left: 0;
+  background: url("@/assets/arrow.svg") no-repeat center / 2rem;
+}
+.next {
+  right: 0;
+  background: url("@/assets/arrow.svg") no-repeat center / 2rem;
+  transform: rotate(-180deg);
+}
