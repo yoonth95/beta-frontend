@@ -38,7 +38,7 @@ const Review = () => {
         {isLogin ? (
           <ReviewForm />
         ) : (
-          <Button reverseColor onClick={() => setIsOpenModal(true)}>
+          <Button onClick={() => setIsOpenModal(true)}>
             <h3>방명록 작성하기</h3>
           </Button>
         )}

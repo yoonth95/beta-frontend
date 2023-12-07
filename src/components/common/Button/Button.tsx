@@ -42,7 +42,7 @@ const Button: React.FC<PropsType> = ({ children, onClick, disabled, type, border
         onClick={onClick}
         disabled={disabled || false}
         type={type || "button"}
-        style={{ borderRadius, ...(reverseColor && { width: "100%" }) }}
+        style={{ borderRadius }}
       >
         {children}
       </button>

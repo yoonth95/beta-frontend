@@ -14,7 +14,3 @@
 .review-form__textarea::placeholder {
   color: var(--gray300-color);
 }
-
-.review-form button {
-  width: 100%;
-}
