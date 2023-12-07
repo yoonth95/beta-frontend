@@ -1,0 +1,36 @@
+.modal-background {
+  width: 100vw;
+  z-index: 100;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+}
+
+.modal {
+  position: relative;
+  box-sizing: border-box;
+  width: calc(90% - 3.75rem);
+  max-width: 800px;
+  height: fit-content;
+  max-height: 90vh;
+  overflow-y: scroll;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1.875rem;
+  margin: auto;
+}
+
+.modal__close {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.modal__close:hover {
+  background-color: var(--gray100-color);
+}
