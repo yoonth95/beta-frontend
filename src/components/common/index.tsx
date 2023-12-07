@@ -6,5 +6,6 @@ import Carousel from "./Carousel/Carousel";
 import BasicCard from "./BasicCard/BasicCard";
 import FilterButton from "./FilterButton/FilterButton";
 import InputFieldGroup from "./InputFieldGroup/InputFieldGroup";
+import CheckBox from "./CheckBox/CheckBox";
 
-export {Button, InputField, SignForm, SelectBox, Carousel, BasicCard, FilterButton, InputFieldGroup };
+export { Button, InputField, SignForm, SelectBox, Carousel, BasicCard, FilterButton, InputFieldGroup, CheckBox };
