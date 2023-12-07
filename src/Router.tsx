@@ -7,7 +7,7 @@ import DetailPage from "@/pages/Detail/DetailPage";
 import LoginPage from "@/pages/Login/LoginPage";
 import SignupPage from "@/pages/Signup/SignupPage";
 import Info from "@/components/detail/Info/Info";
-// import Review from "@/components/detail/Review/Review";
+import Review from "@/components/detail/Review/Review";
 
 const router = createBrowserRouter([
   {
@@ -28,10 +28,10 @@ const router = createBrowserRouter([
             path: "info",
             element: <Info />,
           },
-          // {
-          //   path: "review",
-          //   element: <Review />,
-          // },
+          {
+            path: "review",
+            element: <Review />,
+          },
         ],
       },
       {
