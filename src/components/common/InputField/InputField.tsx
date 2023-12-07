@@ -1,5 +1,4 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 import CheckIcon from "@/assets/icon-check.svg?react";
 import styles from "./InputField.module.css";
 import classNames from "classnames/bind";
@@ -28,23 +27,24 @@ import classNames from "classnames/bind";
 interface PropsType {
   children?: React.ReactNode;
   type: "text" | "password";
+  name?: string;
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isConfirm?: boolean;
   required?: boolean;
+  readOnly?: boolean;
 }
 
 const cx = classNames.bind(styles);
 
-const InputField: React.FC<PropsType> = ({ children, type, placeholder, value, onChange, isConfirm, required }) => {
-  const location = useLocation();
-  const isSignupPassword = location.pathname === "/signup" && type === "password";
+const InputField: React.FC<PropsType> = ({ children, type, name, placeholder, value, onChange, isConfirm, required, readOnly }) => {
+  const isSignupPassword = name === "password" || name === "id";
 
   return (
     <fieldset className={styles["fieldset-box"]}>
       {children && <label>{children}</label>}
-      <input required={required} type={type} placeholder={placeholder} value={value || ""} onChange={onChange} />
+      <input required={required} readOnly={readOnly} type={type} placeholder={placeholder} value={value || ""} onChange={onChange} />
       {isSignupPassword && <CheckIcon className={cx("input-box__check", isConfirm && "success")} />}
     </fieldset>
   );
