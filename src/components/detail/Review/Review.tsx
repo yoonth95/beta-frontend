@@ -4,6 +4,8 @@ import { Button } from "@/components/common";
 import ReviewItem from "../ReviewItem/ReviewItem";
 import ReviewForm from "../ReviewForm/ReviewForm";
 import GuestAccess from "../GuestAccess/GuestAccess";
+import Modal from "@/components/common/Modal/Modal";
+import { useModalStore } from "@/stores/useModalStore";
 
 const commentData = [
   {
@@ -27,23 +29,16 @@ const commentData = [
 ];
 
 const Review = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [isOpenReviewForm, setIsOpenReviewForm] = useState(false);
+  const { isOpenModal, setIsOpenModal } = useModalStore();
+  const [isLogin, setIsLogin] = useState(false);
 
-  const handleReviewWrite = () => {
-    setIsOpenReviewForm((prev) => !prev);
-  };
   return (
     <>
       <section className={styles["review-upload-section"]}>
-        {isOpenReviewForm ? (
-          isLogin ? (
-            <ReviewForm />
-          ) : (
-            <GuestAccess />
-          )
+        {isLogin ? (
+          <ReviewForm />
         ) : (
-          <Button reverseColor onClick={handleReviewWrite}>
+          <Button reverseColor onClick={() => setIsOpenModal(true)}>
             <h3>방명록 작성하기</h3>
           </Button>
         )}
@@ -59,6 +54,11 @@ const Review = () => {
         </ul>
         <Button reverseColor>더보기</Button>
       </section>
+      {isOpenModal && (
+        <Modal>
+          <GuestAccess />
+        </Modal>
+      )}
     </>
   );
 };
