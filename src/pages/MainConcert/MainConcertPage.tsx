@@ -1,10 +1,14 @@
 import { NavBar } from "@/components/layouts";
+import { Filters, ConcertListSection } from "@/components/mainConcert";
 
 const MainConcertPage = () => {
   return (
     <>
       <NavBar />
-      <main></main>
+      <main>
+        <Filters />
+        <ConcertListSection />
+      </main>
     </>
   );
 };
