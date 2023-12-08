@@ -1,0 +1,16 @@
+.review-form__textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+  overflow: hidden;
+  padding: 1rem;
+  background-color: var(--gray100-color);
+  margin-bottom: 1rem;
+}
+.review-form__textarea::placeholder {
+  color: var(--gray300-color);
+}

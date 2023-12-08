@@ -4,11 +4,12 @@ import App from "./App";
 import ErrorPage from "@/pages/Error/ErrorPage";
 import MainPage from "@/pages/Main/MainPage";
 import DetailPage from "@/pages/Detail/DetailPage";
+import { InfoSection, ReviewSection } from "@/components/detail";
 import LoginPage from "@/pages/Login/LoginPage";
 import SignupPage from "@/pages/Signup/SignupPage";
 import Mypage from "@/pages/Mypage/Mypage";
 import Info from "@/components/detail/Info/Info";
-// import Review from "@/components/detail/Review/Review";
+import Review from "@/components/detail/Review/Review";
 
 const router = createBrowserRouter([
   {
@@ -27,12 +28,12 @@ const router = createBrowserRouter([
         children: [
           {
             path: "info",
-            element: <Info />,
+            element: <InfoSection />,
           },
-          // {
-          //   path: "review",
-          //   element: <Review />,
-          // },
+          {
+            path: "review",
+            element: <ReviewSection />,
+          },
         ],
       },
       {

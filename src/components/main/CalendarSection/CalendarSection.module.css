@@ -23,8 +23,3 @@
   gap: 2.5rem 1.25rem;
   margin-bottom: 2.5rem;
 }
-
-/* 더보기 버튼 */
-.section > button:last-child {
-  width: 100%;
-}
