@@ -31,6 +31,7 @@ interface PropsType {
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  labelHidden?: boolean;
   isConfirm?: boolean;
   required?: boolean;
   readOnly?: boolean;
@@ -38,12 +39,12 @@ interface PropsType {
 
 const cx = classNames.bind(styles);
 
-const InputField: React.FC<PropsType> = ({ children, type, name, placeholder, value, onChange, isConfirm, required, readOnly }) => {
+const InputField: React.FC<PropsType> = ({ children, type, name, placeholder, value, onChange, labelHidden, isConfirm, required, readOnly }) => {
   const isSignupPassword = name === "password" || name === "id";
 
   return (
     <fieldset className={styles["fieldset-box"]}>
-      {children && <label>{children}</label>}
+      <label className={labelHidden ? "a11y-hidden" : ""}>{children}</label>
       <input required={required} readOnly={readOnly} type={type} placeholder={placeholder} value={value || ""} onChange={onChange} />
       {isSignupPassword && <CheckIcon className={cx("input-box__check", isConfirm && "success")} />}
     </fieldset>
