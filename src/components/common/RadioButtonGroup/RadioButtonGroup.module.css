@@ -1,0 +1,32 @@
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fieldset * {
+  cursor: pointer;
+}
+
+.fieldset label {
+  width: fit-content;
+}
+
+.fieldset input {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin: 0;
+  margin-right: 0.7rem;
+  transition: all 0.1s;
+  background: url(@/assets/radio.svg) no-repeat 0 center / cover;
+}
+
+.fieldset input:checked {
+  background-image: url(@/assets/radio-checked.svg);
+}
+
+.fieldset span {
+  vertical-align: middle;
+}
