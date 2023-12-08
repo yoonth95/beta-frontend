@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import styles from "./Review.module.css";
-import { Button } from "@/components/common";
-import ReviewItem from "../ReviewItem/ReviewItem";
-import ReviewForm from "../ReviewForm/ReviewForm";
-import GuestAccess from "../GuestAccess/GuestAccess";
-import Modal from "@/components/common/Modal/Modal";
+import styles from "./ReviewSection.module.css";
+import { Button, Modal } from "@/components/common";
+import { ReviewItem, ReviewForm, GuestAccess } from "@/components/detail";
 import { useModalStore } from "@/stores/useModalStore";
 
 const commentData = [
@@ -28,7 +25,7 @@ const commentData = [
   },
 ];
 
-const Review = () => {
+const ReviewSection = () => {
   const { isOpenModal, setIsOpenModal } = useModalStore();
   const [isLogin, setIsLogin] = useState(false);
 
@@ -65,4 +62,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default ReviewSection;

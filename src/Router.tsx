@@ -4,7 +4,7 @@ import App from "./App";
 import ErrorPage from "@/pages/Error/ErrorPage";
 import MainPage from "@/pages/Main/MainPage";
 import DetailPage from "@/pages/Detail/DetailPage";
-import { Info, Review } from "@/components/detail";
+import { InfoSection, ReviewSection } from "@/components/detail";
 import LoginPage from "@/pages/Login/LoginPage";
 import SignupPage from "@/pages/Signup/SignupPage";
 
@@ -25,11 +25,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: "info",
-            element: <Info />,
+            element: <InfoSection />,
           },
           {
             path: "review",
-            element: <Review />,
+            element: <ReviewSection />,
           },
         ],
       },
