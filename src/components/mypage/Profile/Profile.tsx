@@ -51,8 +51,8 @@ const Profile = () => {
     const [email1, email2] = item.user_email.split("@");
 
     setName(item.user_name);
-    setPhone({ phone1: phone1, phone2: phone2, phone3: phone3 });
-    setBirthGender({ year: year, month: month, day: day, gender: item.user_gender === 1 ? "male" : "female" });
+    setPhone({ phone1, phone2, phone3 });
+    setBirthGender({ year, month, day, gender: item.user_gender === 1 ? "male" : "female" });
     setEmail({ email1, email2 });
   }, []);
 
@@ -143,7 +143,10 @@ const Profile = () => {
             placeholder="인증번호를 입력해주세요."
             value={emailCertValue}
             onChange={(e) => setEmailCertValue(e.currentTarget.value)}
-          ></InputField>
+            labelHidden={true}
+          >
+            인증번호
+          </InputField>
           <Button onClick={handleCertConfirm}>확인</Button>
           <Timer time={time} setTime={setTime} />
         </div>
