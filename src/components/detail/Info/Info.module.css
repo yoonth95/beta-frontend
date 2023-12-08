@@ -1,0 +1,73 @@
+.info-title,
+.info-description,
+.info-location {
+  padding: 0.9375rem 0;
+  border-bottom: 1px solid var(--gray200-color);
+}
+
+.info-title__organizer {
+  margin: 0.5rem 0;
+}
+
+.info-title__title {
+  margin-bottom: 0.3rem;
+  font-size: 1.5rem;
+  font-weight: light;
+}
+
+.info-title__date {
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: var(--gray400-color);
+}
+
+.info-title__location {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--gray400-color);
+}
+
+.info-title__location::before {
+  content: url(@/assets/icon-pin.svg);
+  margin-right: 0.3125rem;
+}
+
+.info-title__tags {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1.25rem;
+}
+
+.tag {
+  padding: 0.5rem 0.75rem;
+  background-color: var(--gray100-color);
+  border-radius: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.info-location {
+  border-bottom: none;
+}
+
+.info-location__copy {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: var(--gray100-color);
+}
+
+.info-location__copy .text {
+  font-size: 0.875rem;
+  color: var(--gray400-color);
+}
+
+.info-location__copy .button {
+  font-size: 0.75rem;
+  border: 1px solid var(--gray300-color);
+  border-radius: 5px;
+  padding: 0.3rem 0.4rem;
+}
