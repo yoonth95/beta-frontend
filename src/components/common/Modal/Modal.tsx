@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useModalStore } from "@/stores/useModalStore";
 import styles from "./Modal.module.css";
 
@@ -19,7 +20,7 @@ const Modal: React.FC<PropsType> = ({ children }) => {
     setIsOpenModal(false);
   };
 
-  return (
+  const renderModal = (
     <article className={styles["modal-background"]}>
       <div className={styles["modal"]}>
         <button onClick={closeModal} className={styles["modal__close"]}>
@@ -29,6 +30,14 @@ const Modal: React.FC<PropsType> = ({ children }) => {
       </div>
     </article>
   );
+
+  const rootElement = document.getElementById("root");
+  if (!rootElement) {
+    console.error("Root element with ID 'root' not found.");
+    return null;
+  }
+
+  return createPortal(renderModal, rootElement);
 };
 
 export default Modal;
