@@ -143,7 +143,10 @@ const SignupPage = () => {
                 placeholder="인증번호를 입력해주세요."
                 value={emailCertValue}
                 onChange={(e) => setEmailCertValue(e.currentTarget.value)}
-              ></InputField>
+                labelHidden={true}
+              >
+                인증번호
+              </InputField>
               <Button onClick={handleCertConfirm}>확인</Button>
               <Timer time={time} setTime={setTime} />
             </div>
