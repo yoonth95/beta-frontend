@@ -1,12 +1,8 @@
-import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import ErrorPage from "@/pages/Error/ErrorPage";
-import MainPage from "@/pages/Main/MainPage";
-import DetailPage from "@/pages/Detail/DetailPage";
-import { Info, Review } from "@/components/detail";
-import LoginPage from "@/pages/Login/LoginPage";
-import SignupPage from "@/pages/Signup/SignupPage";
+import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage } from "@/pages";
+import { InfoSection, ReviewSection } from "@/components/detail";
+import Mypage from "@/pages/Mypage/Mypage";
 
 const router = createBrowserRouter([
   {
@@ -20,16 +16,20 @@ const router = createBrowserRouter([
         element: <MainPage />,
       },
       {
+        path: "/concert",
+        element: <MainConcertPage />,
+      },
+      {
         path: "/detail/:id",
         element: <DetailPage />,
         children: [
           {
             path: "info",
-            element: <Info />,
+            element: <InfoSection />,
           },
           {
             path: "review",
-            element: <Review />,
+            element: <ReviewSection />,
           },
         ],
       },
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupPage />,
+      },
+      {
+        path: "/mypage",
+        element: <Mypage />,
       },
     ],
   },

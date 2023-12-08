@@ -75,7 +75,6 @@ const settings = [
 ];
 
 const Carousel: React.FC<PropsType> = ({ index, children }) => {
-  console.log(settings[index]);
   return <Slider {...settings[index]}>{children}</Slider>;
 };
 

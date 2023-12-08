@@ -6,7 +6,9 @@ import Carousel from "./Carousel/Carousel";
 import BasicCard from "./BasicCard/BasicCard";
 import FilterButton from "./FilterButton/FilterButton";
 import InputFieldGroup from "./InputFieldGroup/InputFieldGroup";
+import Modal from "./Modal/Modal";
+import Timer from "./Timer/Timer";
 import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
 
-export { Button, InputField, SignForm, SelectBox, Carousel, BasicCard, FilterButton, InputFieldGroup, CheckBox, RadioButtonGroup };
+export { Button, InputField, SignForm, SelectBox, Carousel, BasicCard, FilterButton, InputFieldGroup, Modal, Timer, CheckBox, RadioButtonGroup };

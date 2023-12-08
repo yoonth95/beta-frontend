@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styles from "./SubMenu.module.css";
+import styles from "./SubMenuBar.module.css";
 import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);

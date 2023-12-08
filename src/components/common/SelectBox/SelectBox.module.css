@@ -1,6 +1,6 @@
 .custom-select {
   position: relative;
-  padding-bottom: 0.8rem;
+  font-size: 0.875rem;
 }
 
 /* 셀렉트 박스 */
@@ -12,6 +12,7 @@
   text-align: left;
   padding: 0 1em;
   position: relative;
+  font-weight: bold;
 }
 
 .btn-select.on,
@@ -29,19 +30,18 @@
 .btn-select::before {
   content: "";
   position: absolute;
-  top: 60%;
-  left: 1em;
-  margin-top: -0.5rem;
-  box-sizing: border-box;
-  border-top: 0.5rem solid black;
-  border-left: 0.4rem solid transparent;
-  border-right: 0.4rem solid transparent;
+  top: 50%;
+  /* left: 0; */
+  transform: translateY(-50%) rotate(-90deg);
+  width: 1rem;
+  height: 1rem;
+  background: url("@/assets/arrow.svg") no-repeat center/ 1.5rem;
   transition: transform 0.3s;
 }
 
 /* 활성화 시 화살표 회전 */
 .btn-select.on::before {
-  transform: rotate(-180deg);
+  transform: translateY(-50%) rotate(-270deg);
 }
 
 /* 리스트 */
@@ -54,7 +54,7 @@
   border: 1px solid var(--gray300-color);
   border-radius: 0.5rem;
   background: #fff;
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15); */
 
   /* 변동값 */
   display: none;
@@ -88,5 +88,6 @@
 }
 
 .selected {
+  font-weight: bold;
   color: var(--main-color);
 }

@@ -31,7 +31,7 @@ const ReviewItem: React.FC<ReviewItemType> = ({ item }) => {
 
       {/* 본인 댓글에만 더보기 버튼 */}
       {/* active로 제어 */}
-      <button type="button" className={`${styles["review__ellipsis"]}`}>
+      <button type="button" className={styles["review__ellipsis"]}>
         <img src={IconEllipsisVertical} />
       </button>
 

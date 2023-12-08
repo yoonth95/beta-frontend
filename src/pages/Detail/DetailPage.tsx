@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Carousel } from "@/components/common";
-import { LikeButton, SubMenu } from "@/components/detail";
-import { Outlet, useLocation } from "react-router-dom";
+import { LikeButton, SubMenuSection } from "@/components/detail";
 import styles from "./DetaiPage.module.css";
 import { NavBar } from "@/components/layouts";
+import { useDetailDataStore } from "@/stores/useDetailDataStore";
 
 const item = {
   id: 1,
@@ -25,7 +25,11 @@ const submenuList = [
 ];
 
 const DetailPage = () => {
-  const location = useLocation();
+  const { setItemData } = useDetailDataStore();
+  useEffect(() => {
+    setItemData(item);
+  }, []);
+
   return (
     <>
       <NavBar />
@@ -41,16 +45,7 @@ const DetailPage = () => {
           <LikeButton active={false} />
           <Button borderRadius="0.5rem">예매하기</Button>
         </div>
-        <section>
-          <div style={{ display: "flex" }}>
-            {submenuList.map((menu) => (
-              <SubMenu key={menu.text} selected={location.pathname.includes(menu.pathname)} url={`./${menu.pathname}`}>
-                {menu.text}
-              </SubMenu>
-            ))}
-          </div>
-          <Outlet context={{ item }} />
-        </section>
+        <SubMenuSection submenuList={submenuList} />
       </main>
     </>
   );
