@@ -1,11 +1,11 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { NavigationBar, Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage } from "@/components/mypage";
 import styles from "./Mypage.module.css";
 
 const Mypage: React.FC = () => {
-  const query = new URLSearchParams(useLocation().search);
-  const tab = query.get("tab");
+  const [searchParams] = useSearchParams();
+  const tab = searchParams.get("tab");
 
   return (
     <main className={styles["mypage-main"]}>
