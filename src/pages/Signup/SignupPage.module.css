@@ -19,6 +19,7 @@
 .sign-section-form-group {
   display: flex;
   align-items: flex-end;
+  position: relative;
 }
 .sign-section-form-group fieldset {
   flex: 4;

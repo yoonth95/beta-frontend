@@ -1,0 +1,8 @@
+.mypage-main {
+  display: flex;
+  align-items: flex-start;
+  max-width: 60rem;
+  height: 100%;
+  margin: 4rem auto;
+  gap: 5rem;
+}
