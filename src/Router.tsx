@@ -6,6 +6,7 @@ import MainPage from "@/pages/Main/MainPage";
 import DetailPage from "@/pages/Detail/DetailPage";
 import LoginPage from "@/pages/Login/LoginPage";
 import SignupPage from "@/pages/Signup/SignupPage";
+import Mypage from "@/pages/Mypage/Mypage";
 import Info from "@/components/detail/Info/Info";
 // import Review from "@/components/detail/Review/Review";
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupPage />,
+      },
+      {
+        path: "/mypage",
+        element: <Mypage />,
       },
     ],
   },
