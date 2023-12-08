@@ -23,8 +23,15 @@
   height: 100%;
   display: flex;
   align-items: center;
+  word-break: keep-all;
 }
 
 .navbar__item.selected {
   color: var(--main-color);
+}
+
+@media screen and (max-width: 450px) {
+  .navbar-wrapper {
+    gap: 4.125rem;
+  }
 }
