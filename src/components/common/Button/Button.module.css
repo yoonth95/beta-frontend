@@ -6,6 +6,11 @@
   font-size: 1rem;
   color: #fff;
   background-color: var(--main-color);
+  transition: background-color 0.3s;
+}
+
+.button:not(.white):hover {
+  background-color: var(--sub2-color);
 }
 
 .button.white {
