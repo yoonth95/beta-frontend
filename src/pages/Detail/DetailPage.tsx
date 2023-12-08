@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Carousel } from "@/components/common";
 import { LikeButton, SubMenuSection } from "@/components/detail";
 import styles from "./DetaiPage.module.css";
 import { NavBar } from "@/components/layouts";
+import { useDetailDataStore } from "@/stores/useDetailDataStore";
 
 const item = {
   id: 1,
@@ -24,6 +25,11 @@ const submenuList = [
 ];
 
 const DetailPage = () => {
+  const { setItemData } = useDetailDataStore();
+  useEffect(() => {
+    setItemData(item);
+  }, []);
+
   return (
     <>
       <NavBar />
