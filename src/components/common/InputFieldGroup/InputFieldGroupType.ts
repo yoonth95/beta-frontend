@@ -19,25 +19,28 @@ export interface EmailValues {
 interface PhoneInputProps {
   type: "phone";
   values: PhoneValues;
-  setValues: SetValuesFunction<PhoneValues>;
+  setValues?: SetValuesFunction<PhoneValues>;
   userType?: "User" | "Admin";
   required?: boolean;
+  name: "phone";
 }
 
 interface BirthdateGenderInputProps {
   type: "birthdate-gender";
   values: BirthdateGenderValues;
-  setValues: SetValuesFunction<BirthdateGenderValues>;
+  setValues?: SetValuesFunction<BirthdateGenderValues>;
   userType?: "User" | "Admin";
   required?: boolean;
+  name: "gender";
 }
 
 interface EmailInputProps {
   type: "email";
   values: EmailValues;
-  setValues: SetValuesFunction<EmailValues>;
+  setValues?: SetValuesFunction<EmailValues>;
   userType?: "User" | "Admin";
   required?: boolean;
+  name: "email";
 }
 
 export type SetValuesFunction<T> = React.Dispatch<React.SetStateAction<T>>;
