@@ -15,7 +15,7 @@ const RadioButtonGroup: React.FC<PropsType> = ({ radioList }) => {
   return (
     <fieldset className={styles["fieldset"]}>
       {radioList.map((item) => (
-        <label>
+        <label key={item}>
           <input type="radio" name="round" value={item} checked={selectedOption === item} onChange={handleOptionChange} />
           <span>{item}</span>
         </label>
