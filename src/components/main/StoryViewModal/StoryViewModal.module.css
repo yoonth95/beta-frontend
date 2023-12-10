@@ -1,0 +1,36 @@
+.modal {
+  box-sizing: border-box;
+  width: 90%;
+  height: 100%;
+  margin: auto;
+}
+
+/* card */
+.card {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  background-color: var(--gray100-color);
+}
+
+.card__nickname {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.card__img-wrapper {
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  box-sizing: border-box;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.card__img {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  vertical-align: top;
+}
