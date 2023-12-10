@@ -1,0 +1,23 @@
+.post-upload-section-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.l_date {
+  display: flex;
+  gap: 2rem;
+}
+
+.l_address {
+  display: flex;
+}
+
+.l_address fieldset {
+  flex: 4;
+}
+
+.l_address button {
+  flex: 1;
+  margin-left: 2rem;
+}
