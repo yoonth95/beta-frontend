@@ -72,6 +72,16 @@ const settings = [
       },
     ],
   },
+  {
+    className: "center",
+    centerMode: true,
+    infinite: true,
+    centerPadding: "20%",
+    slidesToShow: 1,
+    speed: 500,
+    nextArrow: <NextArrows />,
+    prevArrow: <PrevArrows />,
+  },
 ];
 
 const Carousel: React.FC<PropsType> = ({ index, children }) => {
