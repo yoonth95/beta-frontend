@@ -13,7 +13,7 @@ const StoryViewModal = () => {
       <Carousel index={2}>
         {items.map(({ imgSrc, tags }) => {
           return (
-            <Color src={imgSrc} format="hex">
+            <Color src={imgSrc} format="hex" key={tags}>
               {({ data: backgroundColor }) => (
                 <article className={styles.card} style={{ backgroundColor }}>
                   <strong className={styles["card__nickname"]}>@유저닉네임</strong>
