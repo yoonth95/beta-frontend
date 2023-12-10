@@ -14,16 +14,19 @@ const useInputs = (initialForm: Form): UseInputs => {
   const [form, setForm] = useState(initialForm);
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type } = e.target;
 
     if (type === "checkbox") {
-      setForm((form) => ({ ...form, [name]: checked }));
+      setForm((form) => ({ ...form, [name]: e.target.checked }));
       return;
     }
 
-    if (objectTypeNames.some((typeName) => name.includes(typeName))) {
-      const typeName = objectTypeNames.find((typeName) => name.includes(typeName)) as keyof Form; // phone, email
-      setForm((form) => ({ ...form, [typeName]: { ...(form[typeName] as object), [name]: value } }));
+    const typeName = objectTypeNames.find((typeName) => name.includes(typeName)) as keyof Form; // phone, email
+    if (typeName) {
+      let copyValue = value;
+      if (typeName === "email" && value === "직접 입력") copyValue = "";
+
+      setForm((form) => ({ ...form, [typeName]: { ...(form[typeName] as object), [name]: copyValue } }));
       return;
     }
 
