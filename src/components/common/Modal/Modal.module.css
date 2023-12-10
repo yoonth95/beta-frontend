@@ -13,7 +13,7 @@
   max-width: 50rem;
   min-width: 17.5rem;
   height: calc(100vh - 2.5rem);
-  max-height: 90vw;
+  max-height: 90vh;
   position: relative;
   background-color: #fff;
   border-radius: 5px;
