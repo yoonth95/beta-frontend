@@ -40,7 +40,7 @@ const StorySection = () => {
         {isOpenModal && (
           <>
             {modalType === "upload" ? (
-              <Modal width={"300px"} height={"540px"} title={"스토리 업로드"}>
+              <Modal width={"18.75rem"} height={"33.75rem"} title={"스토리 업로드"}>
                 <StoryUploadModal />
               </Modal>
             ) : (

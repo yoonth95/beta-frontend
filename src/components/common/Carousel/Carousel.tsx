@@ -13,7 +13,7 @@ interface PropsType {
 
 const renderCustomDots = (dots: never) => {
   return (
-    <div style={{ width: "100%", position: "absolute", bottom: "24px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ width: "100%", position: "absolute", bottom: "1.5rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
       <ul>{dots}</ul>
     </div>
   );

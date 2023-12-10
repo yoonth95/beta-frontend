@@ -15,7 +15,7 @@
 
 .card__nickname {
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .card__img-wrapper {
@@ -24,7 +24,7 @@
   overflow: hidden;
   box-sizing: border-box;
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .card__img {
