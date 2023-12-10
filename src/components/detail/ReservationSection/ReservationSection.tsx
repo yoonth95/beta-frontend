@@ -60,8 +60,7 @@ const ReservationSection = () => {
       <form id="reservation" onSubmit={handleSubmit}>
         <div className={styles["show-round"]}>
           <h2>회차 선택</h2>
-          {/* change event 추가 예정 */}
-          <RadioButtonGroup radioList={date_time} />
+          <RadioButtonGroup radioList={date_time} name="round" onChange={onChange} flexDirectionColumn />
         </div>
 
         <div className={styles["show-reservation-user-info"]}>
