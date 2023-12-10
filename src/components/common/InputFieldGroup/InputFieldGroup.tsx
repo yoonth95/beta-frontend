@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { PhoneValues, BirthdateGenderValues, EmailValues, PropsType } from "./InputFieldGroupType";
+import { BirthdateGenderValues, PropsType } from "./InputFieldGroupType";
 import { getYears, getMonths, getDays } from "@/utils/dateSelect";
 import styles from "./InputFieldGroup.module.css";
 
-/**
+/** 수정필요
  * InputFieldGroup Component
  * @param {string} type - InputFieldGroup type
  * @param {PhoneValues | BirthdateGenderValues | EmailValues} values - InputFieldGroup values
@@ -16,10 +16,19 @@ import styles from "./InputFieldGroup.module.css";
  *
  */
 
-const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userType, required, name }) => {
-  const handleInputChange = (field: keyof PhoneValues | keyof BirthdateGenderValues | keyof EmailValues, value: string) => {
+const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userType, required, name, onChange: handleChange }) => {
+  const handleSelectChange = (field: keyof BirthdateGenderValues, value: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setValues((prev: any) => ({ ...prev, [field]: value }));
+    setValues!((prev: any) => ({ ...prev, [field]: value }));
+  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (value === "직접 입력") {
+      setValues!((prev: any) => ({ ...prev, [name]: "" })); // email2
+      return;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setValues!((prev: any) => ({ ...prev, [name]: value }));
   };
 
   const [isReadOnly, setIsReadOnly] = useState(true);
@@ -31,27 +40,9 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
         <fieldset className={styles["fieldset-box"]} name={name}>
           <label>핸드폰번호</label>
           <div className={styles["fieldset-box__list"]}>
-            <input
-              required={required}
-              type="text"
-              name="phone1"
-              value={values.phone1}
-              onChange={(e) => handleInputChange("phone1", e.target.value)}
-            />
-            <input
-              required={required}
-              type="text"
-              name="phone2"
-              value={values.phone2}
-              onChange={(e) => handleInputChange("phone2", e.target.value)}
-            />
-            <input
-              required={required}
-              type="text"
-              name="phone3"
-              value={values.phone3}
-              onChange={(e) => handleInputChange("phone3", e.target.value)}
-            />
+            <input required={required} type="text" name="phone1" value={values.phone1} onChange={handleChange || handleInputChange} />
+            <input required={required} type="text" name="phone2" value={values.phone2} onChange={handleChange || handleInputChange} />
+            <input required={required} type="text" name="phone3" value={values.phone3} onChange={handleChange || handleInputChange} />
           </div>
         </fieldset>
       );
@@ -66,21 +57,21 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
           <label>생년월일 및 성별</label>
           <div className={styles["fieldset-box__list"]}>
             <div className={styles["fieldset-box__select-list"]}>
-              <select required={required} value={values.year} onChange={(e) => handleInputChange("year", e.target.value)}>
+              <select required={required} value={values.year} onChange={(e) => handleSelectChange("year", e.target.value)}>
                 {years.map((year) => (
                   <option key={year} value={year}>
                     {year}
                   </option>
                 ))}
               </select>
-              <select required={required} value={values.month} onChange={(e) => handleInputChange("month", e.target.value)}>
+              <select required={required} value={values.month} onChange={(e) => handleSelectChange("month", e.target.value)}>
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
                   </option>
                 ))}
               </select>
-              <select required={required} value={values.day} onChange={(e) => handleInputChange("day", e.target.value)}>
+              <select required={required} value={values.day} onChange={(e) => handleSelectChange("day", e.target.value)}>
                 {days.map((day) => (
                   <option key={day} value={day}>
                     {day}
@@ -89,10 +80,14 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
               </select>
             </div>
             <div className={styles["fieldset-box__button-list"]}>
-              <button type="button" className={values.gender === "male" ? styles.active : ""} onClick={() => handleInputChange("gender", "male")}>
+              <button type="button" className={values.gender === "male" ? styles.active : ""} onClick={() => handleSelectChange("gender", "male")}>
                 남
               </button>
-              <button type="button" className={values.gender === "female" ? styles.active : ""} onClick={() => handleInputChange("gender", "female")}>
+              <button
+                type="button"
+                className={values.gender === "female" ? styles.active : ""}
+                onClick={() => handleSelectChange("gender", "female")}
+              >
                 여
               </button>
             </div>
@@ -104,37 +99,28 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
     case "email": {
       const emailOptions = ["gmail.com", "naver.com", "daum.net", "직접 입력"];
 
-      const handleEmailDomainChange = (value: string) => {
+      const handleEmailDomainChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { value } = e.target;
         setSelectedDomain(value);
         setIsReadOnly(value !== "직접 입력");
-        handleInputChange("email2", "");
-
-        if (value !== "직접 입력") {
-          handleInputChange("email2", value);
-        }
+        (setValues && handleInputChange(e)) || (handleChange && handleChange(e));
       };
 
       return (
         <fieldset className={styles["fieldset-box"]} name={name}>
           <label>{userType === "User" ? "이메일" : "학교 이메일"}</label>
           <div className={styles["fieldset-box__list"]}>
-            <input
-              required={required}
-              type="text"
-              name="email1"
-              value={values.email1}
-              onChange={(e) => handleInputChange("email1", e.target.value)}
-            />
+            <input required={required} type="text" name="email1" value={values.email1} onChange={handleChange || handleInputChange} />
             <span>@</span>
             <input
               required={required}
               type="text"
               name="email2"
-              value={isReadOnly ? selectedDomain : values.email2}
-              onChange={(e) => handleInputChange("email2", e.target.value)}
+              value={values.email2}
+              onChange={handleChange || handleInputChange}
               readOnly={isReadOnly}
             />
-            <select value={selectedDomain} onChange={(e) => handleEmailDomainChange(e.target.value)}>
+            <select value={selectedDomain} name="email2" onChange={handleEmailDomainChange}>
               {emailOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
