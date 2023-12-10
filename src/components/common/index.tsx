@@ -10,5 +10,20 @@ import Modal from "./Modal/Modal";
 import Timer from "./Timer/Timer";
 import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
+import DatePeriodPicker from "./DatePeriodPicker/DatePeriodPicker";
 
-export { Button, InputField, SignForm, SelectBox, Carousel, BasicCard, FilterButton, InputFieldGroup, Modal, Timer, CheckBox, RadioButtonGroup };
+export {
+  Button,
+  InputField,
+  SignForm,
+  SelectBox,
+  Carousel,
+  BasicCard,
+  FilterButton,
+  InputFieldGroup,
+  Modal,
+  Timer,
+  CheckBox,
+  RadioButtonGroup,
+  DatePeriodPicker,
+};
