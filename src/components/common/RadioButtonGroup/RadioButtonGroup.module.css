@@ -1,7 +1,9 @@
 .fieldset {
   display: flex;
-  flex-direction: column;
   gap: 10px;
+}
+.fieldset.column {
+  flex-direction: column;
 }
 
 .fieldset * {
@@ -10,6 +12,7 @@
 
 .fieldset label {
   width: fit-content;
+  margin-right: 1rem;
 }
 
 .fieldset input {
