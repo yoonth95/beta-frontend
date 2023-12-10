@@ -38,10 +38,17 @@ const StorySection = () => {
             ))}
         </Carousel>
         {isOpenModal && (
-          <Modal>
-            {modalType === "upload" && <StoryUploadModal />}
-            {modalType === "more" && <StoryViewModal />}
-          </Modal>
+          <>
+            {modalType === "upload" ? (
+              <Modal width={"300px"} height={"540px"} title={"스토리 업로드"}>
+                <StoryUploadModal />
+              </Modal>
+            ) : (
+              <Modal title={"스토리"} titleHidden={true}>
+                <StoryViewModal />
+              </Modal>
+            )}
+          </>
         )}
       </section>
     </>
