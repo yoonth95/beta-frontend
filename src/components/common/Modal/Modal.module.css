@@ -8,27 +8,39 @@
 }
 
 .modal {
-  position: relative;
   box-sizing: border-box;
-  width: calc(90% - 3.75rem);
-  max-width: 800px;
-  height: fit-content;
+  width: calc(100% - 2.5rem);
+  max-width: 50rem;
+  min-width: 17.5rem;
+  height: calc(100vh - 2.5rem);
   max-height: 90vh;
-  overflow-y: scroll;
+  position: relative;
   background-color: #fff;
   border-radius: 5px;
-  padding: 1.875rem;
   margin: auto;
 }
 
+.modal h1 {
+  padding: 1.5625rem 1.25rem 1.25rem 1.25rem;
+}
+
+.modal > div {
+  box-sizing: border-box;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  height: calc(100% - 3.8125rem);
+  overflow-y: auto;
+}
+
 .modal__close {
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
   position: absolute;
   top: 1rem;
   right: 1rem;
   padding: 0.5rem;
   border-radius: 50%;
+  transform: rotate(45deg);
+  background: url("@/assets/plus.svg") no-repeat center/ 1rem;
 }
 
 .modal__close:hover {

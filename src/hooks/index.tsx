@@ -1,3 +1,5 @@
+import usePreventScroll from "./usePreventScroll";
 import useFilterSlide from "./useFilterSlide";
 
-export { useFilterSlide };
+export { usePreventScroll, useFilterSlide };
+
