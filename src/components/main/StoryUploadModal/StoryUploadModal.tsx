@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, TagInput } from "@/components/common";
 import styles from "./StoryUploadModal.module.css";
 
@@ -12,6 +12,14 @@ const StoryUploadModal = () => {
       setImgPreview(imgSrc);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (imgPreview) {
+        URL.revokeObjectURL(imgPreview);
+      }
+    };
+  }, [imgPreview]);
 
   return (
     <div className={styles["modal"]}>
