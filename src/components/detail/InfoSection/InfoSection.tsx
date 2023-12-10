@@ -1,21 +1,8 @@
 import React from "react";
-import styles from "./Info.module.css";
+import styles from "./InfoSection.module.css";
 import LocationMap from "./LocationMap";
-import { useOutletContext } from "react-router-dom";
+import { useDetailDataStore } from "@/stores/useDetailDataStore";
 
-interface ItemType {
-  item: {
-    organizer: string;
-    title: string;
-    location: string;
-    date: string;
-    tags: string[];
-    position: {
-      lat: number;
-      lng: number;
-    };
-  };
-}
 type onCopyFn = (text: string) => Promise<boolean>;
 
 const copyClipBoard: onCopyFn = async (text: string) => {
@@ -28,9 +15,9 @@ const copyClipBoard: onCopyFn = async (text: string) => {
   }
 };
 
-const Info = () => {
-  const { item } = useOutletContext<ItemType>();
-  const { organizer, title, location, date, tags, position } = item;
+const InfoSection = () => {
+  const { item } = useDetailDataStore();
+  const { organizer, title, location, date, tags, position } = item!;
 
   return (
     <>
@@ -70,4 +57,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default InfoSection;

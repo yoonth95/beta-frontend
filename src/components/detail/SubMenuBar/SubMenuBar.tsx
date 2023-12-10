@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styles from "./SubMenu.module.css";
+import styles from "./SubMenuBar.module.css";
 import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
@@ -14,7 +14,7 @@ interface PropsType {
 const SubMenu: React.FC<PropsType> = ({ children, selected, url }) => {
   return (
     <Link to={url} className={cx("submenu", selected && "selected")}>
-      {children}
+      <h2>{children}</h2>
     </Link>
   );
 };

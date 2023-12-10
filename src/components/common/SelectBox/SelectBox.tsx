@@ -3,12 +3,13 @@ import styles from "./SelectBox.module.css";
 
 interface PropsType {
   options: string[];
-  defaultOptionIndex?: number;
+  name?: string;
+  selectedValue: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const SelectBox: React.FC<PropsType> = ({ options, defaultOptionIndex = 0 }) => {
+const SelectBox: React.FC<PropsType> = ({ options, selectedValue, onClick: onClickParent, name }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(options[defaultOptionIndex]);
 
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
@@ -16,21 +17,20 @@ const SelectBox: React.FC<PropsType> = ({ options, defaultOptionIndex = 0 }) => 
 
   const handleSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsOpen(false);
-    const buttonElement = e.currentTarget as HTMLButtonElement;
-    setSelectedOption(buttonElement.innerText);
+    onClickParent(e);
   };
 
   return (
     <div className={styles["custom-select"]}>
       <button className={`${styles["btn-select"]} ${isOpen && styles["on"]}`} onClick={handleOpen}>
-        <span>{selectedOption}</span>
+        <span>{selectedValue}</span>
       </button>
       {isOpen && (
         <ul className={styles.list}>
           {options.map((option) => {
             return (
               <li key={option}>
-                <button type="button" onClick={handleSelect} className={`${option === selectedOption && styles.selected}`}>
+                <button type="button" name={name} onClick={handleSelect} className={`${option === selectedValue && styles.selected}`}>
                   {option}
                 </button>
               </li>

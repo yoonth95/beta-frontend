@@ -6,7 +6,7 @@ interface useModalStoreType {
 }
 
 export const useModalStore = create<useModalStoreType>((set) => ({
-  isOpenModal: true,
+  isOpenModal: false,
   setIsOpenModal: (isValue) =>
     set(() => ({
       isOpenModal: isValue,

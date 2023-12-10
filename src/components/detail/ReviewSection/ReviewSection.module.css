@@ -1,0 +1,14 @@
+.review-upload-section {
+  margin: 2rem 0;
+}
+
+.review-list-section {
+  padding: 2rem 0;
+  border-top: 1px solid var(--gray200-color);
+}
+
+.review-list-section__title {
+  margin-bottom: 1.875rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}

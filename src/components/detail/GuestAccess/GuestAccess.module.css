@@ -1,0 +1,39 @@
+.guest-access {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.guest-access__signup,
+.guest-access__login {
+  padding: 2rem 1rem;
+}
+
+.guest-access__signup {
+  border-bottom: 1px solid var(--gray100-color);
+}
+
+.guest-access__signup a,
+.guest-access__login a {
+  box-sizing: border-box;
+  max-width: 30rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  margin: 1rem auto 0;
+  border-radius: 5px;
+}
+
+.guest-access__signup a {
+  color: #fff;
+  background-color: var(--main-color);
+}
+
+.guest-access__login a {
+  border: 1px solid var(--gray200-color);
+}

@@ -201,6 +201,15 @@ main {
   width: calc(100% - 3.75rem);
 }
 
+input:not([type="checkbox"]):not([type="radio"]):read-only,
+input:disabled,
+textarea:read-only,
+textarea:disabled,
+button:disabled {
+  cursor: not-allowed;
+  background-color: var(--gray100-color);
+  border: 1px solid var(--gray100-color);
+}
 *::-webkit-scrollbar {
   background-color: inherit;
   width: 1rem;
