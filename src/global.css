@@ -200,7 +200,7 @@ main {
   width: calc(100% - 3.75rem);
 }
 
-input:read-only,
+input:not([type="checkbox"]):not([type="radio"]):read-only,
 input:disabled,
 textarea:read-only,
 textarea:disabled,
