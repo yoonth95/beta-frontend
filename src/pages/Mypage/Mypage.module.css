@@ -6,3 +6,8 @@
   margin: 4rem auto;
   gap: 5rem;
 }
+
+.mypage-main > section {
+  /* navbar 165px, gap 80px */
+  width: calc(100% - 10.3125rem - 5rem);
+}
