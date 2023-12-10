@@ -57,20 +57,21 @@ const ReservationSection = () => {
         <div>{notice}</div>
       </div>
 
-      <form id="reservation" onSubmit={handleSubmit} onChange={onChange}>
+      <form id="reservation" onSubmit={handleSubmit}>
         <div className={styles["show-round"]}>
           <h2>회차 선택</h2>
+          {/* change event 추가 예정 */}
           <RadioButtonGroup radioList={date_time} />
         </div>
 
         <div className={styles["show-reservation-user-info"]}>
           <h2>예약자 정보</h2>
-          <InputField required type="text" name="name" placeholder="이름을 입력해주세요." value={form.name as string}>
+          <InputField required type="text" name="name" placeholder="이름을 입력해주세요." value={form.name as string} onChange={onChange}>
             이름
           </InputField>
-          <InputFieldGroup required type="phone" name="phone" values={form.phone as PhoneValues} />
-          <InputFieldGroup required type="email" name="email" values={form.email as EmailValues} />
-          <CheckBox inputId="이메일받기" name="emailReceive" checked={form.emailReceive as boolean}>
+          <InputFieldGroup required type="phone" name="phone" values={form.phone as PhoneValues} onChange={onChange} />
+          <InputFieldGroup required type="email" name="email" values={form.email as EmailValues} onChange={onChange} />
+          <CheckBox inputId="이메일받기" name="emailReceive" checked={form.emailReceive as boolean} onChange={onChange}>
             예약 완료 이메일 전송 동의
           </CheckBox>
         </div>
