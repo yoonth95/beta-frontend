@@ -1,32 +1,41 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { createPortal } from "react-dom";
 import { useModalStore } from "@/stores/useModalStore";
+import { usePreventScroll } from "@/hooks";
+import classNames from "classnames/bind";
 import styles from "./Modal.module.css";
+
+const cx = classNames.bind(styles);
 
 interface PropsType {
   children: React.ReactNode;
+  width?: string;
+  height?: string;
+  title: string;
+  titleHidden?: boolean;
 }
 
-const Modal: React.FC<PropsType> = ({ children }) => {
+const Modal: React.FC<PropsType> = ({ children, width, height, title, titleHidden = false }) => {
   const { setIsOpenModal } = useModalStore();
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
 
-  const closeModal = () => {
-    setIsOpenModal(false);
+  usePreventScroll();
+
+  const closeModal = (e: React.MouseEvent) => {
+    const targetClassName = (e.target as HTMLElement).className;
+
+    if (targetClassName.includes("modal-background") || targetClassName.includes("modal__close")) {
+      setIsOpenModal(false);
+    }
   };
 
   const renderModal = (
-    <article className={styles["modal-background"]}>
-      <div className={styles["modal"]}>
-        <button onClick={closeModal} className={styles["modal__close"]}>
-          x
-        </button>
-        {children}
+    <article className={styles["modal-background"]} onClick={closeModal}>
+      <div className={styles["modal"]} style={{ maxWidth: width, maxHeight: height }}>
+        <button onClick={closeModal} className={styles["modal__close"]}></button>
+        <h1>
+          <span className={cx(titleHidden && "a11y-hidden")}>{title}</span>
+        </h1>
+        <div>{children}</div>
       </div>
     </article>
   );
