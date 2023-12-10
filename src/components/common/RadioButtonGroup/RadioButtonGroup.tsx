@@ -13,7 +13,6 @@ interface PropsType {
 }
 
 const RadioButtonGroup: React.FC<PropsType> = ({ radioList, name, defaultValue, onChange, flexDirectionColumn = false }) => {
-  console.log(defaultValue);
   const [selectedOption, setSelectedOption] = useState(defaultValue || radioList[0]);
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
