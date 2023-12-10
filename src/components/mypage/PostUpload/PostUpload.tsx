@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, InputField, RadioButtonGroup } from "@/components/common";
+import { Button, DatePeriodPicker, InputField, RadioButtonGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
 import styles from "./PostUpload.module.css";
 
@@ -29,14 +29,44 @@ const dummyItem = {
 };
 
 const PostUpload = () => {
-  const [initialForm, setInitialForm] = useState({
-    ...dummyItem,
-    location1: dummyItem.location.split("/")[0],
-    location2: dummyItem.location.split("/")[1],
-  });
+  const [initialForm, setInitialForm] = useState({ ...dummyItem });
   const [form, onChange] = useInputs(initialForm);
+
+  // const [startDate, setStartDate] = useState<Date | null>(null);
+  // const [endDate, setEndDate] = useState<Date | null>(null);
+  const [date, setDate] = useState({
+    start_date: dummyItem.start_date || "",
+    end_date: dummyItem.end_date || "",
+  });
+
+  const handleDateInput = (event) => {
+    const { name, value } = event.target;
+    setDate({ ...date, [name]: value });
+  };
+
+  const [location, setLocation] = useState({
+    location1: dummyItem.location?.split("/")[0] || "",
+    location2: dummyItem.location?.split("/")[1] || "",
+  });
+
+  const handleLocationInput = (e) => {
+    const { name, value } = e.target;
+    setLocation({ ...location, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const result = {
+      ...form,
+      start_date: date.start_date,
+      end_date: date.end_date,
+      location: location.location1 + "/" + location.location2,
+    };
+    console.log(result);
+  };
+
   return (
-    <form className={styles["post-upload-section-form"]}>
+    <form className={styles["post-upload-section-form"]} onSubmit={handleSubmit}>
       <section>
         <h2>공연/전시/스포츠 이미지</h2>
       </section>
@@ -64,24 +94,21 @@ const PostUpload = () => {
       <section>
         <h2>기간</h2>
         <div className={styles["l_date"]}>
-          <InputField type="text" name="start_date" placeholder="시작일" value={form.start_date as string} labelHidden>
-            시작일
-          </InputField>
-          <InputField type="text" name="start_date" placeholder="종료일" value={form.end_date as string} labelHidden>
-            종료일
-          </InputField>
+          <DatePeriodPicker startDate={date.start_date} endDate={date.end_date} onChange={handleDateInput} />
+          {/* <DatePeriodPicker name="start_date" placeholderText="시작일" onChange={setStartDate} /> */}
+          {/* <DatePeriodPicker name="end_date" placeholderText="종료일" onChange={setEndDate} /> */}
         </div>
       </section>
 
       <section>
         <h2>주소</h2>
         <div className={styles["l_address"]}>
-          <InputField type="text" name="location1" placeholder="도로명 주소" value={form.location1 as string} labelHidden>
+          <InputField type="text" name="location1" placeholder="도로명 주소" value={location.location1} onChange={handleLocationInput} labelHidden>
             도로명 주소
           </InputField>
           <Button>주소 찾기</Button>
         </div>
-        <InputField type="text" name="location1" placeholder="상세 주소" value={form.location2 as string} labelHidden>
+        <InputField type="text" name="location2" placeholder="상세 주소" value={location.location2} onChange={handleLocationInput} labelHidden>
           상세 주소
         </InputField>
       </section>
@@ -102,7 +129,7 @@ const PostUpload = () => {
             <h3>예매 방법</h3>
             <RadioButtonGroup radioList={["구글폼", "예매 대행"]} name="method" defaultValue={form.method as string} onChange={onChange} />
             {form.method === "구글폼" ? (
-              <InputField type="url" name="google_form_url" labelHidden>
+              <InputField type="url" name="google_form_url" placeholder="구글폼 URL을 입력해주세요." labelHidden>
                 구글폼url
               </InputField>
             ) : (
@@ -112,6 +139,8 @@ const PostUpload = () => {
           </>
         )}
       </section>
+
+      <Button type="submit">업로드하기</Button>
     </form>
   );
 };
