@@ -223,3 +223,13 @@ main {
 .modal::-webkit-scrollbar-track {
   background-color: var(--modal-bg-color);
 }
+
+/* 스크롤 없애기 */
+.no-scroll {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.no-scroll::-webkit-scrollbar {
+  display: none;
+}

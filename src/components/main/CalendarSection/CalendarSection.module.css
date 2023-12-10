@@ -10,11 +10,6 @@
   align-items: center;
   margin-bottom: 30px;
   overflow: auto;
-  -ms-overflow-style: none; /* 인터넷 익스플로러 */
-  scrollbar-width: none; /* 파이어폭스 */
-}
-.date-btns-group::-webkit-scrollbar {
-  display: none;
 }
 
 .tabs {
@@ -22,12 +17,6 @@
   gap: 2.5rem;
   margin-bottom: 1.375rem;
   overflow: auto;
-  -ms-overflow-style: none; /* 인터넷 익스플로러 */
-  scrollbar-width: none; /* 파이어폭스 */
-}
-
-.tabs::-webkit-scrollbar {
-  display: none;
 }
 
 .cards-container {
