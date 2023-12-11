@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { Button, DatePeriodPicker, InputField, RadioButtonGroup } from "@/components/common";
+import { Button, DatePeriodPicker, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
-import styles from "./PostUpload.module.css";
 import { ReservationForm } from "..";
+import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
+import styles from "./PostUpload.module.css";
+import classNames from "classnames/bind";
+
+const cx = classNames.bind(styles);
 
 const categoryList = ["공연", "전시", "스포츠"];
 const concertCategoryList = ["음악", "연극", "기타"];
@@ -33,8 +37,6 @@ const PostUpload = () => {
   const [initialForm, setInitialForm] = useState({ ...dummyItem });
   const [form, onChange] = useInputs(initialForm);
 
-  // const [startDate, setStartDate] = useState<Date | null>(null);
-  // const [endDate, setEndDate] = useState<Date | null>(null);
   const [date, setDate] = useState({
     start_date: dummyItem.start_date || "",
     end_date: dummyItem.end_date || "",
@@ -69,18 +71,36 @@ const PostUpload = () => {
   return (
     <form className={styles["post-upload-section-form"]} onSubmit={handleSubmit}>
       <section>
-        <h2>공연/전시/스포츠 이미지</h2>
+        <h2 className={styles["title"]}>공연/전시/스포츠 이미지</h2>
+        <div className={styles["upload-imgs-wrapper"]}>
+          <label className={styles["upload-img-input"]}>
+            <ImgUploadIcon />
+            <input type="file" />
+          </label>
+          <ul className={styles["imgs-list"]}>
+            {[form.main_image_url, ...form.sub_images_url].map((image) => (
+              <li>
+                <div className={styles["img-cover"]}>
+                  <img src={image} alt="" />
+                  <button type="button" className={styles["img-delete-btn"]}>
+                    x
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       <section>
-        <h2>카테고리</h2>
+        <h2 className={styles["title"]}>카테고리</h2>
         <RadioButtonGroup radioList={categoryList} name="show_type" onChange={onChange} />
         {form.show_type === "공연" && <RadioButtonGroup radioList={concertCategoryList} name="show_sub_type" onChange={onChange} />}
         {form.show_type === "스포츠" && <RadioButtonGroup radioList={sportsCategoryList} name="show_sub_type" onChange={onChange} />}
       </section>
 
       <section>
-        <h2 className="a11y-hidden">주최 정보</h2>
+        <h2 className={cx("a11y-hidden", "title")}>주최 정보</h2>
         <InputField type="text" name="title" placeholder="제목을 입력해주세요." value={form.title as string}>
           제목
         </InputField>
@@ -93,14 +113,14 @@ const PostUpload = () => {
       </section>
 
       <section>
-        <h2>기간</h2>
+        <h2 className={styles["title"]}>기간</h2>
         <div className={styles["l_date"]}>
           <DatePeriodPicker type="period" startDate={date.start_date} endDate={date.end_date} onChange={handleDateInput} />
         </div>
       </section>
 
       <section>
-        <h2>주소</h2>
+        <h2 className={styles["title"]}>주소</h2>
         <div className={styles["l_address"]}>
           <InputField type="text" name="location1" placeholder="도로명 주소" value={location.location1} onChange={handleLocationInput} labelHidden>
             도로명 주소
@@ -113,19 +133,21 @@ const PostUpload = () => {
       </section>
 
       <section>
-        <h2>태그</h2>
+        <h2 className={styles["title"]}>태그</h2>
+        <TagInput />
       </section>
 
       <section>
-        <h2>소개</h2>
+        <h2 className={styles["title"]}>소개</h2>
+        <Editor />
       </section>
 
       <section>
-        <h2>예매 여부</h2>
+        <h2 className={styles["title"]}>예매 여부</h2>
         <RadioButtonGroup radioList={["예", "아니오"]} name="is_reservation" defaultValue={form.is_reservation as string} onChange={onChange} />
         {form.is_reservation === "예" && (
           <>
-            <h3>예매 방법</h3>
+            <h3 className={styles["title"]}>예매 방법</h3>
             <RadioButtonGroup radioList={["구글폼", "예매 대행"]} name="method" defaultValue={form.method as string} onChange={onChange} />
             {form.method === "구글폼" ? (
               <InputField type="url" name="google_form_url" placeholder="구글폼 URL을 입력해주세요." labelHidden>

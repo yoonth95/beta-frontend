@@ -3,7 +3,67 @@
   flex-direction: column;
   gap: 2.5rem;
 }
+.post-upload-section-form .title {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
 
+.post-upload-section-form h3.title {
+  margin-top: 2.5rem;
+}
+
+.post-upload-section-form > section > fieldset {
+  margin-top: 1rem;
+}
+
+.upload-imgs-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+.upload-img-input {
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 10rem;
+  height: 10rem;
+  background-color: var(--gray200-color);
+  border-radius: 0.5rem;
+}
+.upload-img-input input {
+  display: none;
+}
+.upload-img-input svg {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.imgs-list {
+  overflow-x: scroll;
+  display: flex;
+}
+.imgs-list li {
+  margin-right: 0.5rem;
+}
+
+.img-cover {
+  width: 10rem;
+  aspect-ratio: 1/1;
+  border: 1px solid var(--gray200-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  position: relative;
+}
+.img-cover img {
+  object-fit: contain;
+  width: 100%;
+}
+.img-delete-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
 .l_date {
   display: flex;
   gap: 2rem;
