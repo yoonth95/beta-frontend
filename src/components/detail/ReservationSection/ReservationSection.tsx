@@ -53,7 +53,7 @@ const ReservationSection = () => {
       </div>
 
       <div className={styles["show-notice"]}>
-        <h2>[티켓 예매 시 유의 사항]</h2>
+        <h2>티켓 예매 시 유의 사항</h2>
         <div>{notice}</div>
       </div>
 
