@@ -1,6 +1,5 @@
 .nav-container {
-  height: 100%;
-  width: 10.3125rem;
+  flex: 0.3;
   background-color: #fff;
 }
 
@@ -9,7 +8,6 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 0.625rem;
 }
 
