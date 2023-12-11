@@ -5,6 +5,7 @@ import ReviewManage from "./ReviewManage/ReviewManage";
 import StoryManage from "./StoryManage/StoryManage";
 import Reservation from "./Reservation/Reservation";
 import ReservationManage from "./ReservationManage/ReservationManage";
+import ReservationListModal from "./ReservationListModal/ReservationListModal";
 import PostManage from "./PostManage/PostManage";
 
-export { NavigationBar, Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage };
+export { NavigationBar, Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage, ReservationListModal };

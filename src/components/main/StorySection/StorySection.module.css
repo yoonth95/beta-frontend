@@ -5,21 +5,42 @@
 .header {
   display: flex;
   align-items: center;
-  font-size: 1.75rem;
-  font-weight: bold;
   margin-bottom: 1.25rem;
 }
 
-.header__story-btn {
-  width: 1.875rem;
-  height: 1.875rem;
+.header__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.story-add-btn {
+  width: 1.625rem;
+  height: 1.625rem;
   border-radius: 50%;
-  background: url("@/assets/plus.svg") no-repeat center / 0.875rem;
+  background: url("@/assets/plus.svg") no-repeat center / 0.75rem;
   background-color: var(--gray200-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0.625rem;
-  margin-right: 0.625rem;
+  margin: 0 0.625rem 0;
   cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.story-add-btn:hover {
+  background-color: var(--gray300-color);
+}
+
+.story-more-btn {
+  padding: 0.5rem 0.625rem;
+  border-radius: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: 0.625rem;
+  transition: background-color 0.3s;
+}
+
+.story-more-btn:hover {
+  background-color: var(--gray100-color);
 }

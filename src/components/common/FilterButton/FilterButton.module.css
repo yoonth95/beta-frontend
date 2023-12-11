@@ -5,9 +5,10 @@
   border: 1px solid var(--gray300-color);
   background-color: white;
   color: black;
+  transition: background-color 0.3s;
 }
 
-.button:hover {
+.button:not(.selected):hover {
   background-color: var(--gray100-color);
 }
 
@@ -18,5 +19,5 @@
 }
 
 .button.selected:hover {
-  background-color: var(--main-color);
+  background-color: var(--sub2-color);
 }

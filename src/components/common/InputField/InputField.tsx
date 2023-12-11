@@ -45,7 +45,7 @@ const InputField: React.FC<PropsType> = ({ children, type, name, placeholder, va
   return (
     <fieldset className={styles["fieldset-box"]}>
       <label className={labelHidden ? "a11y-hidden" : ""}>{children}</label>
-      <input required={required} readOnly={readOnly} type={type} placeholder={placeholder} value={value || ""} onChange={onChange} />
+      <input required={required} readOnly={readOnly} type={type} name={name} placeholder={placeholder} value={value || ""} onChange={onChange} />
       {isSignupPassword && <CheckIcon className={cx("input-box__check", isConfirm && "success")} />}
     </fieldset>
   );

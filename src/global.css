@@ -9,11 +9,12 @@
 :root {
   --main-color: #da3017;
   --sub-color: rgba(218, 48, 23, 0.25);
+  --sub2-color: #c42b15;
   --gray100-color: #f2f2f2;
   --gray200-color: #d9d9d9;
   --gray300-color: #c4c4c4;
   --gray400-color: #767676;
-  --modal-bg-color: rgba(0, 0, 0, 0.45);
+  --modal-bg-color: rgba(0, 0, 0, 0.55);
 }
 
 html,
@@ -200,7 +201,7 @@ main {
   width: calc(100% - 3.75rem);
 }
 
-input:read-only,
+input:not([type="checkbox"]):not([type="radio"]):read-only,
 input:disabled,
 textarea:read-only,
 textarea:disabled,
@@ -226,4 +227,18 @@ button:disabled {
 }
 *::-webkit-scrollbar-thumb:hover {
   background-color: var(--gray300-color);
+}
+
+.modal::-webkit-scrollbar-track {
+  background-color: var(--modal-bg-color);
+}
+
+/* 스크롤 없애기 */
+.no-scroll {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.no-scroll::-webkit-scrollbar {
+  display: none;
 }

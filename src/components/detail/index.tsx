@@ -6,5 +6,6 @@ import ReviewSection from "./ReviewSection/ReviewSection";
 import ReviewForm from "./ReviewForm/ReviewForm";
 import ReviewItem from "./ReviewItem/ReviewItem";
 import GuestAccess from "./GuestAccess/GuestAccess";
+import ReservationSection from "./ReservationSection/ReservationSection";
 
-export { SubMenuSection, SubMenuBar, LikeButton, InfoSection, ReviewSection, ReviewForm, ReviewItem, GuestAccess };
+export { SubMenuSection, SubMenuBar, LikeButton, InfoSection, ReviewSection, ReviewForm, ReviewItem, GuestAccess, ReservationSection };
