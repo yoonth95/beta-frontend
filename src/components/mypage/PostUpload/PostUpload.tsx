@@ -21,8 +21,8 @@ const dummyItem = {
   // position: { lat: 37.5069494959122, lng: 127.055596615858 },
   tags: ["css", "html", "javascript"],
   content: "<h1>많은 관심 부탁드립니다</h1>",
-  is_reservation: "아니오",
-  method: "구글폼",
+  is_reservation: "예",
+  method: "예매 대행",
   google_form_url: "",
   price: "0",
   notice:
@@ -95,9 +95,7 @@ const PostUpload = () => {
       <section>
         <h2>기간</h2>
         <div className={styles["l_date"]}>
-          <DatePeriodPicker startDate={date.start_date} endDate={date.end_date} onChange={handleDateInput} />
-          {/* <DatePeriodPicker name="start_date" placeholderText="시작일" onChange={setStartDate} /> */}
-          {/* <DatePeriodPicker name="end_date" placeholderText="종료일" onChange={setEndDate} /> */}
+          <DatePeriodPicker type="period" startDate={date.start_date} endDate={date.end_date} onChange={handleDateInput} />
         </div>
       </section>
 
