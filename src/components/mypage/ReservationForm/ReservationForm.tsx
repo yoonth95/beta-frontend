@@ -8,6 +8,20 @@ const ReservationForm = () => {
     { date: "2023-12-08", time: "오후 1시" },
     { date: "2023-12-08", time: "오후 1시" },
   ]);
+
+  const [dateTime, setDateTime] = useState({
+    date: "",
+    time: "",
+  });
+
+  const handleDateTimeInput = (event) => {
+    const { date, time } = event.target.value;
+    setDateTime({ ...dateTime, date, time });
+  };
+
+  const handleRoundAdd = () => {
+    // roundList 추가
+  };
   return (
     <>
       <InputField type="text">가격</InputField>
@@ -33,9 +47,9 @@ const ReservationForm = () => {
         <article className={styles["round-item-add"]}>
           <div>
             <span>날짜 및 시간</span>
-            {/* <DatePeriodPicker time={true} onChange={setRoundList} /> */}
+            <DatePeriodPicker type="dateWithTime" onChange={handleDateTimeInput} />
           </div>
-          <button>회차 추가</button>
+          <button onClick={handleRoundAdd}>회차 추가</button>
         </article>
       </section>
 
