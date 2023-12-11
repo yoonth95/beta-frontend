@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage } from "@/pages";
+import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage, MainExhibitionPage } from "@/pages";
 import { InfoSection, ReviewSection } from "@/components/detail";
 import Mypage from "@/pages/Mypage/Mypage";
 
@@ -18,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "/concert",
         element: <MainConcertPage />,
+      },
+      {
+        path: "/exhibition",
+        element: <MainExhibitionPage />,
       },
       {
         path: "/detail/:id",
