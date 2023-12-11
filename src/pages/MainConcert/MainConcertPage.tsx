@@ -1,5 +1,6 @@
 import { NavBar } from "@/components/layouts";
-import { Filters, ConcertListSection } from "@/components/mainConcert";
+import { Filters } from "@/components/common";
+import { ConcertListSection } from "@/components/mainConcert";
 
 const MainConcertPage = () => {
   return (
