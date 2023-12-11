@@ -1,0 +1,16 @@
+.round-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.round-item {
+  display: flex;
+  gap: 1.5rem;
+}
+.round-item__box,
+.round-item-add {
+  border: 1px solid var(--gray200-color);
+  padding: 1rem;
+  border-radius: 1rem;
+  width: 40%;
+}

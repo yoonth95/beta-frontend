@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, DatePeriodPicker, InputField, RadioButtonGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
 import styles from "./PostUpload.module.css";
+import { ReservationForm } from "..";
 
 const categoryList = ["공연", "전시", "스포츠"];
 const concertCategoryList = ["음악", "연극", "기타"];
@@ -133,8 +134,7 @@ const PostUpload = () => {
                 구글폼url
               </InputField>
             ) : (
-              // <ReservationFrom />
-              <div>예매 대행 form</div>
+              <ReservationForm />
             )}
           </>
         )}

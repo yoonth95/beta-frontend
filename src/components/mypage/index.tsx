@@ -8,6 +8,7 @@ import ReservationManage from "./ReservationManage/ReservationManage";
 import ReservationListModal from "./ReservationListModal/ReservationListModal";
 import PostManage from "./PostManage/PostManage";
 import PostUpload from "./PostUpload/PostUpload";
+import ReservationForm from "./ReservationForm/ReservationForm";
 
 export {
   NavigationBar,
@@ -20,4 +21,5 @@ export {
   PostManage,
   ReservationListModal,
   PostUpload,
+  ReservationForm,
 };
