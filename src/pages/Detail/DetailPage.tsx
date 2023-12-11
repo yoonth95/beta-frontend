@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Button, Carousel, Modal } from "@/components/common";
-import { LikeButton, ReservationSection, SubMenuSection } from "@/components/detail";
+import { LikeButton, ReservationFormModal, SubMenuSection } from "@/components/detail";
 import styles from "./DetaiPage.module.css";
 import { NavBar } from "@/components/layouts";
 import { useDetailDataStore } from "@/stores/useDetailDataStore";
@@ -50,7 +50,7 @@ const DetailPage = () => {
           </Button>
           {openModal.state && openModal.type === "reservation" && (
             <Modal title={item.title} width={"600px"}>
-              <ReservationSection />
+              <ReservationFormModal />
             </Modal>
           )}
         </div>
