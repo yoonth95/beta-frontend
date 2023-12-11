@@ -4,6 +4,11 @@
   height: 2.5rem;
   border-radius: 50%;
   background-color: var(--gray200-color);
+  transition: background-color 0.3s;
+}
+
+.button:not(.selected):hover {
+  background-color: var(--gray300-color);
 }
 
 .button.selected {
@@ -17,4 +22,8 @@
   display: block;
   font-size: 0.75rem;
   margin-bottom: 0.25rem;
+}
+
+.button.selected:hover {
+  background-color: var(--sub2-color);
 }

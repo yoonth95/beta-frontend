@@ -7,6 +7,7 @@ import BasicCard from "./BasicCard/BasicCard";
 import FilterButton from "./FilterButton/FilterButton";
 import InputFieldGroup from "./InputFieldGroup/InputFieldGroup";
 import Modal from "./Modal/Modal";
+import TagInput from "./TagInput/TagInput";
 import Timer from "./Timer/Timer";
 import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
@@ -22,6 +23,7 @@ export {
   FilterButton,
   InputFieldGroup,
   Modal,
+  TagInput,
   Timer,
   CheckBox,
   RadioButtonGroup,

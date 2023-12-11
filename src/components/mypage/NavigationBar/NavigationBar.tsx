@@ -20,7 +20,7 @@ const adminNavList = [
 ];
 
 const Navigation = () => {
-  const [isAdmin, setIsAdmin] = useState(false); // 전역 상태로 관리할 예정
+  const [isAdmin, setIsAdmin] = useState(true); // 전역 상태로 관리할 예정
   const [searchParams] = useSearchParams();
   const urlPathname = searchParams.get("tab");
 

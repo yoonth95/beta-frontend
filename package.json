@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.12.2",
+    "@yaireo/tagify": "^4.17.9",
     "axios": "^1.6.2",
     "classnames": "^2.3.2",
     "color-thief-react": "^2.1.0",
@@ -31,6 +32,7 @@
     "@types/react-datepicker": "^4.19.3",
     "@types/react-dom": "^18.2.15",
     "@types/react-slick": "^0.23.12",
+    "@types/yaireo__tagify": "^4.17.5",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react-swc": "^3.5.0",

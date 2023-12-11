@@ -13,7 +13,7 @@ const BasicCard: React.FC<PropsType> = ({ item }) => {
       <div className={styles["card__img-wrapper"]}>
         <img className={styles["card__img"]} src={item.imgSrc} />
       </div>
-      <h4 className={cx("card__title", "ellipsis")}>{item.title}</h4>
+      <h3 className={cx("card__title", "ellipsis")}>{item.title}</h3>
       <p className={cx("card__location", "ellipsis")}>{item.location}</p>
       <p className={styles["card__date"]}>{item.date}</p>
     </article>

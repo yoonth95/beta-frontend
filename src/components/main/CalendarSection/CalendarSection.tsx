@@ -4,7 +4,10 @@ import { DateButton } from "@/components/main";
 import { BasicCard, Button, FilterButton } from "@/components/common";
 import getStringDate from "@/utils/getStringDate";
 import getTodayStringDate from "@/utils/getTodayStringDate";
+import classNames from "classnames/bind";
 import styles from "./CalendarSection.module.css";
+
+const cx = classNames.bind(styles);
 
 const tabsInfo = [
   { url: "/concert", value: "공연" },
@@ -29,7 +32,7 @@ const Calendar = () => {
     <section className={styles.section}>
       <h2 className="a11y-hidden">공연/전시/스포츠</h2>
 
-      <div className={styles["date-btns-group"]}>
+      <div className={cx("date-btns-group", "no-scroll")}>
         {Array(14)
           .fill(0)
           .map((_item, index) => {
@@ -46,7 +49,7 @@ const Calendar = () => {
             );
           })}
       </div>
-      <div className={styles.tabs}>
+      <div className={cx("tabs", "no-scroll")}>
         {tabsInfo.map(({ url, value }) => (
           <FilterButton key={value} selected={selectedTab === url} onClick={handleClickTab(url)}>
             {value}

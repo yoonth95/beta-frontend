@@ -99,6 +99,23 @@
   display: none;
 }
 
+.center {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.center .slick-slide.slick-center {
+  opacity: 1;
+  transition: all 300ms ease;
+}
+
+.center .slick-slide:not(.slick-center) {
+  opacity: 0.8;
+  transition: all 300ms ease;
+  transform: scale(0.9);
+}
+
 /* dots css  */
 .dots {
   display: inline-block;
