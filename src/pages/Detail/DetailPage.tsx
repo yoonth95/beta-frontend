@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Button, Carousel } from "@/components/common";
-import { LikeButton, SubMenuSection } from "@/components/detail";
+import { Button, Carousel, Modal } from "@/components/common";
+import { LikeButton, ReservationSection, SubMenuSection } from "@/components/detail";
 import styles from "./DetaiPage.module.css";
 import { NavBar } from "@/components/layouts";
 import { useDetailDataStore } from "@/stores/useDetailDataStore";
+import { useModalStore } from "@/stores/useModalStore";
 
 const item = {
   id: 1,
@@ -25,6 +26,7 @@ const submenuList = [
 ];
 
 const DetailPage = () => {
+  const { openModal, setOpenModal } = useModalStore();
   const { setItemData } = useDetailDataStore();
   useEffect(() => {
     setItemData(item);
@@ -43,7 +45,14 @@ const DetailPage = () => {
         </Carousel>
         <div className={styles["btn-group"]}>
           <LikeButton active={false} />
-          <Button borderRadius="0.5rem">예매하기</Button>
+          <Button borderRadius="0.5rem" onClick={() => setOpenModal({ state: true, type: "reservation" })}>
+            예매하기
+          </Button>
+          {openModal.state && openModal.type === "reservation" && (
+            <Modal title={item.title} width={"600px"}>
+              <ReservationSection />
+            </Modal>
+          )}
         </div>
         <SubMenuSection submenuList={submenuList} />
       </main>
