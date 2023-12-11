@@ -10,3 +10,9 @@
 .mypage-main section {
   flex: 1;
 }
+
+@media (max-width: 580px) {
+  .mypage-main > :first-child {
+    display: none;
+  }
+}
