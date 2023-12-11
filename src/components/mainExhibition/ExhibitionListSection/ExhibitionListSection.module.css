@@ -1,0 +1,9 @@
+.section {
+  padding: 1.25rem 0 2.5rem;
+}
+.exhibition-list {
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13.125rem, 1fr));
+  gap: 2.5rem 1.25rem;
+}
