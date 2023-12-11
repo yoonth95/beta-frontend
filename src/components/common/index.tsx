@@ -12,6 +12,7 @@ import Timer from "./Timer/Timer";
 import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
 import DatePeriodPicker from "./DatePeriodPicker/DatePeriodPicker";
+import Editor from "./Editor/Editor";
 
 export {
   Button,
@@ -28,4 +29,5 @@ export {
   CheckBox,
   RadioButtonGroup,
   DatePeriodPicker,
+  Editor,
 };
