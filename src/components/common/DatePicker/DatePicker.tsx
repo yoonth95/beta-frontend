@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
+import ko from "date-fns/locale/ko";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import ko from "date-fns/locale/ko";
+import "./DatePicker.css";
+import styles from "./DatePicker.module.css";
+import CalendarIcon from "@/assets/icon-calendar.svg?react";
 
 interface PropsType {
-  // name: string;
-  // placeholderText: string;
   startDate?: string;
   endDate?: string;
   onChange: React.Dispatch<React.SetStateAction<DateInputType | null>>;
@@ -59,12 +60,21 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
     onChange(event);
   };
 
+  const CustomInput = forwardRef((props: any, ref) => {
+    return (
+      <div className={styles["calendar-input-wrap"]}>
+        <input {...props} ref={ref} type="text" className={styles["calendar-input"]} />
+        <CalendarIcon />
+      </div>
+    );
+  });
+
   switch (type) {
     case "dateWithTime": {
       return (
         <ReactDatePicker
-          showIcon
           locale={ko}
+          customInput={<CustomInput />}
           name="start_date_time"
           selected={startDate}
           onChange={(date) => {
@@ -73,6 +83,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
           }}
           dateFormat="yyyy/MM/dd - aa h:mm"
           showTimeSelect
+          placeholderText="날짜 및 시간"
         />
       );
     }
@@ -80,35 +91,43 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
     case "period": {
       return (
         <>
-          <ReactDatePicker
-            showIcon
-            locale={ko}
-            name="start_date"
-            selected={startDate}
-            onChange={(date) => {
-              setStartDate(date);
-              handleChangePeriodInput("start_date", date);
-            }}
-            selectsStart
-            startDate={startDate}
-            endDate={endDate}
-            dateFormat="yyyy/MM/dd"
-          />
-          <ReactDatePicker
-            showIcon
-            locale={ko}
-            name="end_date"
-            selected={endDate}
-            onChange={(date) => {
-              setEndDate(date);
-              handleChangePeriodInput("end_date", date);
-            }}
-            selectsEnd
-            startDate={startDate}
-            endDate={endDate}
-            minDate={startDate}
-            dateFormat="yyyy/MM/dd"
-          />
+          <div>
+            <ReactDatePicker
+              locale={ko}
+              customInput={<CustomInput />}
+              name="start_date"
+              selected={startDate}
+              onChange={(date) => {
+                setStartDate(date);
+                handleChangePeriodInput("start_date", date);
+              }}
+              selectsStart
+              startDate={startDate}
+              endDate={endDate}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="시작일"
+              dayClassName={() => styles["custom-day"]}
+            />
+          </div>
+          <span className={styles["wave"]}>~</span>
+          <div>
+            <ReactDatePicker
+              locale={ko}
+              customInput={<CustomInput />}
+              name="end_date"
+              selected={endDate}
+              onChange={(date) => {
+                setEndDate(date);
+                handleChangePeriodInput("end_date", date);
+              }}
+              selectsEnd
+              startDate={startDate}
+              endDate={endDate}
+              minDate={startDate}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="종료일"
+            />
+          </div>
         </>
       );
     }
