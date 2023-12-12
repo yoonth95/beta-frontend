@@ -1,13 +1,17 @@
 .mypage-main {
   display: flex;
+  gap: 3rem;
   align-items: flex-start;
-  max-width: 60rem;
-  height: 100%;
-  margin: 4rem auto;
-  gap: 5rem;
+  margin: 3rem auto;
 }
 
 .mypage-main > section {
   /* navbar 165px, gap 80px */
   width: calc(100% - 10.3125rem - 5rem);
+}
+
+@media (max-width: 580px) {
+  .mypage-main > :first-child {
+    display: none;
+  }
 }

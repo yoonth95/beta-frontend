@@ -171,6 +171,8 @@ table {
 .dim {
   position: fixed;
   inset: 0;
+  background-color: var(--modal-bg-color);
+  z-index: 100;
 }
 
 .cover_dim {

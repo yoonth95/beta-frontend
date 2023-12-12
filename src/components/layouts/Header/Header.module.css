@@ -1,8 +1,12 @@
 .header {
   width: 100%;
   padding: 2.25rem 0;
+  box-sizing: border-box;
+  height: 6.875rem;
   display: flex;
   justify-items: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gray200-color);
 }
 
 .header-wrapper {
@@ -17,17 +21,119 @@
   font-weight: bold;
   font-size: 1.875rem;
   color: var(--main-color);
+  display: flex;
+  align-items: center;
+}
+
+.button-group {
+  color: var(--gray400-color);
+  font-weight: bold;
+  display: flex;
+  gap: 0.625rem;
 }
 
 .button-login,
+.button-logout,
 .button-mypage {
   display: flex;
   align-items: center;
-  color: var(--gray400-color);
+  padding: 4px 10px;
+  border-radius: 0.625rem;
+  word-break: keep-all;
+  transition: background-color 0.3s;
+}
+
+.button-login:hover,
+.button-logout:hover,
+.button-mypage:hover {
+  background-color: var(--gray100-color);
+}
+
+.button-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+}
+
+.button-icon:hover {
+  background-color: var(--gray100-color);
+}
+
+.button-icon svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.button-menu svg path {
+  stroke: var(--gray400-color);
+}
+
+/* 마이페이지 사이드NavBar */
+.mypage-navbar {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  z-index: 100;
+  background-color: white;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.mypage-navbar > nav {
+  margin-top: 1.25rem;
+  padding: 0.625rem;
+}
+
+.mypage-navbar > .button-logout {
+  width: fit-content;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: var(--main-color);
+  font-size: 0.75rem;
   font-weight: bold;
 }
 
-.button-login {
-  margin-left: auto;
-  margin-right: 1.25rem;
+@keyframes fadeIn {
+  from {
+    display: none;
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    display: block;
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (min-width: 561px) {
+  .button-menu {
+    display: none;
+  }
+  :global(.dim) {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .button-logout.my-page {
+    display: none;
+  }
+
+  .mypage-navbar {
+    display: block;
+  }
+
+  :global(.dim) {
+    display: block;
+  }
 }
