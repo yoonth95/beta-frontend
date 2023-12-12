@@ -13,4 +13,19 @@ import Filters from "./Filters/Filters";
 import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
 
-export { Button, InputField, SignForm, SelectBox, Carousel, BasicCard, FilterButton, InputFieldGroup, Modal, TagInput, Timer, Filters, CheckBox, RadioButtonGroup };
+export {
+  Button,
+  InputField,
+  SignForm,
+  SelectBox,
+  Carousel,
+  BasicCard,
+  FilterButton,
+  InputFieldGroup,
+  Modal,
+  TagInput,
+  Timer,
+  CheckBox,
+  RadioButtonGroup,
+};
+

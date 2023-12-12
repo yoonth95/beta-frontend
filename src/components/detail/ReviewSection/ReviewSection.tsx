@@ -26,7 +26,7 @@ const commentData = [
 ];
 
 const ReviewSection = () => {
-  const { isOpenModal, setIsOpenModal } = useModalStore();
+  const { openModal, setOpenModal } = useModalStore();
   const [isLogin, setIsLogin] = useState(false);
 
   return (
@@ -35,9 +35,16 @@ const ReviewSection = () => {
         {isLogin ? (
           <ReviewForm />
         ) : (
-          <Button onClick={() => setIsOpenModal(true)}>
-            <h3>방명록 작성하기</h3>
-          </Button>
+          <>
+            <Button onClick={() => setOpenModal({ state: true, type: "guestAccess" })}>
+              <h3>방명록 작성하기</h3>
+            </Button>
+            {openModal.state && openModal.type === "guestAccess" && (
+              <Modal title="회원가입/로그인으로 이동" titleHidden width="600px" height="500px">
+                <GuestAccess />
+              </Modal>
+            )}
+          </>
         )}
       </section>
 
@@ -52,12 +59,6 @@ const ReviewSection = () => {
         </ul>
         <Button reverseColor>더보기</Button>
       </section>
-
-      {isOpenModal && (
-        <Modal>
-          <GuestAccess />
-        </Modal>
-      )}
     </>
   );
 };

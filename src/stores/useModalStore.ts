@@ -1,14 +1,22 @@
 import { create } from "zustand";
 
 interface useModalStoreType {
-  isOpenModal: boolean;
-  setIsOpenModal: (isValue: boolean) => void;
+  openModal: OpenModal;
+  setOpenModal: (args: { state: boolean; type?: string }) => void;
+}
+
+interface OpenModal {
+  state: boolean;
+  type: string;
 }
 
 export const useModalStore = create<useModalStoreType>((set) => ({
-  isOpenModal: false,
-  setIsOpenModal: (isValue) =>
+  openModal: { state: false, type: "" },
+  setOpenModal: ({ state, type = "" }) =>
     set(() => ({
-      isOpenModal: isValue,
+      openModal: {
+        state,
+        type,
+      },
     })),
 }));
