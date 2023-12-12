@@ -25,7 +25,7 @@ export {
   Modal,
   TagInput,
   Timer,
+  Filters,
   CheckBox,
   RadioButtonGroup,
 };
-
