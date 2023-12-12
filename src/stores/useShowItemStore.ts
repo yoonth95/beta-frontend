@@ -1,12 +1,12 @@
 import { ShowItem } from "@/types/ShowItem";
 import { create } from "zustand";
 
-interface useDetailDataStoreType {
+interface useShowItemInfoStoreType {
   item: ShowItem | null;
   setItemData: (item: ShowItem) => void;
 }
 
-export const useDetailDataStore = create<useDetailDataStoreType>((set) => ({
+export const useShowItemStore = create<useShowItemInfoStoreType>((set) => ({
   item: null,
   setItemData: (item) =>
     set(() => ({
