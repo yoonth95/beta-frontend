@@ -25,7 +25,7 @@ const Header = () => {
   };
 
   const handleClose = () => {
-    document.body.style.overflow = "overflow";
+    document.body.style.overflow = "auto";
     setIsMyPageNavbarShow(false);
   };
 
@@ -66,7 +66,7 @@ const Header = () => {
       {isMyPageNavbarShow && (
         <>
           <div className="dim" onClick={handleClose}></div>
-          <div className={cx("mypage-navbar", !isMyPageNavbarShow && ".hide")}>
+          <div className={styles["mypage-navbar"]}>
             <button type="button" className={cx("button-icon")} onClick={handleClose}>
               <span className={"a11y-hidden"}>메뉴 닫기</span>
               <NavbarCloseIcon />
