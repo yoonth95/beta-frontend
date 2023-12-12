@@ -8,10 +8,9 @@
   font-size: 0.875rem;
 }
 
-.filter-row.last {
-  margin-bottom: 0.625rem;
+.filter-row-select {
+  margin-top: 0.625rem;
 }
-
 .filter-row__title {
   word-break: keep-all;
 }

@@ -9,6 +9,7 @@ import InputFieldGroup from "./InputFieldGroup/InputFieldGroup";
 import Modal from "./Modal/Modal";
 import TagInput from "./TagInput/TagInput";
 import Timer from "./Timer/Timer";
+import Filters from "./Filters/Filters";
 import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
 
@@ -27,3 +28,4 @@ export {
   CheckBox,
   RadioButtonGroup,
 };
+

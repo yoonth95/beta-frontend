@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { FilterButton, SelectBox } from "@/components/common";
-import classNames from "classnames/bind";
-import styles from "./Filters.module.css";
 import getTodayStringDate from "@/utils/getTodayStringDate";
 import { useFilterSlide } from "@/hooks";
+import classNames from "classnames/bind";
+import styles from "./Filters.module.css";
 
 const cx = classNames.bind(styles);
 
@@ -36,12 +36,12 @@ const locations = [
   "중랑구",
 ];
 
-const dateFiltersItem = ["오늘", "+7일", "+2주"];
+const dateFiltersItem = ["오늘", "+7일", "+2주", "직접선택"];
 const categories = ["전체", "음악", "연극", "기타"];
+const selectOptions = ["전체", "진행중", "진행 예정", "종료"];
 
 const Filters = () => {
   const { scrollRef, scrollValue, handleClickPrev, handleClickNext } = useFilterSlide();
-
   const { todayString } = getTodayStringDate();
 
   const [filterInfo, setFilterInfo] = useState({
@@ -53,10 +53,18 @@ const Filters = () => {
     progressStatus: "전체",
   });
 
-  const [showDateSelect, setShowDateSelect] = useState(false);
+  const [isDateSelectShow, setIsDateSelectShow] = useState(false);
 
   const handleClickFilterButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { name, textContent: value } = e.target as HTMLButtonElement;
+    if (name === "date") {
+      if (value === "직접선택") {
+        setIsDateSelectShow(true);
+      } else {
+        setIsDateSelectShow(false);
+      }
+    }
+
     setFilterInfo((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -76,18 +84,11 @@ const Filters = () => {
               {item}
             </FilterButton>
           ))}
-          <FilterButton
-            onClick={() => {
-              setShowDateSelect(!showDateSelect);
-            }}
-          >
-            직접선택
-          </FilterButton>
         </div>
       </div>
 
-      {showDateSelect && (
-        <div className={cx("date-select-container", showDateSelect && "show")}>
+      {isDateSelectShow && (
+        <div className={cx("date-select-container", isDateSelectShow && "show")}>
           <label>
             <p className="a11y-hidden">시작일</p>
             <input className={styles["date-input"]} type="date" name="concert-start" value={filterInfo.start_date} onChange={handleChangeDate} />
@@ -103,6 +104,7 @@ const Filters = () => {
         <strong className={styles["filter-row__title"]}>지역</strong>
         <div className={styles["location-filter-contents"]}>
           <div className={cx("arrow", "prev")} onClick={handleClickPrev}></div>
+          <div className={cx("arrow", "next")} onClick={handleClickNext}></div>
           <ul ref={scrollRef} style={{ transform: `translateX(${scrollValue})` }}>
             {locations.map((item) => (
               <li key={item}>
@@ -112,28 +114,25 @@ const Filters = () => {
               </li>
             ))}
           </ul>
-          <div className={cx("arrow", "next")} onClick={handleClickNext}></div>
         </div>
       </div>
 
-      <div className={cx("filter-row", "last")}>
-        <strong className={styles["filter-row__title"]}>카테고리</strong>
-
-        <div className={styles["filter-contents"]}>
-          {categories.map((item) => (
-            <FilterButton key={item} selected={filterInfo.category === item} onClick={handleClickFilterButton} name={"category"}>
-              {item}
-            </FilterButton>
-          ))}
+      {location.pathname === "/concert" && (
+        <div className={styles["filter-row"]}>
+          <strong className={styles["filter-row__title"]}>카테고리</strong>
+          <div className={styles["filter-contents"]}>
+            {categories.map((item) => (
+              <FilterButton key={item} selected={filterInfo.category === item} onClick={handleClickFilterButton} name={"category"}>
+                {item}
+              </FilterButton>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      <SelectBox
-        options={["전체", "진행중", "진행 예정", "종료"]}
-        name={"progressStatus"}
-        onClick={handleClickFilterButton}
-        selectedValue={filterInfo.progressStatus}
-      />
+      <div className={styles["filter-row-select"]}>
+        <SelectBox options={selectOptions} name={"progressStatus"} onClick={handleClickFilterButton} selectedValue={filterInfo.progressStatus} />
+      </div>
     </>
   );
 };
