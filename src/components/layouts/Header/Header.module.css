@@ -87,29 +87,32 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-    display: none;
-  }
-  to {
-    display: block;
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 .mypage-navbar > nav {
   margin-top: 1.25rem;
   padding: 0.625rem;
 }
 
 .mypage-navbar > .button-logout {
-  margin-left: 0.5rem;
-  margin-top: 1.875rem;
-  font-size: 0.875rem;
+  width: fit-content;
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  color: var(--main-color);
+  font-size: 0.75rem;
   font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {
+    display: none;
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    display: block;
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @media (min-width: 561px) {
@@ -129,6 +132,7 @@
   .mypage-navbar {
     display: block;
   }
+
   :global(.dim) {
     display: block;
   }
