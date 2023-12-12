@@ -39,7 +39,7 @@ const formattingTime = (dateObject) => {
   return formattedTime;
 };
 
-const DatePeriodPicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate: defaultEndDate, onChange, type }) => {
+const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate: defaultEndDate, onChange, type }) => {
   const [startDate, setStartDate] = useState<Date | null>((defaultStartDate && new Date(defaultStartDate)) || null);
   const [endDate, setEndDate] = useState<Date | null>((defaultEndDate && new Date(defaultEndDate)) || null);
 
@@ -118,4 +118,4 @@ const DatePeriodPicker: React.FC<PropsType> = ({ startDate: defaultStartDate, en
   }
 };
 
-export default DatePeriodPicker;
+export default DatePicker;

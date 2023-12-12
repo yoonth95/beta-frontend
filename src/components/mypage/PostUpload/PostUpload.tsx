@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, DatePeriodPicker, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
+import { Button, DatePicker, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
 import { ReservationForm } from "..";
 import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
@@ -115,7 +115,7 @@ const PostUpload = () => {
       <section>
         <h2 className={styles["title"]}>기간</h2>
         <div className={styles["l_date"]}>
-          <DatePeriodPicker type="period" startDate={date.start_date} endDate={date.end_date} onChange={handleDateInput} />
+          <DatePicker type="period" startDate={date.start_date} endDate={date.end_date} onChange={handleDateInput} />
         </div>
       </section>
 

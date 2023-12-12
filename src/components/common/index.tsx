@@ -12,7 +12,7 @@ import Timer from "./Timer/Timer";
 import Filters from "./Filters/Filters";
 import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
-import DatePeriodPicker from "./DatePeriodPicker/DatePeriodPicker";
+import DatePicker from "./DatePicker/DatePicker";
 import Editor from "./Editor/Editor";
 
 export {
@@ -30,6 +30,6 @@ export {
   Filters,
   CheckBox,
   RadioButtonGroup,
-  DatePeriodPicker,
+  DatePicker,
   Editor,
 };

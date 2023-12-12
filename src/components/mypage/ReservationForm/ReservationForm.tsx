@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DatePeriodPicker, Editor, InputField } from "@/components/common";
+import { DatePicker, Editor, InputField } from "@/components/common";
 import styles from "./ReservationForm.module.css";
 
 const ReservationForm = () => {
@@ -47,7 +47,7 @@ const ReservationForm = () => {
         <article className={styles["round-item-add"]}>
           <div className={styles["round-item-add__dateTime"]}>
             <span className={styles["round-item__title"]}>날짜 및 시간</span>
-            <DatePeriodPicker type="dateWithTime" onChange={handleDateTimeInput} />
+            <DatePicker type="dateWithTime" onChange={handleDateTimeInput} />
           </div>
           <button className={styles["round-item-add__btn"]} onClick={handleRoundAdd}>
             회차 추가
