@@ -16,7 +16,7 @@ interface PropsType {
 }
 
 const Modal: React.FC<PropsType> = ({ children, width, height, title, titleHidden = false }) => {
-  const { setIsOpenModal } = useModalStore();
+  const { setOpenModal } = useModalStore();
 
   usePreventScroll();
 
@@ -24,7 +24,7 @@ const Modal: React.FC<PropsType> = ({ children, width, height, title, titleHidde
     const targetClassName = (e.target as HTMLElement).className;
 
     if (targetClassName.includes("modal-background") || targetClassName.includes("modal__close")) {
-      setIsOpenModal(false);
+      setOpenModal({ state: false, type: "" });
     }
   };
 

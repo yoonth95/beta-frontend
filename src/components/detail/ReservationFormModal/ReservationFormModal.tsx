@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, CheckBox, InputField, InputFieldGroup, RadioButtonGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
-import styles from "./ReservationSection.module.css";
+import styles from "./ReservationFormModal.module.css";
 import { EmailValues, PhoneValues } from "@/components/common/InputFieldGroup/InputFieldGroupType";
 
 const item = {
@@ -19,7 +19,7 @@ const item = {
   // 00대학교 oo학과 및 '제목' 필요
 };
 
-const ReservationSection = () => {
+const ReservationFormModal = () => {
   const { location, price, notice, date_time, user_name, user_email, phone_number } = item;
   const [phone1, phone2, phone3] = phone_number.split("-");
   const [email1, email2] = user_email.split("@");
@@ -53,7 +53,7 @@ const ReservationSection = () => {
       </div>
 
       <div className={styles["show-notice"]}>
-        <h2>[티켓 예매 시 유의 사항]</h2>
+        <h2>티켓 예매 시 유의 사항</h2>
         <div>{notice}</div>
       </div>
 
@@ -97,4 +97,4 @@ const ReservationSection = () => {
   );
 };
 
-export default ReservationSection;
+export default ReservationFormModal;
