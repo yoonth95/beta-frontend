@@ -84,6 +84,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
           dateFormat="yyyy/MM/dd - aa h:mm"
           showTimeSelect
           placeholderText="날짜 및 시간"
+          autoComplete="off"
         />
       );
     }
@@ -106,7 +107,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               endDate={endDate}
               dateFormat="yyyy/MM/dd"
               placeholderText="시작일"
-              dayClassName={() => styles["custom-day"]}
+              autoComplete="off"
             />
           </div>
           <span className={styles["wave"]}>~</span>
@@ -126,6 +127,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               minDate={startDate}
               dateFormat="yyyy/MM/dd"
               placeholderText="종료일"
+              autoComplete="off"
             />
           </div>
         </>
