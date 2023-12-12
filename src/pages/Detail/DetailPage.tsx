@@ -3,22 +3,11 @@ import { Button, Carousel, Modal } from "@/components/common";
 import { LikeButton, ReservationFormModal, SubMenuSection } from "@/components/detail";
 import styles from "./DetaiPage.module.css";
 import { NavBar } from "@/components/layouts";
-import { useDetailDataStore } from "@/stores/useDetailDataStore";
+import { useShowItemStore } from "@/stores/useShowItemStore";
 import { useModalStore } from "@/stores/useModalStore";
-
-const item = {
-  id: 1,
-  organizer: "고려대학교 미술학과",
-  imgSrc: ["/concert-img.jpg", "/concert-img2.jpg", "/concert-img3.jpg", "/card-image.png"],
-  title: "고려대 전시회에 놀러오세요",
-  location: "고려대학교 박물관 지하 1층 (백주년기념 삼성관) 기획 전시실 Ⅱ",
-  date: "2023.11.23 - 2023.11.29",
-  tags: ["abc", "def", "ghi", "jkl", "mno"],
-  position: {
-    lat: 37.5069494959122,
-    lng: 127.055596615858,
-  },
-};
+import { useQuery } from "@tanstack/react-query";
+import { getShowItemInfo } from "@/apis/getShowItemInfo";
+import { useParams } from "react-router-dom";
 
 const submenuList = [
   { pathname: "info", text: "정보" },
@@ -27,29 +16,45 @@ const submenuList = [
 
 const DetailPage = () => {
   const { openModal, setOpenModal } = useModalStore();
-  const { setItemData } = useDetailDataStore();
+  const { setItemData } = useShowItemStore();
+  const { id: showId } = useParams();
+
+  const {
+    status,
+    data: infoData,
+    error,
+  } = useQuery({
+    queryKey: ["infoData", showId],
+    queryFn: () => getShowItemInfo(showId),
+  });
+
   useEffect(() => {
-    setItemData(item);
-  }, []);
+    infoData && setItemData(infoData);
+  }, [infoData]);
+
+  if (status === "pending") return <h1>loading...</h1>;
+  if (status === "error") return <h1>{error.message}</h1>;
+
+  const imgs = Object.values(JSON.parse(infoData.sub_images_url));
 
   return (
     <>
       <NavBar />
       <main>
         <Carousel index={0}>
-          {item.imgSrc.map((img, index) => (
+          {imgs.map((img, index) => (
             <div key={index}>
-              <img src={img} className={styles["slider__img"]} />
+              <img src={import.meta.env.VITE_APP_IMAGE_DOMAIN + img} className={styles["slider__img"]} />
             </div>
           ))}
         </Carousel>
         <div className={styles["btn-group"]}>
           <LikeButton active={false} />
-          <Button borderRadius="0.5rem" onClick={() => setOpenModal({ state: true, type: "reservation" })}>
+          <Button borderRadius="0.5rem" onClick={() => setOpenModal({ state: true, type: "reservation" })} disabled={!infoData.is_reservation}>
             예매하기
           </Button>
           {openModal.state && openModal.type === "reservation" && (
-            <Modal title={item.title} width={"600px"}>
+            <Modal title={infoData.title} width={"600px"}>
               <ReservationFormModal />
             </Modal>
           )}
