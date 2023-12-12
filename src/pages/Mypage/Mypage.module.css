@@ -7,6 +7,7 @@
   gap: 5rem;
 }
 
-.mypage-main section {
-  flex: 1;
+.mypage-main > section {
+  /* navbar 165px, gap 80px */
+  width: calc(100% - 10.3125rem - 5rem);
 }

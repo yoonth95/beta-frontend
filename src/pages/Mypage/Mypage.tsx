@@ -1,6 +1,16 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
-import { NavigationBar, Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage } from "@/components/mypage";
+import {
+  NavigationBar,
+  Profile,
+  LikeManage,
+  ReviewManage,
+  StoryManage,
+  Reservation,
+  ReservationManage,
+  PostManage,
+  PostUpload,
+} from "@/components/mypage";
 import styles from "./Mypage.module.css";
 
 const Mypage: React.FC = () => {
@@ -33,6 +43,8 @@ const MypageItem: React.FC<{ tab: string | null }> = ({ tab }) => {
       return <ReservationManage />;
     case "post":
       return <PostManage />;
+    case "post-upload":
+      return <PostUpload />;
     default:
       return <Profile />;
   }

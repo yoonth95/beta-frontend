@@ -1,0 +1,75 @@
+.reservation-form-wrapper {
+  margin: 2rem 0;
+}
+
+.reservation-form-wrapper > fieldset {
+  margin-top: 1rem;
+}
+
+.round-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.title {
+  margin-top: 1rem;
+  color: var(--gray400-color);
+}
+
+.round-item {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.round-item__box,
+.round-item-add {
+  border: 1px solid var(--gray300-color);
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.round-item__box {
+  flex-basis: 300px;
+}
+
+.round-item-add {
+  width: 300px;
+}
+
+.round-item-add__dateTime {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.round-item__box-row {
+  vertical-align: top;
+}
+
+.round-item__box-row:not(:last-child) {
+  margin-bottom: 0.6rem;
+}
+
+.round-item__title {
+  margin-right: 1rem;
+  font-size: 0.7rem;
+  color: var(--gray400-color);
+}
+
+.round-item__content {
+  vertical-align: middle;
+}
+
+.round-item-add__btn {
+  float: right;
+  margin-top: 1rem;
+  color: var(--main-color);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.round-item-add__btn:hover {
+  filter: brightness(1.2);
+}

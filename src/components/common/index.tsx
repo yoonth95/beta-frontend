@@ -12,6 +12,8 @@ import Timer from "./Timer/Timer";
 import Filters from "./Filters/Filters";
 import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
+import DatePicker from "./DatePicker/DatePicker";
+import Editor from "./Editor/Editor";
 
 export {
   Button,
@@ -25,7 +27,9 @@ export {
   Modal,
   TagInput,
   Timer,
+  Filters,
   CheckBox,
   RadioButtonGroup,
+  DatePicker,
+  Editor,
 };
-
