@@ -21,7 +21,7 @@ const RadioButtonGroup: React.FC<PropsType> = ({ radioList, name, defaultValue, 
   };
 
   return (
-    <fieldset className={cx("fieldset", flexDirectionColumn && "row")}>
+    <fieldset className={cx("fieldset", flexDirectionColumn && "column")}>
       {radioList.map((item) => (
         <label key={item}>
           <input type="radio" name={name} value={item} checked={selectedOption === item} onChange={handleOptionChange} />
