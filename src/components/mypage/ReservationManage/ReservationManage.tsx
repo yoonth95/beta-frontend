@@ -15,7 +15,7 @@ const item = {
 };
 
 const ReservationManage = () => {
-  const { isOpenModal, setIsOpenModal } = useModalStore();
+  const { openModal, setOpenModal } = useModalStore();
 
   return (
     <>
@@ -35,7 +35,7 @@ const ReservationManage = () => {
                 <Button
                   reverseColor={true}
                   onClick={() => {
-                    setIsOpenModal(true);
+                    setOpenModal({ state: true, type: "" });
                   }}
                 >
                   예매 현황
@@ -45,7 +45,7 @@ const ReservationManage = () => {
         </ul>
       </div>
 
-      {isOpenModal && (
+      {openModal.state && (
         <Modal title="서울대학교 산업디자인학과 23년 졸전">
           <ReservationListModal />
         </Modal>

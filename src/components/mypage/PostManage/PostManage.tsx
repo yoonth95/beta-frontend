@@ -16,7 +16,7 @@ const item = {
   id: 4,
 };
 const PostManage = () => {
-  const { isOpenModal, setIsOpenModal } = useModalStore();
+  const { openModal, setOpenModal } = useModalStore();
 
   return (
     <>
@@ -40,7 +40,7 @@ const PostManage = () => {
                 <Button
                   reverseColor={true}
                   onClick={() => {
-                    setIsOpenModal(true);
+                    setOpenModal({ state: true, type: "" });
                   }}
                 >
                   <CommentIcon />
@@ -53,7 +53,7 @@ const PostManage = () => {
       </div>
       <Button>게시글 업로드</Button>
 
-      {isOpenModal && (
+      {openModal.state && (
         <Modal title="서울대 어쩌고">
           <strong className={styles["review-count"]}>총 후기수: 2명</strong>
           <ul className={styles["review-list"]}>

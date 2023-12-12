@@ -6,17 +6,15 @@ import styles from "./StorySection.module.css";
 
 const StorySection = () => {
   const items = { imgSrc: "/public/story-img.jpg", title: "#멋지다신은수, #졸업축하해" };
-  const [modalType, setModalType] = useState("");
-  const { isOpenModal, setIsOpenModal } = useModalStore();
+  const { openModal, setOpenModal } = useModalStore();
 
   const handleClickUploadBtn = () => {
-    setIsOpenModal(true);
-    setModalType("upload");
+    setOpenModal({ state: true, type: "upload" });
   };
   const handleClickMoreBtn = () => {
-    setIsOpenModal(true);
-    setModalType("more");
+    setOpenModal({ state: true, type: "more" });
   };
+
   return (
     <>
       <section className={styles["section"]}>
@@ -37,9 +35,9 @@ const StorySection = () => {
               <Story key={title} title={title} imgSrc={imgSrc} />
             ))}
         </Carousel>
-        {isOpenModal && (
+        {openModal.state && (
           <>
-            {modalType === "upload" ? (
+            {openModal.type === "upload" ? (
               <Modal width={"18.75rem"} height={"33.75rem"} title={"스토리 업로드"}>
                 <StoryUploadModal />
               </Modal>
