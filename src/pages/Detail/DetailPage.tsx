@@ -8,6 +8,8 @@ import { useModalStore } from "@/stores/useModalStore";
 import { useQuery } from "@tanstack/react-query";
 import { getShowItemInfo } from "@/apis/getShowItemInfo";
 import { useParams } from "react-router-dom";
+import { getShowReservationInfo } from "@/apis/getShowReservationInfo";
+import { useShowReservationInfoStore } from "@/stores/useShowReservationInfoStore";
 
 const submenuList = [
   { pathname: "", text: "정보" },
@@ -17,6 +19,7 @@ const submenuList = [
 const DetailPage = () => {
   const { openModal, setOpenModal } = useModalStore();
   const { setShowItemInfo } = useShowItemInfoStore();
+  const { setShowReservationInfo } = useShowReservationInfoStore();
   const { id: showId } = useParams();
 
   const {
@@ -37,6 +40,18 @@ const DetailPage = () => {
 
   const imgs = Object.values(JSON.parse(infoData.sub_images_url));
 
+  const handleReservationButton = async () => {
+    const data = await getShowReservationInfo(showId);
+    const { method, google_form_url, ...reservationInfo } = data;
+    if (method === "google") window.open(google_form_url, "_blank");
+    else {
+      // TODO: 회원아니면 guestAccess 모달창 띄우기
+      // TODO: 전역 상태로 할지, 지역 상태로 할지
+      setShowReservationInfo(reservationInfo);
+      setOpenModal({ state: true, type: "reservation" });
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -50,7 +65,7 @@ const DetailPage = () => {
         </Carousel>
         <div className={styles["btn-group"]}>
           <LikeButton active={false} />
-          <Button borderRadius="0.5rem" onClick={() => setOpenModal({ state: true, type: "reservation" })} disabled={!infoData.is_reservation}>
+          <Button borderRadius="0.5rem" onClick={handleReservationButton} disabled={!infoData.is_reservation}>
             예매하기
           </Button>
           {openModal.state && openModal.type === "reservation" && (
