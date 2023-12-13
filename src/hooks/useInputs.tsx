@@ -2,10 +2,10 @@ import { useState, useCallback } from "react";
 
 const objectTypeNames = ["phone", "email"];
 
-interface Form {
+export interface Form {
   phone?: { phone1: string; phone2: string; phone3: string };
   email?: { email1: string; email2: string };
-  [key: string]: boolean | object | string | undefined;
+  [key: string]: boolean | object | string | number | undefined;
 }
 
 type UseInputs = [Form, (e: React.ChangeEvent<HTMLInputElement>) => void, () => void];
