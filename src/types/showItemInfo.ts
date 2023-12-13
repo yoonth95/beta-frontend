@@ -1,4 +1,4 @@
-export interface ShowItem {
+export interface ShowItemInfo {
   id: number;
   show_type: string;
   show_sub_type: string;
