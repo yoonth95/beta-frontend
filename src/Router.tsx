@@ -28,7 +28,7 @@ const router = createBrowserRouter([
         element: <DetailPage />,
         children: [
           {
-            path: "info",
+            index: true,
             element: <InfoSection />,
           },
           {

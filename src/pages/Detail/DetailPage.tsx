@@ -10,7 +10,7 @@ import { getShowItemInfo } from "@/apis/getShowItemInfo";
 import { useParams } from "react-router-dom";
 
 const submenuList = [
-  { pathname: "info", text: "정보" },
+  { pathname: "", text: "정보" },
   { pathname: "review", text: "후기/방명록" },
 ];
 
@@ -59,7 +59,7 @@ const DetailPage = () => {
             </Modal>
           )}
         </div>
-        <SubMenuSection submenuList={submenuList} />
+        <SubMenuSection submenuList={submenuList} baseUrl={`/detail/${showId}`} />
       </main>
     </>
   );

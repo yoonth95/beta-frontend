@@ -1,9 +1,10 @@
 import React from "react";
 import { SubMenuBar } from "..";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useMatch, useParams } from "react-router-dom";
 
 interface PropsType {
   submenuList: SubMenuList[];
+  baseUrl: string;
 }
 
 interface SubMenuList {
@@ -11,13 +12,18 @@ interface SubMenuList {
   text: string;
 }
 
-const SubMenuSection: React.FC<PropsType> = ({ submenuList }) => {
+const SubMenuSection: React.FC<PropsType> = ({ submenuList, baseUrl }) => {
   const location = useLocation();
+  const checkUrl = (pathname) => {
+    if (pathname === "" && baseUrl === location.pathname) return true;
+    if (pathname !== "") return location.pathname.endsWith(pathname);
+  };
+
   return (
     <section>
       <div style={{ display: "flex" }}>
         {submenuList.map((menu) => (
-          <SubMenuBar key={menu.text} selected={location.pathname.includes(menu.pathname)} url={`./${menu.pathname}`}>
+          <SubMenuBar key={menu.text} selected={!!checkUrl(menu.pathname)} url={`${menu.pathname}`}>
             {menu.text}
           </SubMenuBar>
         ))}
