@@ -3,7 +3,7 @@ import { Button, Carousel, Modal } from "@/components/common";
 import { LikeButton, ReservationFormModal, SubMenuSection } from "@/components/detail";
 import styles from "./DetaiPage.module.css";
 import { NavBar } from "@/components/layouts";
-import { useShowItemStore } from "@/stores/useShowItemStore";
+import { useShowItemInfoStore } from "@/stores/useShowItemInfoStore";
 import { useModalStore } from "@/stores/useModalStore";
 import { useQuery } from "@tanstack/react-query";
 import { getShowItemInfo } from "@/apis/getShowItemInfo";
@@ -16,7 +16,7 @@ const submenuList = [
 
 const DetailPage = () => {
   const { openModal, setOpenModal } = useModalStore();
-  const { setItemData } = useShowItemStore();
+  const { setShowItemInfo } = useShowItemInfoStore();
   const { id: showId } = useParams();
 
   const {
@@ -29,7 +29,7 @@ const DetailPage = () => {
   });
 
   useEffect(() => {
-    infoData && setItemData(infoData);
+    infoData && setShowItemInfo(infoData);
   }, [infoData]);
 
   if (status === "pending") return <h1>loading...</h1>;
