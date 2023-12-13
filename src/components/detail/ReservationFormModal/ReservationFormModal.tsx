@@ -2,19 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { Button, CheckBox, InputField, InputFieldGroup, RadioButtonGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
 import { getUserInfo } from "@/apis/getUserInfo";
-import { useShowReservationInfoStore } from "@/stores/useShowReservationInfoStore";
 import styles from "./ReservationFormModal.module.css";
 
 // TODO: show_times API 연결
 const show_times_data = ["2023/12/08 - 오후 1시", "2023/12/08 - 오후 7시", "2023/12/10 - 오후 1시", "2023/12/10 - 오후 7시"];
 
-const ReservationFormModal = () => {
+const ReservationFormModal = ({ showReservationInfo }) => {
   const [form, onChange] = useInputs({
     show_times_id: "",
     is_receive_email: 0,
   });
-
-  const { showReservationInfo } = useShowReservationInfoStore();
 
   const {
     status,
@@ -25,7 +22,6 @@ const ReservationFormModal = () => {
     queryFn: () => getUserInfo("yoonth0919"), // TODO: 로그인 정보에서 아이디 값 가져오기
   });
 
-  if (!showReservationInfo) return <h1>no reservation info</h1>;
   if (status === "pending") return <h1>loading...</h1>;
   if (status === "error") return <h1>{error.message}</h1>;
 

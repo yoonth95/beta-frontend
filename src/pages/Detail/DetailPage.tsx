@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Carousel, Modal } from "@/components/common";
 import { LikeButton, ReservationFormModal, SubMenuSection } from "@/components/detail";
 import styles from "./DetaiPage.module.css";
@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getShowItemInfo } from "@/apis/getShowItemInfo";
 import { useParams } from "react-router-dom";
 import { getShowReservationInfo } from "@/apis/getShowReservationInfo";
-import { useShowReservationInfoStore } from "@/stores/useShowReservationInfoStore";
 
 const submenuList = [
   { pathname: "", text: "정보" },
@@ -19,7 +18,7 @@ const submenuList = [
 const DetailPage = () => {
   const { openModal, setOpenModal } = useModalStore();
   const { setShowItemInfo } = useShowItemInfoStore();
-  const { setShowReservationInfo } = useShowReservationInfoStore();
+  const [showReservationInfo, setShowReservationInfo] = useState();
   const { id: showId } = useParams();
 
   const {
@@ -46,7 +45,6 @@ const DetailPage = () => {
     if (method === "google") window.open(google_form_url, "_blank");
     else {
       // TODO: 회원아니면 guestAccess 모달창 띄우기
-      // TODO: 전역 상태로 할지, 지역 상태로 할지
       setShowReservationInfo(reservationInfo);
       setOpenModal({ state: true, type: "reservation" });
     }
@@ -70,7 +68,7 @@ const DetailPage = () => {
           </Button>
           {openModal.state && openModal.type === "reservation" && (
             <Modal title={infoData.title} width={"600px"}>
-              <ReservationFormModal />
+              <ReservationFormModal showReservationInfo={showReservationInfo} />
             </Modal>
           )}
         </div>
