@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { Button, CheckBox, RadioButtonGroup } from "@/components/common";
+import { Button, CheckBox, InputField, InputFieldGroup, RadioButtonGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
 import { getUserInfo } from "@/apis/getUserInfo";
 import { useShowReservationInfoStore } from "@/stores/useShowReservationInfoStore";
 import styles from "./ReservationFormModal.module.css";
-import inputStyles from "@/components/common/InputField/InputField.module.css";
-import inputGroupStyles from "@/components/common/InputFieldGroup/InputFieldGroup.module.css";
 
 // TODO: show_times API 연결
 const show_times_data = ["2023/12/08 - 오후 1시", "2023/12/08 - 오후 7시", "2023/12/10 - 오후 1시", "2023/12/10 - 오후 7시"];
@@ -77,26 +75,11 @@ const ReservationFormModal = () => {
 
         <div className={styles["show-reservation-user-info"]}>
           <h2>예약자 정보</h2>
-          <div className={inputStyles["fieldset-box"]}>
-            <label>이름</label>
-            <input type="text" name="name" value={user_name} readOnly />
-          </div>
-          <div className={inputGroupStyles["fieldset-box"]}>
-            <label>핸드폰번호</label>
-            <div className={inputGroupStyles["fieldset-box__list"]}>
-              <input type="text" name="phone1" value={phone1} readOnly />
-              <input type="text" name="phone2" value={phone2} readOnly />
-              <input type="text" name="phone3" value={phone3} readOnly />
-            </div>
-          </div>
-          <div className={inputGroupStyles["fieldset-box"]}>
-            <label>이메일</label>
-            <div className={inputGroupStyles["fieldset-box__list"]}>
-              <input type="text" name="email1" value={email1} readOnly />
-              <span>@</span>
-              <input type="text" name="email2" value={email2} readOnly />
-            </div>
-          </div>
+          <InputField type="text" name="name" value={user_name} readOnly>
+            이름
+          </InputField>
+          <InputFieldGroup type="phone" name="phone" values={{ phone1, phone2, phone3 }} readOnly />
+          <InputFieldGroup type="email" name="email" values={{ email1, email2 }} readOnly />
 
           <CheckBox inputId="이메일받기" name="is_receive_email" checked={!!form.is_receive_email} onChange={onChange}>
             예약 완료 이메일 전송 동의
