@@ -1,10 +1,11 @@
 import axios, { AxiosError } from "axios";
 
-export const verifyToken = async () => {
+export const verifyTokenAPI = async () => {
   try {
-    await axios.get("/api/verifyToken");
+    const res = await axios.get("/api/verifyToken");
+    const { login_id, user_name, user_role } = res.data.data;
     console.log("Access token is valid");
-    return true;
+    return { isLogin: true, login_id, user_name, user_role };
   } catch (error) {
     // accessToken이 만료된 경우
     const axiosError = error as AxiosError;
@@ -12,18 +13,19 @@ export const verifyToken = async () => {
 
     if (axiosError.response && axiosError.response.status === 401) {
       try {
-        await axios.get("/api/refreshToken");
+        const res = await axios.get("/api/refreshToken");
+        const { login_id, user_name, user_role } = res.data.data;
         console.log("refresh token is valid and new access token is issued");
-        return true;
+        return { isLogin: true, login_id, user_name, user_role };
       } catch (refreshError) {
         // refreshToken도 만료된 경우
         console.log("refresh token is Invalid");
-        return false;
+        return { isLogin: false, login_id: "", user_name: "", user_role: "" };
       }
     } else {
       // 다른 종류의 오류
       console.log("server error");
-      return false;
+      return { isLogin: false, login_id: "", user_name: "", user_role: "" };
     }
   }
 };
