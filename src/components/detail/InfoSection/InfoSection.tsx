@@ -2,16 +2,25 @@ import React from "react";
 import styles from "./InfoSection.module.css";
 import LocationMap from "./LocationMap";
 import { useShowItemInfoStore } from "@/stores/useShowItemInfoStore";
+import { toast } from "react-toastify";
 
-type onCopyFn = (text: string) => Promise<boolean>;
+type onCopyFn = (text: string) => void;
 
 const copyClipBoard: onCopyFn = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
-    return true;
+    toast.info("클립보드에 복사되었습니다.", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   } catch (error) {
     console.error(error);
-    return false;
   }
 };
 
