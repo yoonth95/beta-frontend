@@ -1,5 +1,6 @@
 .card {
   padding-right: 1.25rem;
+  cursor: pointer;
 }
 
 .card__img-wrapper {

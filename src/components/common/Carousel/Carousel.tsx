@@ -5,9 +5,11 @@ import prevArrow from "@/assets/prev-arrow.png";
 import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from "./Carousel.module.css";
+import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 
 interface PropsType {
   index: number;
+  initialSlide?: number;
   children: React.ReactNode;
 }
 
@@ -84,8 +86,23 @@ const settings = [
   },
 ];
 
-const Carousel: React.FC<PropsType> = ({ index, children }) => {
-  return <Slider {...settings[index]}>{children}</Slider>;
+const Carousel: React.FC<PropsType> = ({ index, initialSlide = 0, children }) => {
+  const { setIsDragging } = useCarouselDragStore();
+  const updatedSettings = { ...settings[index], initialSlide };
+
+  return (
+    <Slider
+      {...updatedSettings}
+      beforeChange={() => {
+        setIsDragging(true);
+      }}
+      afterChange={() => {
+        setIsDragging(false);
+      }}
+    >
+      {children}
+    </Slider>
+  );
 };
 
 export default Carousel;
