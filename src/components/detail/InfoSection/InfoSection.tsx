@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./InfoSection.module.css";
 import LocationMap from "./LocationMap";
-import { useShowItemInfoStore } from "@/stores/useShowItemInfoStore";
+import { useShowInfoStore } from "@/stores/useShowInfoStore";
 import { toast } from "react-toastify";
 
 type onCopyFn = (text: string) => void;
@@ -25,14 +25,14 @@ const copyClipBoard: onCopyFn = async (text: string) => {
 };
 
 const InfoSection = () => {
-  const { showItemInfo } = useShowItemInfoStore();
-  if (!showItemInfo) return <h2>loading...</h2>;
+  const { showInfo } = useShowInfoStore();
+  if (!showInfo) return <h2>loading...</h2>;
 
-  const { univ, department, title, location, start_date, end_date } = showItemInfo;
+  const { univ, department, title, location, start_date, end_date } = showInfo;
 
-  const tags = Object.values(JSON.parse(showItemInfo.tags));
-  const position = JSON.parse(showItemInfo.position);
-  const contentBufferData = new Uint8Array(showItemInfo.content.data);
+  const tags = Object.values(JSON.parse(showInfo.tags));
+  const position = JSON.parse(showInfo.position);
+  const contentBufferData = new Uint8Array(showInfo.content.data);
   const contentDecodedString = new TextDecoder("utf-8").decode(contentBufferData);
 
   return (

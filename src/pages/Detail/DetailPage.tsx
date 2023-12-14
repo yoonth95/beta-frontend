@@ -3,12 +3,13 @@ import { Button, Carousel, Modal } from "@/components/common";
 import { LikeButton, ReservationFormModal, SubMenuSection } from "@/components/detail";
 import styles from "./DetaiPage.module.css";
 import { NavBar } from "@/components/layouts";
-import { useShowItemInfoStore } from "@/stores/useShowItemInfoStore";
+import { useShowInfoStore } from "@/stores/useShowInfoStore";
 import { useModalStore } from "@/stores/useModalStore";
 import { useQuery } from "@tanstack/react-query";
-import { getShowItemInfo } from "@/apis/getShowItemInfo";
+import { getShowInfo } from "@/apis/getShowInfo";
 import { useParams } from "react-router-dom";
 import { getShowReservationInfo } from "@/apis/getShowReservationInfo";
+import { ShowReservationInfoType } from "@/types";
 
 const submenuList = [
   { pathname: "", text: "정보" },
@@ -17,8 +18,8 @@ const submenuList = [
 
 const DetailPage = () => {
   const { openModal, setOpenModal } = useModalStore();
-  const { setShowItemInfo } = useShowItemInfoStore();
-  const [showReservationInfo, setShowReservationInfo] = useState();
+  const { setShowInfo } = useShowInfoStore();
+  const [showReservationInfo, setShowReservationInfo] = useState<Omit<ShowReservationInfoType, "method" | "google_form_url"> | null>(null);
   const { id: showId } = useParams();
 
   const {
@@ -27,11 +28,11 @@ const DetailPage = () => {
     error,
   } = useQuery({
     queryKey: ["infoData", showId],
-    queryFn: () => getShowItemInfo(showId),
+    queryFn: () => getShowInfo(showId!),
   });
 
   useEffect(() => {
-    infoData && setShowItemInfo(infoData);
+    infoData && setShowInfo(infoData);
   }, [infoData]);
 
   if (status === "pending") return <h1>loading...</h1>;
@@ -40,7 +41,7 @@ const DetailPage = () => {
   const imgs = Object.values(JSON.parse(infoData.sub_images_url));
 
   const handleReservationButton = async () => {
-    const data = await getShowReservationInfo(showId);
+    const data = await getShowReservationInfo(showId!);
     const { method, google_form_url, ...reservationInfo } = data;
     if (method === "google") window.open(google_form_url, "_blank");
     else {
@@ -66,7 +67,7 @@ const DetailPage = () => {
           <Button borderRadius="0.5rem" onClick={handleReservationButton} disabled={!infoData.is_reservation}>
             예매하기
           </Button>
-          {openModal.state && openModal.type === "reservation" && (
+          {openModal.state && openModal.type === "reservation" && showReservationInfo && (
             <Modal title={infoData.title} width={"600px"}>
               <ReservationFormModal showReservationInfo={showReservationInfo} />
             </Modal>
