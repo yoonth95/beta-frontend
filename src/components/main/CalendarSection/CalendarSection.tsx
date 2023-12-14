@@ -6,7 +6,7 @@ import { BasicCard, Button, FilterButton } from "@/components/common";
 import getStringDate from "@/utils/getStringDate";
 import getTodayStringDate from "@/utils/getTodayStringDate";
 import { getShows } from "@/apis";
-import { ShowType } from "@/types/";
+import { ShowType } from "@/types";
 import classNames from "classnames/bind";
 import styles from "./CalendarSection.module.css";
 

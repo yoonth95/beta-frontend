@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ShowType } from "@/types/";
+import { ShowType } from "@/types";
 import styles from "./BasicCard.module.css";
 import classNames from "classnames/bind";
 
