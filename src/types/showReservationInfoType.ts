@@ -1,4 +1,9 @@
-export interface ShowReservationInfo {
+export interface ShowReservationInfoResponseType {
+  ok: string;
+  data: ShowReservationInfoType[];
+}
+
+export interface ShowReservationInfoType {
   id: number;
   show_id: number;
   method: string;
