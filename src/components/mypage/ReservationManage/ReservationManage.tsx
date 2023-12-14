@@ -19,7 +19,6 @@ const ReservationManage = () => {
 
   return (
     <>
-      <h2 className="a11y-hidden">예매 관리 페이지</h2>
       <div className={styles["container"]}>
         <div className={cx("list-row", "list-header")}>
           <strong>제목</strong>

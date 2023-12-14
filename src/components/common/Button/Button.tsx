@@ -32,9 +32,10 @@ interface PropsType {
   borderRadius?: string;
   reverseColor?: boolean;
   form?: string;
+  style?: React.CSSProperties;
 }
 
-const Button: React.FC<PropsType> = ({ children, onClick, disabled, type, borderRadius = "5px", reverseColor, form }) => {
+const Button: React.FC<PropsType> = ({ children, onClick, disabled, type, borderRadius = "5px", reverseColor, form, style }) => {
   return (
     <>
       <button
@@ -42,7 +43,7 @@ const Button: React.FC<PropsType> = ({ children, onClick, disabled, type, border
         onClick={onClick}
         disabled={disabled || false}
         type={type || "button"}
-        style={{ borderRadius }}
+        style={{ borderRadius, ...style }}
         form={form}
       >
         {children}

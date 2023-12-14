@@ -23,10 +23,15 @@
 .upload-img-input {
   cursor: pointer;
   flex-shrink: 0;
-  width: 10rem;
-  height: 10rem;
   background-color: var(--gray200-color);
   border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+.upload-img-input,
+.img-cover {
+  width: 15vw;
+  min-width: 130px;
+  max-width: 10rem;
 }
 .upload-img-input input {
   display: none;
@@ -46,7 +51,6 @@
 }
 
 .img-cover {
-  width: 10rem;
   aspect-ratio: 1/1;
   border: 1px solid var(--gray200-color);
   border-radius: 0.5rem;

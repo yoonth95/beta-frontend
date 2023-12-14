@@ -6,12 +6,33 @@
 }
 
 .mypage-main > section {
-  /* navbar 165px, gap 80px */
-  width: calc(100% - 10.3125rem - 5rem);
+  flex-grow: 1;
+  width: 70%;
+  flex-basis: 700px;
 }
 
-@media (max-width: 580px) {
+@media (max-width: 768px) {
   .mypage-main > :first-child {
     display: none;
+  }
+  .title-hidden {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: var(--main-color);
+  }
+}
+
+@media (min-width: 767px) {
+  .title-hidden {
+    /* a11y-hidden */
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
   }
 }
