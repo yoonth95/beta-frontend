@@ -4,9 +4,12 @@ import getTodayStringDate from "@/utils/getTodayStringDate";
 import { useFilterSlide } from "@/hooks";
 import classNames from "classnames/bind";
 import styles from "./Filters.module.css";
+import getStringDate from "@/utils/getStringDate";
+import { ShowFilterRequestType } from "@/types";
 
 const cx = classNames.bind(styles);
 
+const dates = ["오늘", "+7일", "+2주", "직접선택"];
 const locations = [
   "전체",
   "강남구",
@@ -35,42 +38,80 @@ const locations = [
   "중구",
   "중랑구",
 ];
-
-const dateFiltersItem = ["오늘", "+7일", "+2주", "직접선택"];
 const categories = ["전체", "음악", "연극", "기타"];
-const selectOptions = ["전체", "진행중", "진행 예정", "종료"];
+const progresses = ["전체", "진행중", "진행 예정", "종료"];
 
-const Filters = () => {
-  const { scrollRef, scrollValue, handleClickPrev, handleClickNext } = useFilterSlide();
-  const { todayString } = getTodayStringDate();
+interface PropsType {
+  filterRequest: ShowFilterRequestType;
+  setFilterRequest: React.Dispatch<React.SetStateAction<ShowFilterRequestType>>;
+}
 
-  const [filterInfo, setFilterInfo] = useState({
+const Filters: React.FC<PropsType> = ({ filterRequest, setFilterRequest }) => {
+  const { todayYear, todayMonth, todayDay, todayString } = getTodayStringDate();
+  const {
+    scrollRef: locationScrollRef,
+    scrollValue: locationScrollValue,
+    handleClickPrev: handleClickLocationPrev,
+    handleClickNext: handleClickLocationNext,
+  } = useFilterSlide();
+
+  const [filter, setFilter] = useState({
     date: "오늘",
-    start_date: todayString,
-    end_date: todayString,
     location: "전체",
     category: "전체",
-    progressStatus: "전체",
+    progress: "전체",
   });
-
-  const [isDateSelectShow, setIsDateSelectShow] = useState(false);
-
-  const handleClickFilterButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { name, textContent: value } = e.target as HTMLButtonElement;
-    if (name === "date") {
-      if (value === "직접선택") {
-        setIsDateSelectShow(true);
-      } else {
-        setIsDateSelectShow(false);
-      }
-    }
-
-    setFilterInfo((prev) => ({ ...prev, [name]: value }));
-  };
 
   const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
-    setFilterInfo((prev) => ({ ...prev, [name]: value }));
+    setFilterRequest((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // 서버에 보낼 start_date와 end_date를 set하는 함수
+  const dateSetFunc = (value: string) => {
+    let dateString = todayString;
+    switch (value) {
+      case dates[1]:
+        ({ dateString } = getStringDate(todayYear, todayMonth, todayDay + 7));
+        break;
+      case dates[2]:
+        ({ dateString } = getStringDate(todayYear, todayMonth, todayDay + 14));
+        break;
+    }
+    setFilterRequest({ ...filterRequest, end_date: dateString });
+  };
+
+  // progress를 all, 1, 2, 3으로 set하는 함수
+  const progressSetFunc = (value: string) => {
+    let progressStatus = progresses.indexOf(value).toString();
+    if (progressStatus === "0") {
+      progressStatus = "all";
+    }
+    setFilterRequest({ ...filterRequest, progress: progressStatus });
+  };
+
+  //  location을 all, 강남구, ..., 중랑구로 set하는 함수
+  const locationSetFunc = (value: string) => {
+    if (value === "전체") {
+      setFilterRequest({ ...filterRequest, location: "all" });
+      return;
+    }
+    setFilterRequest({ ...filterRequest, location: value });
+  };
+
+  // FilterButton을 눌렀을 때 동작하는 함수
+  const handleClickFilterButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { name, textContent: value } = e.target as HTMLButtonElement;
+    if (name === "date") {
+      dateSetFunc(value!);
+    } else if (name === "progress") {
+      progressSetFunc(value!);
+    } else if (name === "location") {
+      locationSetFunc(value!);
+    } else {
+      setFilterRequest({ ...filterRequest, [name]: value });
+    }
+    setFilter((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -79,36 +120,34 @@ const Filters = () => {
         <strong className={styles["filter-row__title"]}>날짜</strong>
 
         <div className={styles["filter-contents"]}>
-          {dateFiltersItem.map((item) => (
-            <FilterButton key={item} selected={filterInfo.date === item} onClick={handleClickFilterButton} name={"date"}>
+          {dates.map((item) => (
+            <FilterButton key={item} selected={filter.date === item} onClick={handleClickFilterButton} name={"date"}>
               {item}
             </FilterButton>
           ))}
         </div>
       </div>
 
-      {isDateSelectShow && (
-        <div className={cx("date-select-container", isDateSelectShow && "show")}>
-          <label>
-            <p className="a11y-hidden">시작일</p>
-            <input className={styles["date-input"]} type="date" name="concert-start" value={filterInfo.start_date} onChange={handleChangeDate} />
-          </label>
-          <label>
-            <p className={"a11y-hidden"}>종료일</p>
-            <input className={styles["date-input"]} type="date" name="end_date" value={filterInfo.end_date} onChange={handleChangeDate} />
-          </label>
-        </div>
-      )}
+      <div className={cx("date-select-container", filter.date === "직접선택" && "show")}>
+        <label>
+          <p className="a11y-hidden">시작일</p>
+          <input className={styles["date-input"]} type="date" name="start_date" value={filterRequest.start_date} onChange={handleChangeDate} />
+        </label>
+        <label>
+          <p className={"a11y-hidden"}>종료일</p>
+          <input className={styles["date-input"]} type="date" name="end_date" value={filterRequest.end_date} onChange={handleChangeDate} />
+        </label>
+      </div>
 
       <div className={styles["filter-row"]}>
         <strong className={styles["filter-row__title"]}>지역</strong>
         <div className={styles["location-filter-contents"]}>
-          <div className={cx("arrow", "prev")} onClick={handleClickPrev}></div>
-          <div className={cx("arrow", "next")} onClick={handleClickNext}></div>
-          <ul ref={scrollRef} style={{ transform: `translateX(${scrollValue})` }}>
+          <div className={cx("arrow", "prev")} onClick={handleClickLocationPrev}></div>
+          <div className={cx("arrow", "next")} onClick={handleClickLocationNext}></div>
+          <ul ref={locationScrollRef} style={{ transform: `translateX(${locationScrollValue})` }}>
             {locations.map((item) => (
               <li key={item}>
-                <FilterButton name={"location"} selected={filterInfo.location === item} onClick={handleClickFilterButton}>
+                <FilterButton name={"location"} selected={filter.location === item} onClick={handleClickFilterButton}>
                   {item}
                 </FilterButton>
               </li>
@@ -122,7 +161,7 @@ const Filters = () => {
           <strong className={styles["filter-row__title"]}>카테고리</strong>
           <div className={styles["filter-contents"]}>
             {categories.map((item) => (
-              <FilterButton key={item} selected={filterInfo.category === item} onClick={handleClickFilterButton} name={"category"}>
+              <FilterButton key={item} selected={filter.category === item} onClick={handleClickFilterButton} name={"category"}>
                 {item}
               </FilterButton>
             ))}
@@ -131,7 +170,7 @@ const Filters = () => {
       )}
 
       <div className={styles["filter-row-select"]}>
-        <SelectBox options={selectOptions} name={"progressStatus"} onClick={handleClickFilterButton} selectedValue={filterInfo.progressStatus} />
+        <SelectBox options={progresses} name={"progress"} onClick={handleClickFilterButton} selectedValue={filter.progress} />
       </div>
     </>
   );
