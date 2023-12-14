@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button, Modal } from "@/components/common";
 import { useModalStore } from "@/stores/useModalStore";
 import CommentIcon from "@/assets/comment.svg?react";
