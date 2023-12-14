@@ -46,12 +46,20 @@ const settings = [
   {
     dots: true,
     infinite: true,
-    slidesToShow: 2,
-    swipeToSlide: true,
     autoplay: true,
     autoplaySpeed: 3000,
     appendDots: (dots: never) => renderCustomDots(dots),
     dotsClass: "dots",
+    slidesToShow: 2,
+    swipeToSlide: true,
+    responsive: [
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
     nextArrow: <NextArrows />,
     prevArrow: <PrevArrows />,
   },
