@@ -1,19 +1,26 @@
+import { useState } from "react";
 import { Navigate, useLocation, Outlet } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { verifyToken } from "@/apis/getVerifyToken";
+import useAuth from "@/hooks/useAuth";
+
+interface PropsType {
+  isLogin: boolean;
+  login_id: string;
+  user_name: string;
+  user_role: string;
+}
 
 const PrivateRoute = () => {
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [data, setData] = useState<null | PropsType>(null);
 
-  const { data, status, error } = useQuery({
-    queryKey: ["verifyTokenData"],
-    queryFn: () => verifyToken(),
-  });
+  useAuth(setIsLoading, setData, setIsError);
 
-  if (status === "pending") return <h1>loading...</h1>;
-  if (status === "error") return <h1>{error.message}</h1>;
+  if (isLoading) return <div>로딩중...</div>;
+  if (isError) return <div>error</div>;
 
-  return data ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
+  return data?.isLogin ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 export default PrivateRoute;
