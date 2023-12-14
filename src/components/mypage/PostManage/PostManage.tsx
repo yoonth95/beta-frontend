@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Modal } from "@/components/common";
 import { useModalStore } from "@/stores/useModalStore";
 import CommentIcon from "@/assets/comment.svg?react";
@@ -20,7 +20,6 @@ const PostManage = () => {
 
   return (
     <>
-      <h2 className="a11y-hidden">게시글 리스트</h2>
       <div className={styles["container"]}>
         <div className={cx("list-row", "list-header")}>
           <strong>제목</strong>

@@ -30,23 +30,68 @@ const Mypage: React.FC = () => {
 const MypageItem: React.FC<{ tab: string | null }> = ({ tab }) => {
   switch (tab) {
     case "profile":
-      return <Profile />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>프로필 설정</h2>
+          <Profile />;
+        </>
+      );
     case "like":
-      return <LikeManage />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>좋아요 관리</h2>
+          <LikeManage />
+        </>
+      );
     case "review":
-      return <ReviewManage />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>댓글 관리</h2>
+          <ReviewManage />
+        </>
+      );
     case "story":
-      return <StoryManage />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>스토리 관리</h2>
+          <StoryManage />
+        </>
+      );
     case "reservation":
-      return <Reservation />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>예매 내역</h2>
+          <Reservation />
+        </>
+      );
     case "reservation-manage":
-      return <ReservationManage />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>예매 관리</h2>
+          <ReservationManage />
+        </>
+      );
     case "post":
-      return <PostManage />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>게시글 관리</h2>
+          <PostManage />
+        </>
+      );
     case "post-upload":
-      return <PostUpload />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>게시글 업로드</h2>
+          <PostUpload />
+        </>
+      );
     default:
-      return <Profile />;
+      return (
+        <>
+          <h2 className={styles["title-hidden"]}>프로필 설정</h2>
+          <Profile />
+        </>
+      );
   }
 };
 
