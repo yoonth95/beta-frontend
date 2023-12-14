@@ -4,6 +4,6 @@
 .concert-list {
   padding-top: 10px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(21.25rem, 1fr));
-  gap: 2.5rem 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(18.4375rem, 1fr));
+  gap: 2.5rem;
 }
