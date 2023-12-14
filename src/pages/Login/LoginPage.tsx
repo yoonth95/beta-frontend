@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { SignForm, Button, InputField } from "@/components/common";
+import { patchUserLogin } from "@/apis/patchUserLogin";
 import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState<"User" | "Admin">("User");
+  const [userType, setUserType] = useState<"user" | "admin">("user");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(id, password, userType);
+    const res = await patchUserLogin(id, password, userType);
+
+    // TODO: alert 부분은 toast로 변경
+    if (res.isSuccess) {
+      alert("로그인 성공");
+      window.history.back();
+    } else {
+      alert(res.message);
+    }
   };
 
   return (
