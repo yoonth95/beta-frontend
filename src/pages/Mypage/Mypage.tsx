@@ -33,7 +33,7 @@ const MypageItem: React.FC<{ tab: string | null }> = ({ tab }) => {
       return (
         <>
           <h2 className={styles["title-hidden"]}>프로필 설정</h2>
-          <Profile />;
+          <Profile />
         </>
       );
     case "like":
