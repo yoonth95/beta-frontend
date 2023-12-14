@@ -5,7 +5,7 @@
   border: 1px solid var(--gray300-color);
   background-color: white;
   color: black;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
 }
 
 .button:not(.selected):hover {
