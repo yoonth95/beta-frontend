@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { NavigationBar } from "@/components/mypage";
+import { useLoginStore } from "@/stores/useLoginStore";
+import { patchUserLogout } from "@/apis/patchUserLogout";
 import MenuIcon from "@/assets/menu.svg?react";
 import NavbarCloseIcon from "@/assets/navbar-close.svg?react";
 import classNames from "classnames/bind";
@@ -9,9 +11,10 @@ import styles from "./Header.module.css";
 const cx = classNames.bind(styles);
 
 const Header = () => {
-  const [isLogined, setIsLogined] = useState(true);
+  const { userState, setUserState } = useLoginStore();
   const [isMyPageNavbarShow, setIsMyPageNavbarShow] = useState(false);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const isInMyPage = useMemo(() => location.pathname === "/mypage", [location.pathname]);
 
@@ -29,6 +32,14 @@ const Header = () => {
     setIsMyPageNavbarShow(false);
   };
 
+  const handleLogout = async () => {
+    const res = patchUserLogout();
+    if ((await res).ok) {
+      setUserState({ login_id: "", user_name: "", user_role: "" });
+      navigate("/");
+    }
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles["header-wrapper"]}>
@@ -37,15 +48,13 @@ const Header = () => {
         </h1>
 
         <div className={styles["button-group"]}>
-          {!isLogined && (
+          {userState.login_id === "" ? (
             <Link to="/login" className={styles["button-login"]}>
               로그인
             </Link>
-          )}
-
-          {isLogined && (
+          ) : (
             <>
-              <button type="button" className={cx("button-logout", isInMyPage && "my-page")}>
+              <button type="button" className={cx("button-logout", isInMyPage && "my-page")} onClick={handleLogout}>
                 로그아웃
               </button>
               {!isInMyPage && (
