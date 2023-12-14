@@ -3,12 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 import { Carousel, Modal } from "@/components/common";
 import { StoryCard, StoryUploadModal, StoryViewModal } from "@/components/main";
 import { useModalStore } from "@/stores/useModalStore";
+import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 import { getStories } from "@/apis";
 import styles from "./StorySection.module.css";
 
 const StorySection = () => {
   const { openModal, setOpenModal } = useModalStore();
   const [initialSlide, setInitialSlide] = useState(0);
+  const { isDragging } = useCarouselDragStore();
+
   const { data, status, error } = useQuery({
     queryKey: ["storyData"],
     queryFn: async () => await getStories(),
@@ -24,7 +27,10 @@ const StorySection = () => {
   };
 
   const handleClickStoryCard = (slideNum: number) => (e: React.MouseEvent) => {
-    console.log(e.target);
+    if (isDragging) {
+      e.stopPropagation();
+      return;
+    }
     setInitialSlide(slideNum);
     setOpenModal({ state: true, type: "more" });
   };
