@@ -5,6 +5,7 @@ import CommentIcon from "@/assets/comment.svg?react";
 import DeleteIcon from "@/assets/plus.svg?react";
 import classNames from "classnames/bind";
 import styles from "./PostManage.module.css";
+import LikeIcon from "@/assets/like.svg?react";
 
 const cx = classNames.bind(styles);
 
@@ -21,36 +22,39 @@ const PostManage = () => {
   return (
     <>
       <div className={styles["container"]}>
-        <div className={cx("list-row", "list-header")}>
-          <strong>제목</strong>
-          <strong>좋아요</strong>
-          <strong>후기</strong>
-        </div>
         <ul className={styles["list"]}>
           {Array(5)
             .fill(item)
             .map((item) => (
               <li className={cx("list-row", "list-item")}>
-                <Link to={"/detail/3"}>
+                <Link to={"/detail/3"} className={styles["list-row-left"]}>
                   <h3 className={cx("list-item__title", "ellipsis-multi")}>{item.title}</h3>
                   <p className={styles["list-item__date"]}>{item.date}</p>
                 </Link>
-                <span>{item.likeCount}</span>
-                <Button
-                  reverseColor={true}
-                  onClick={() => {
-                    setOpenModal({ state: true, type: "" });
-                  }}
-                >
-                  <CommentIcon />
-                  <span>{item.reviewCount}</span>
-                </Button>
-                <Button reverseColor={true}>수정/삭제</Button>
+                <div className={styles["list-row-right"]}>
+                  <div className={styles["like-cnt"]}>
+                    <LikeIcon />
+                    <span>{item.likeCount}</span>
+                  </div>
+                  <Button
+                    reverseColor={true}
+                    onClick={() => {
+                      setOpenModal({ state: true, type: "" });
+                    }}
+                    style={{ padding: "0.6rem" }}
+                  >
+                    <CommentIcon className={styles["cmt-icon"]} />
+                    <span>{item.reviewCount}</span>
+                  </Button>
+                  <Button reverseColor={true} style={{ padding: "0.6rem" }}>
+                    수정/삭제
+                  </Button>
+                </div>
               </li>
             ))}
         </ul>
       </div>
-      <Button>게시글 업로드</Button>
+      <Button style={{ fontSize: "0.75rem", width: "fit-content", marginLeft: "auto" }}>게시글 업로드</Button>
 
       {openModal.state && (
         <Modal title="서울대 어쩌고">
