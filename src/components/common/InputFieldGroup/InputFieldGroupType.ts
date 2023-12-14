@@ -24,6 +24,7 @@ interface PhoneInputProps {
   required?: boolean;
   name: "phone";
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
+  readOnly?: boolean;
 }
 
 interface BirthdateGenderInputProps {
@@ -34,6 +35,7 @@ interface BirthdateGenderInputProps {
   required?: boolean;
   name: "gender";
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
+  readOnly?: boolean;
 }
 
 interface EmailInputProps {
@@ -44,6 +46,7 @@ interface EmailInputProps {
   required?: boolean;
   name: "email";
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
+  readOnly?: boolean;
 }
 
 export type SetValuesFunction<T> = React.Dispatch<React.SetStateAction<T>>;
