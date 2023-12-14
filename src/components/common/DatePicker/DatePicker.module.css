@@ -1,0 +1,33 @@
+.calendar-input-wrap {
+  box-sizing: border-box;
+  height: 2.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border: 1px solid var(--gray300-color);
+  border-radius: 5px;
+}
+
+.calendar-input {
+  border: none;
+  padding: 0;
+  font-size: 1rem;
+  padding-left: 0.5rem;
+}
+
+.calendar-input:focus {
+  outline: none;
+}
+
+.calendar-input-wrap svg {
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+
+.wave {
+  display: block;
+  height: 100%;
+  margin: auto 0;
+}

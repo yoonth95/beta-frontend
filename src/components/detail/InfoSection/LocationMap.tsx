@@ -1,4 +1,5 @@
 import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
+import mapPinIcon from "@/assets/icon-map-pin.svg";
 
 const apiKey = import.meta.env.VITE_APP_KAKAOMAP_API_KEY as string;
 
@@ -30,6 +31,19 @@ export default function LocationMap({ lat, lng }: PropsType) {
           // 마커가 표시될 위치입니다
           lat,
           lng,
+        }}
+        image={{
+          src: mapPinIcon, // 마커이미지의 주소입니다
+          size: {
+            width: 29,
+            height: 42,
+          }, // 마커이미지의 크기입니다
+          options: {
+            offset: {
+              x: 14.5,
+              y: 42,
+            }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+          },
         }}
       />
     </Map>

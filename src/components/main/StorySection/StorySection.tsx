@@ -1,19 +1,42 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Carousel, Modal } from "@/components/common";
-import { Story, StoryUploadModal, StoryViewModal } from "@/components/main";
+import { StoryCard, StoryUploadModal, StoryViewModal } from "@/components/main";
 import { useModalStore } from "@/stores/useModalStore";
+import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
+import { getStories } from "@/apis";
 import styles from "./StorySection.module.css";
 
 const StorySection = () => {
-  const items = { imgSrc: "/public/story-img.jpg", title: "#멋지다신은수, #졸업축하해" };
   const { openModal, setOpenModal } = useModalStore();
+  const [initialSlide, setInitialSlide] = useState(0);
+  const { isDragging } = useCarouselDragStore();
+
+  const { data, status, error } = useQuery({
+    queryKey: ["storyData"],
+    queryFn: async () => await getStories(),
+  });
 
   const handleClickUploadBtn = () => {
     setOpenModal({ state: true, type: "upload" });
   };
+
   const handleClickMoreBtn = () => {
+    setInitialSlide(8);
     setOpenModal({ state: true, type: "more" });
   };
+
+  const handleClickStoryCard = (slideNum: number) => (e: React.MouseEvent) => {
+    if (isDragging) {
+      e.stopPropagation();
+      return;
+    }
+    setInitialSlide(slideNum);
+    setOpenModal({ state: true, type: "more" });
+  };
+
+  if (status === "pending") return <>loading...</>;
+  if (status === "error") return <>{error.message}</>;
 
   return (
     <>
@@ -29,11 +52,9 @@ const StorySection = () => {
         </div>
 
         <Carousel index={1}>
-          {Array(5)
-            .fill(items)
-            .map(({ imgSrc, title }) => (
-              <Story key={title} title={title} imgSrc={imgSrc} />
-            ))}
+          {data.map((item, index) => (
+            <StoryCard key={item.id} item={item} onClick={handleClickStoryCard(index)} />
+          ))}
         </Carousel>
         {openModal.state && (
           <>
@@ -43,7 +64,7 @@ const StorySection = () => {
               </Modal>
             ) : (
               <Modal title={"스토리"} titleHidden={true}>
-                <StoryViewModal />
+                <StoryViewModal initialSlide={initialSlide} />
               </Modal>
             )}
           </>
