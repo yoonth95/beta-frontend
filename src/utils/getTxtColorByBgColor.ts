@@ -1,5 +1,5 @@
 const getTxtColorByBgColor = (hexColor: string | undefined) => {
-  if (!hexColor) return "white";
+  if (!hexColor) return "black";
 
   const c = hexColor.substring(1);
   const rgb = parseInt(c, 16);
