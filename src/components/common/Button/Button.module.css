@@ -8,11 +8,11 @@
   color: #fff;
   background-color: var(--main-color);
   transition: background-color 0.3s;
+  box-sizing: border-box;
 }
 
 .button:not(.white):hover {
   background-color: var(--sub2-color);
-  box-sizing: border-box;
 }
 
 .button.white {
@@ -28,7 +28,9 @@
   color: white;
 }
 
-.button:disabled {
-  cursor: none;
+.button:disabled,
+.button:disabled:hover {
+  cursor: inherit;
   background-color: var(--gray200-color);
+  border: none;
 }

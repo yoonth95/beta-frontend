@@ -16,7 +16,7 @@ import styles from "./InputFieldGroup.module.css";
  *
  */
 
-const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userType, required, name, onChange: handleChange }) => {
+const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userType, required, name, onChange: handleChange, readOnly = false }) => {
   const handleSelectChange = (field: keyof BirthdateGenderValues, value: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setValues!((prev: any) => ({ ...prev, [field]: value }));
@@ -40,9 +40,30 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
         <fieldset className={styles["fieldset-box"]} name={name}>
           <label>핸드폰번호</label>
           <div className={styles["fieldset-box__list"]}>
-            <input required={required} type="text" name="phone1" value={values.phone1} onChange={handleChange || handleInputChange} />
-            <input required={required} type="text" name="phone2" value={values.phone2} onChange={handleChange || handleInputChange} />
-            <input required={required} type="text" name="phone3" value={values.phone3} onChange={handleChange || handleInputChange} />
+            <input
+              required={required}
+              type="text"
+              name="phone1"
+              value={values.phone1}
+              onChange={handleChange || handleInputChange}
+              readOnly={readOnly}
+            />
+            <input
+              required={required}
+              type="text"
+              name="phone2"
+              value={values.phone2}
+              onChange={handleChange || handleInputChange}
+              readOnly={readOnly}
+            />
+            <input
+              required={required}
+              type="text"
+              name="phone3"
+              value={values.phone3}
+              onChange={handleChange || handleInputChange}
+              readOnly={readOnly}
+            />
           </div>
         </fieldset>
       );
@@ -110,7 +131,14 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
         <fieldset className={styles["fieldset-box"]} name={name}>
           <label>{userType === "User" ? "이메일" : "학교 이메일"}</label>
           <div className={styles["fieldset-box__list"]}>
-            <input required={required} type="text" name="email1" value={values.email1} onChange={handleChange || handleInputChange} />
+            <input
+              required={required}
+              type="text"
+              name="email1"
+              value={values.email1}
+              onChange={handleChange || handleInputChange}
+              readOnly={readOnly}
+            />
             <span>@</span>
             <input
               required={required}
@@ -120,13 +148,15 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
               onChange={handleChange || handleInputChange}
               readOnly={isReadOnly}
             />
-            <select value={selectedDomain} name="email2" onChange={handleEmailDomainChange}>
-              {emailOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            {!readOnly && (
+              <select value={selectedDomain} name="email2" onChange={handleEmailDomainChange}>
+                {emailOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
         </fieldset>
       );
