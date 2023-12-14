@@ -15,7 +15,7 @@ const TicketCard: React.FC<PropsType> = ({ item }) => {
 
   return (
     <article className={styles.card} style={{ backgroundColor }}>
-      <Link to={`detail/${item.id}`}>
+      <Link to={`/detail/${item.id}`}>
         <div className={styles["card__img-wrapper"]}>
           <img src={`${import.meta.env.VITE_APP_IMAGE_DOMAIN}${item.main_image_url}`} alt="" />
         </div>
