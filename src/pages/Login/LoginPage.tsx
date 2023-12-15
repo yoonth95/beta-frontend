@@ -1,16 +1,35 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SignForm, Button, InputField } from "@/components/common";
+import { patchUserLogin } from "@/apis/patchUserLogin";
+import { useLoginStore } from "@/stores/useLoginStore";
 import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState<"User" | "Admin">("User");
+  const [userType, setUserType] = useState<"user" | "admin">("user");
+  const { setUserState } = useLoginStore();
+  const navigate = useNavigate();
+  const { state } = useLocation();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(id, password, userType);
+    const res = await patchUserLogin(id, password, userType);
+
+    // TODO: alert 부분은 toast로 변경
+    if (res.isSuccess) {
+      // alert("로그인 성공");
+      setUserState(res.userLoginInfo);
+      if (state?.from) {
+        navigate(`${state.from.pathname}`, { replace: true });
+      } else {
+        // TODO: 로그인 버튼을 눌렀을 때, 로그인 이전 페이지로 이동하게 해야 함
+        navigate("/", { replace: true });
+      }
+    } else {
+      alert(res.message);
+    }
   };
 
   return (
