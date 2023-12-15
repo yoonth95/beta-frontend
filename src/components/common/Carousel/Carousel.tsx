@@ -1,11 +1,11 @@
 import React from "react";
 import Slider from "react-slick";
+import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 import nextArrow from "@/assets/next-arrow.png";
 import prevArrow from "@/assets/prev-arrow.png";
 import "./slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styles from "./Carousel.module.css";
-import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 
 interface PropsType {
   index: number;
@@ -86,21 +86,30 @@ const settings = [
     className: "center",
     centerMode: true,
     infinite: true,
-    centerPadding: "20%",
     slidesToShow: 1,
     speed: 500,
+    centerPadding: "10%",
+
     nextArrow: <NextArrows />,
     prevArrow: <PrevArrows />,
+    responsive: [
+      {
+        breakpoint: 500,
+        settings: {
+          centerPadding: "0",
+        },
+      },
+    ],
   },
 ];
 
 const Carousel: React.FC<PropsType> = ({ index, initialSlide = 0, children }) => {
   const { setIsDragging } = useCarouselDragStore();
-  const updatedSettings = { ...settings[index], initialSlide };
 
   return (
     <Slider
-      {...updatedSettings}
+      {...settings[index]}
+      initialSlide={initialSlide}
       beforeChange={() => {
         setIsDragging(true);
       }}
