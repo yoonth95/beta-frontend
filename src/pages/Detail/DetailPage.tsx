@@ -6,9 +6,8 @@ import { NavBar } from "@/components/layouts";
 import { useShowInfoStore } from "@/stores/useShowInfoStore";
 import { useModalStore } from "@/stores/useModalStore";
 import { useQuery } from "@tanstack/react-query";
-import { getShowInfo } from "@/apis/getShowInfo";
+import { getShowInfo, getShowReservationInfo } from "@/apis";
 import { useParams } from "react-router-dom";
-import { getShowReservationInfo } from "@/apis/getShowReservationInfo";
 import { ShowReservationInfoType } from "@/types";
 
 const submenuList = [
@@ -38,7 +37,7 @@ const DetailPage = () => {
   if (status === "pending") return <h1>loading...</h1>;
   if (status === "error") return <h1>{error.message}</h1>;
 
-  const imgs = Object.values(JSON.parse(infoData.sub_images_url));
+  const subImgs = (infoData.sub_images_url && Object.values(JSON.parse(infoData.sub_images_url))) || [];
 
   const handleReservationButton = async () => {
     const data = await getShowReservationInfo(showId!);
@@ -56,7 +55,7 @@ const DetailPage = () => {
       <NavBar />
       <main>
         <Carousel index={0}>
-          {imgs.map((img, index) => (
+          {[infoData.main_image_url, ...subImgs].map((img, index) => (
             <div key={index}>
               <img src={import.meta.env.VITE_APP_IMAGE_DOMAIN + img} className={styles["slider__img"]} />
             </div>
