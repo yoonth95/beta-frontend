@@ -4,6 +4,7 @@ import { ShowReservationInfoType, ShowReservationInfoResponseType } from "./show
 import { UserReservationFormType, UserReservationInputsType } from "./userReservationFormType";
 import { MemberResponseType, MemberType } from "./memberType";
 import { DateInputType } from "./datePickerInputType";
+import { FormInputs } from "./formInputsType";
 
 export {
   type ShowResponseType,
@@ -18,4 +19,5 @@ export {
   type MemberType,
   type MemberResponseType,
   type DateInputType,
+  type FormInputs,
 };
