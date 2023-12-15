@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { DatePicker, Editor, InputField } from "@/components/common";
 import styles from "./ReservationForm.module.css";
+import { DateInputType } from "@/types";
 
 const ReservationForm = () => {
   const onChange = () => {
-    //
+    // 임시 함수 (useInputs 훅으로 변경 예정)
   };
   const [roundList, setRoundList] = useState([
     { date: "2023-12-08", time: "오후 1시" },
@@ -17,9 +18,11 @@ const ReservationForm = () => {
     time: "",
   });
 
-  const handleDateTimeInput = (event) => {
-    const { date, time } = event.target.value;
-    setDateTime({ ...dateTime, date, time });
+  const handleDateTimeInput = (event: DateInputType) => {
+    if (typeof event.target.value === "object") {
+      const { date, time } = event.target.value;
+      setDateTime({ ...dateTime, date, time });
+    }
   };
 
   const handleRoundAdd = () => {

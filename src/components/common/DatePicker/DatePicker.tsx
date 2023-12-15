@@ -5,23 +5,17 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./DatePicker.css";
 import styles from "./DatePicker.module.css";
 import CalendarIcon from "@/assets/icon-calendar.svg?react";
+import { DateInputType } from "@/types";
 
 interface PropsType {
   startDate?: string;
   endDate?: string;
-  onChange: React.Dispatch<React.SetStateAction<DateInputType | null>>;
+  onChange: (event: DateInputType) => void;
   type: "period" | "dateWithTime";
 }
 
-interface DateInputType {
-  target: {
-    name: string;
-    value: string | { date: string; time: string };
-  };
-}
-
 // Fri Dec 15 2023 00:00:00 GMT+0900 (한국 표준시) -> 2023/12/15
-const formattingDate = (dateObject) => {
+const formattingDate = (dateObject: Date) => {
   const year = dateObject.getFullYear();
   const month = (dateObject.getMonth() + 1).toString().padStart(2, "0");
   const day = dateObject.getDate().toString().padStart(2, "0");
@@ -31,7 +25,7 @@ const formattingDate = (dateObject) => {
 };
 
 // Fri Dec 15 2023 00:00:00 GMT+0900 (한국 표준시) -> 오전 0:00
-const formattingTime = (dateObject) => {
+const formattingTime = (dateObject: Date) => {
   const hours = dateObject.getHours();
   const minutes = dateObject.getMinutes().toString().padStart(2, "0");
   const period = hours >= 12 ? "오후" : "오전";
@@ -49,18 +43,18 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
     console.log(dateObject);
     const date = formattingDate(dateObject);
     const time = formattingTime(dateObject);
-    const event = { target: { name, value: { date, time } } };
+    const event: DateInputType = { target: { name, value: { date, time } } };
     onChange(event);
   };
 
   const handleChangePeriodInput = (name: string, value: Date) => {
     const dateObject = new Date(value);
     const date = formattingDate(dateObject);
-    const event = { target: { name, value: date } };
+    const event: DateInputType = { target: { name, value: date } };
     onChange(event);
   };
 
-  const CustomInput = forwardRef((props: any, ref) => {
+  const CustomInput = forwardRef((props, ref: React.ForwardedRef<HTMLInputElement>) => {
     return (
       <div className={styles["calendar-input-wrap"]}>
         <input {...props} ref={ref} type="text" className={styles["calendar-input"]} />
@@ -77,7 +71,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
           customInput={<CustomInput />}
           name="start_date_time"
           selected={startDate}
-          onChange={(date) => {
+          onChange={(date: Date) => {
             setStartDate(date);
             handleChangeDateWithTimeInput("start_date_time", date);
           }}
@@ -98,7 +92,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               customInput={<CustomInput />}
               name="start_date"
               selected={startDate}
-              onChange={(date) => {
+              onChange={(date: Date) => {
                 setStartDate(date);
                 handleChangePeriodInput("start_date", date);
               }}
@@ -117,7 +111,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               customInput={<CustomInput />}
               name="end_date"
               selected={endDate}
-              onChange={(date) => {
+              onChange={(date: Date) => {
                 setEndDate(date);
                 handleChangePeriodInput("end_date", date);
               }}
