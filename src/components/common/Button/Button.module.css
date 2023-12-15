@@ -16,7 +16,7 @@
 }
 
 .button.white {
-  border: 2px solid var(--gray200-color);
+  border: 1px solid var(--gray200-color);
   background: white;
   color: black;
 }

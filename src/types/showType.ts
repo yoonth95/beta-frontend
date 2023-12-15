@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ShowResponseType {
   ok: boolean;
   data: ShowType[];
@@ -12,12 +11,12 @@ export interface ShowType {
   start_date: string;
   end_date: string;
   location: string;
-  position: any;
+  position: string | null;
   main_image_url: string;
-  sub_images_url: any;
+  sub_images_url: string | null;
   univ: string;
   department: string;
-  tags: any;
+  tags: string | null;
   content: Content;
   is_reservation: number;
   created_at: string;
