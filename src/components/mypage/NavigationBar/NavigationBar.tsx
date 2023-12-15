@@ -37,7 +37,7 @@ const Navigation = () => {
         {navList
           .filter((item) => item.type === "info")
           .map((item) => (
-            <NavLink key={item.pathname} to={`?tab=${item.pathname}`} className={cx(checkUrl(urlPathname, item.pathname) && "active")}>
+            <NavLink key={item.pathname} to={item.pathname} className={cx(checkUrl(urlPathname, item.pathname) && "active")}>
               {item.text}
             </NavLink>
           ))}
@@ -45,7 +45,7 @@ const Navigation = () => {
         {navList
           .filter((item) => item.type === "manage")
           .map((item) => (
-            <NavLink key={item.pathname} to={`?tab=${item.pathname}`} className={cx(checkUrl(urlPathname, item.pathname) && "active")}>
+            <NavLink key={item.pathname} to={item.pathname} className={cx(checkUrl(urlPathname, item.pathname) && "active")}>
               {item.text}
             </NavLink>
           ))}

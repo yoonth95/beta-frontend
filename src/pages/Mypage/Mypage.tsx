@@ -1,97 +1,40 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
-import {
-  NavigationBar,
-  Profile,
-  LikeManage,
-  ReviewManage,
-  StoryManage,
-  Reservation,
-  ReservationManage,
-  PostManage,
-  PostUpload,
-} from "@/components/mypage";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import { NavigationBar } from "@/components/mypage";
 import styles from "./Mypage.module.css";
 
 const Mypage: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const tab = searchParams.get("tab");
+  const { pathname } = useLocation();
 
   return (
     <main className={styles["mypage-main"]}>
       <NavigationBar />
       <section>
-        <MypageItem tab={tab} />
+        <h2 className={styles["title-hidden"]}>{getMypageTitle(pathname)}</h2>
+        <Outlet />
       </section>
     </main>
   );
 };
 
-const MypageItem: React.FC<{ tab: string | null }> = ({ tab }) => {
+const getMypageTitle = (pathname) => {
+  const sequences = pathname.split("/");
+  const tab = sequences[sequences.length - 1];
   switch (tab) {
     case "profile":
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>프로필 설정</h2>
-          <Profile />
-        </>
-      );
+      return "프로필 설정";
     case "like":
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>좋아요 관리</h2>
-          <LikeManage />
-        </>
-      );
+      return "좋아요 관리";
     case "review":
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>댓글 관리</h2>
-          <ReviewManage />
-        </>
-      );
+      return "댓글 관리";
     case "story":
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>스토리 관리</h2>
-          <StoryManage />
-        </>
-      );
+      return "스토리 관리";
     case "reservation":
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>예매 내역</h2>
-          <Reservation />
-        </>
-      );
+      return "예매 내역";
     case "reservation-manage":
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>예매 관리</h2>
-          <ReservationManage />
-        </>
-      );
+      return "예매 관리";
     case "post":
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>게시글 관리</h2>
-          <PostManage />
-        </>
-      );
-    case "post-upload":
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>게시글 업로드</h2>
-          <PostUpload />
-        </>
-      );
-    default:
-      return (
-        <>
-          <h2 className={styles["title-hidden"]}>프로필 설정</h2>
-          <Profile />
-        </>
-      );
+      return "게시글 관리";
   }
 };
 
