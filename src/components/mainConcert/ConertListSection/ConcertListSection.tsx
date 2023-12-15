@@ -12,7 +12,7 @@ const ConcertListSection: React.FC<PropsType> = ({ filterRequest }) => {
   const { start_date, end_date, location, category, progress } = filterRequest;
   const { data, status, error } = useQuery({
     queryKey: ["concertData", filterRequest],
-    queryFn: async () => await getShows("concert", start_date, end_date, location, category, progress),
+    queryFn: async () => await getShows("concert", start_date, end_date, location, progress, category),
   });
 
   if (status === "pending") return <>loading...</>;

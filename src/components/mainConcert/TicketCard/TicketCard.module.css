@@ -70,7 +70,7 @@
   margin: 0;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 689.5px) {
   .card__info h3 {
     font-size: 3vw;
   }
