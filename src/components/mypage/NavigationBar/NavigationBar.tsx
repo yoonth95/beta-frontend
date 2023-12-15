@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useSearchParams } from "react-router-dom";
+import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import classNames from "classnames/bind";
 import styles from "./NavigationBar.module.css";
 
@@ -21,14 +21,8 @@ const adminNavList = [
 
 const Navigation = () => {
   const [isAdmin, setIsAdmin] = useState(true); // 전역 상태로 관리할 예정
-  const [searchParams] = useSearchParams();
-  const urlPathname = searchParams.get("tab");
-
-  const checkUrl = (urlPathname: string | null, pathname: string) => {
-    return urlPathname ? pathname === urlPathname : pathname === "profile";
-  };
-
   const navList = isAdmin ? adminNavList : userNavList;
+  const location = useLocation();
 
   return (
     <nav className={styles["nav-container"]}>
@@ -37,7 +31,7 @@ const Navigation = () => {
         {navList
           .filter((item) => item.type === "info")
           .map((item) => (
-            <NavLink key={item.pathname} to={item.pathname} className={cx(checkUrl(urlPathname, item.pathname) && "active")}>
+            <NavLink key={item.pathname} to={item.pathname} className={cx(location.pathname.includes(item.pathname) && "active")}>
               {item.text}
             </NavLink>
           ))}
@@ -45,7 +39,7 @@ const Navigation = () => {
         {navList
           .filter((item) => item.type === "manage")
           .map((item) => (
-            <NavLink key={item.pathname} to={item.pathname} className={cx(checkUrl(urlPathname, item.pathname) && "active")}>
+            <NavLink key={item.pathname} to={item.pathname} className={cx(location.pathname.includes(item.pathname) && "active")}>
               {item.text}
             </NavLink>
           ))}
