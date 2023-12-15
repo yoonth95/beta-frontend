@@ -81,7 +81,14 @@ const Header = () => {
               <NavbarCloseIcon />
             </button>
             <NavigationBar />
-            <button type="button" className={styles["button-logout"]}>
+            <button
+              type="button"
+              className={styles["button-logout"]}
+              onClick={() => {
+                handleLogout();
+                handleClose();
+              }}
+            >
               로그아웃
             </button>
           </div>
