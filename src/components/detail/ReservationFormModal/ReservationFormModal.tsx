@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, CheckBox, InputField, InputFieldGroup, RadioButtonGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
-import { getUserInfo } from "@/apis/getUserInfo";
-import styles from "./ReservationFormModal.module.css";
+import { getUserInfo } from "@/apis";
 import { UserReservationFormType, ShowReservationInfoType, UserReservationInputsType } from "@/types";
+import styles from "./ReservationFormModal.module.css";
 
 // TODO: show_times API 연결
 const show_times_data = ["2023/12/08 - 오후 1시", "2023/12/08 - 오후 7시", "2023/12/10 - 오후 1시", "2023/12/10 - 오후 7시"];
