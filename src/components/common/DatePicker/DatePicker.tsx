@@ -6,6 +6,8 @@ import "./DatePicker.css";
 import styles from "./DatePicker.module.css";
 import CalendarIcon from "@/assets/icon-calendar.svg?react";
 import { DateInputType } from "@/types";
+import formattingDate from "@/utils/formattingDate";
+import formattingTime from "@/utils/formattingTime";
 
 interface PropsType {
   startDate?: string;
@@ -14,39 +16,20 @@ interface PropsType {
   type: "period" | "dateWithTime";
 }
 
-// Fri Dec 15 2023 00:00:00 GMT+0900 (한국 표준시) -> 2023/12/15
-const formattingDate = (dateObject: Date) => {
-  const year = dateObject.getFullYear();
-  const month = (dateObject.getMonth() + 1).toString().padStart(2, "0");
-  const day = dateObject.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}/${month}/${day}`;
-  console.log(formattedDate);
-  return formattedDate;
-};
-
-// Fri Dec 15 2023 00:00:00 GMT+0900 (한국 표준시) -> 오전 0:00
-const formattingTime = (dateObject: Date) => {
-  const hours = dateObject.getHours();
-  const minutes = dateObject.getMinutes().toString().padStart(2, "0");
-  const period = hours >= 12 ? "오후" : "오전";
-  const formattedTime = `${period} ${hours % 12}:${minutes}`;
-  console.log(formattedTime);
-  return formattedTime;
-};
-
 const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate: defaultEndDate, onChange, type }) => {
   const [startDate, setStartDate] = useState<Date | null>((defaultStartDate && new Date(defaultStartDate)) || null);
   const [endDate, setEndDate] = useState<Date | null>((defaultEndDate && new Date(defaultEndDate)) || null);
 
+  // 날짜와 시간을 고르는 input
   const handleChangeDateWithTimeInput = (name: string, value: Date) => {
     const dateObject = new Date(value);
-    console.log(dateObject);
     const date = formattingDate(dateObject);
     const time = formattingTime(dateObject);
     const event: DateInputType = { target: { name, value: { date, time } } };
     onChange(event);
   };
 
+  // 날짜만 고르는 input
   const handleChangePeriodInput = (name: string, value: Date) => {
     const dateObject = new Date(value);
     const date = formattingDate(dateObject);
