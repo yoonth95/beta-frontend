@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, CheckBox, InputField, InputFieldGroup, RadioButtonGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
-import { getUserInfo } from "@/apis/getUserInfo";
+import { getUserInfo } from "@/apis";
 import styles from "./ReservationFormModal.module.css";
 
 // TODO: show_times API 연결
