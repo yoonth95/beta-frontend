@@ -22,7 +22,7 @@
   position: relative;
 }
 .sign-section-form-group fieldset {
-  flex: 4;
+  flex: 6;
 }
 .sign-section-form-group button {
   height: 54px;
