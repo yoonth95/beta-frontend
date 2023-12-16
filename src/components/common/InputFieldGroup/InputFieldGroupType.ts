@@ -20,7 +20,7 @@ interface PhoneInputProps {
   type: "phone";
   values: PhoneValues;
   setValues?: SetValuesFunction<PhoneValues>;
-  userType?: "User" | "Admin";
+  userType?: "user" | "admin";
   required?: boolean;
   name: "phone";
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
@@ -31,7 +31,7 @@ interface BirthdateGenderInputProps {
   type: "birthdate-gender";
   values: BirthdateGenderValues;
   setValues?: SetValuesFunction<BirthdateGenderValues>;
-  userType?: "User" | "Admin";
+  userType?: "user" | "admin";
   required?: boolean;
   name: "gender";
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
@@ -42,7 +42,7 @@ interface EmailInputProps {
   type: "email";
   values: EmailValues;
   setValues?: SetValuesFunction<EmailValues>;
-  userType?: "User" | "Admin";
+  userType?: "user" | "admin";
   required?: boolean;
   name: "email";
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
