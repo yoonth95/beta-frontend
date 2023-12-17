@@ -15,6 +15,7 @@ const StorySection = () => {
   const { data, status, error } = useQuery({
     queryKey: ["storyData"],
     queryFn: async () => await getStories(),
+    select: (item) => item.slice(0, 7),
   });
 
   const handleClickUploadBtn = () => {
