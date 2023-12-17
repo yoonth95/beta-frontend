@@ -11,9 +11,11 @@ export interface ShowType {
   start_date: string;
   end_date: string;
   location: string;
+  location_detail: string;
   position: string | null;
   main_image_url: string;
   sub_images_url: string | null;
+  main_image_color: string;
   univ: string;
   department: string;
   tags: string | null;
