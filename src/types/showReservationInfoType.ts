@@ -6,13 +6,14 @@ export interface ShowReservationInfoResponseType {
 export interface ShowReservationInfoType {
   id: number;
   show_id: number;
-  method: string;
-  google_form_url: string;
+  method: string | null;
+  google_form_url: string | null;
   location: string;
+  location_detail: string | null;
   position: string;
-  price: number;
-  head_count: number;
-  notice: Notice;
+  price: number | null;
+  head_count: number | null;
+  notice: Notice | null;
 }
 
 export interface Notice {
