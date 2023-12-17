@@ -51,7 +51,7 @@ const ReservationForm = ({ form, onChange, roundList, setRoundList, editorNotice
             <span className={styles["round-item__title"]}>날짜 및 시간</span>
             <DatePicker type="dateWithTime" onChange={handleDateTimeInput} />
           </div>
-          <button className={styles["round-item-add__btn"]} onClick={handleRoundAdd}>
+          <button type="button" className={styles["round-item-add__btn"]} onClick={handleRoundAdd}>
             회차 추가
           </button>
         </article>
