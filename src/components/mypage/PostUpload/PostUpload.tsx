@@ -6,7 +6,7 @@ import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
 import reduceImageSize from "@/utils/reduceImageSize";
 import converArrayToObject from "@/utils/convertArrayToObject";
 import { useColor } from "color-thief-react";
-import { DateInputType } from "@/types";
+import { DateInputType, ShowReservationInfoType, ShowType } from "@/types";
 import styles from "./PostUpload.module.css";
 import classNames from "classnames/bind";
 
@@ -18,31 +18,51 @@ const sportsCategoryList = ["야구", "축구", "농구"];
 const isReservationList = ["예", "아니오"];
 const methodList = ["구글폼", "예매 대행"];
 
-const dummyItem = {
-  main_image_url: "",
-  sub_images_url: [],
+const dummyItem: ShowType = {
+  id: 1,
+  main_image_url: "/show/aaadb1cf-d39e-4e80-a0f3-32d01361ad05.jpg",
+  sub_images_url:
+    '{"1": "/show/f48b59ae-f78a-4d89-8dd4-a2c0f2ff7c30.jpg", "2": "/show/3549261d-30db-4dba-af06-9448557adce5.jpg", "3": "/show/0ff57092-4957-4c5c-9d45-35b34d6b02ab.png", "4": "/show/404670852_18168423643293747_605813767255233837_n.jpg"}',
+  main_image_color: null,
   show_type: "",
   show_sub_type: "",
-  title: "서울대학교 산업디자인학과 23년 졸전으로 오세영~",
+  title: "사랑의 묘약",
   univ: "서울대학교",
   department: "산업디자인학과",
-  start_date: "",
-  end_date: "",
-  location: "서울특별시 강남구 서울특별시 강남구 테헤란로 443 애플트리타워",
-  location_detail: "2충",
-  position: { lat: 37.5069494959122, lng: 127.055596615858 },
-  tags: ["css", "html", "javascript"],
-  content: "<h1>많은 관심 부탁드립니다</h1>",
-  is_reservation: "1",
+  start_date: "2023-12-01",
+  end_date: "2023-12-07",
+  location: "서울시 강남구 대학로 예술극장",
+  location_detail: null,
+  position: '{"lat": 37.5069494959122, "lng": 127.055596615858}',
+  tags: '{"1": "abc", "2": "def", "3": "ghi"}',
+  content: {
+    type: "Buffer",
+    data: [
+      236, 130, 172, 235, 158, 145, 236, 157, 152, 32, 235, 172, 152, 236, 149, 189, 32, 236, 151, 176, 234, 183, 185, 32, 235, 130, 180, 236, 154,
+      169, 46, 46, 46,
+    ],
+  },
+  is_reservation: 1,
+  created_at: "2023-12-07T23:28:49.000Z",
 };
 
-const reservationDummyItem = {
+const reservationDummyItem: ShowReservationInfoType = {
+  id: 1,
+  show_id: 1,
   method: "agency",
-  google_form_url: "",
+  google_form_url: null,
   price: 1000,
+  location: "서울시 강남구 대학로 예술극장",
+  location_detail: null,
+  position: '{"lat": 37.5069494959122, "lng": 127.055596615858}',
   head_count: 20,
-  notice:
-    "<p>본 예매는 1인 1예매로 진행됩니다.</p><p>본 공연은 좌석 지정이 불가합니다.</p><p>예매는 해당 회차의 공연 전 날 정오에 마감됩니다.</p><p>예매 확정 문자는 전송되지 않습니다.</p><p>별도의 연락이 없는 경우 예매 확정입니다.</p><p> 예매 후 공연 관람이 불가한 경우, 카카오톡 채널로 연락주시기 바랍니다.</p><p>개인 연락처를 통한 문의는 회신하지 않습니다.</p><p> 예매 취소 및 관련 문의: 카카오톡 채널 동국대학교 ALL SHOOK UP</p>",
+  notice: {
+    type: "Buffer",
+    data: [
+      236, 130, 172, 235, 158, 145, 236, 157, 152, 32, 235, 172, 152, 236, 149, 189, 32, 236, 151, 176, 234, 183, 185, 32, 235, 130, 180, 236, 154,
+      169, 46, 46, 46,
+    ],
+  },
 };
 
 // TODO: 수정 페이지 고려
@@ -62,7 +82,7 @@ const PostUpload = () => {
     position: {},
     tags: [],
     content: "",
-    is_reservation: dummyItem.is_reservation === "1" ? "예" : "아니오",
+    is_reservation: dummyItem.is_reservation ? "예" : "아니오",
     method: reservationDummyItem.method === "google" ? "구글폼" : "예매 대행",
     google_form_url: reservationDummyItem.google_form_url || "",
     price: reservationDummyItem.price || 0,
