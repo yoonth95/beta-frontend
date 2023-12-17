@@ -97,6 +97,7 @@ const PostUpload = () => {
     start_date: dummyItem.start_date || "",
     end_date: dummyItem.end_date || "",
   });
+  const [editorData, setEditorData] = useState<string>("");
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -135,6 +136,8 @@ const PostUpload = () => {
     // if (!tagsInput) return;
     const tags = JSON.stringify(converArrayToObject(tagsInput));
 
+    const base64EncodedContents = btoa(encodeURIComponent(editorData));
+
     const result = {
       ...form,
       main_image_url: imgFiles[0],
@@ -145,6 +148,7 @@ const PostUpload = () => {
       end_date: date.end_date,
       tags,
       method: form.method === "구글폼" ? "google" : "agency",
+      contents: base64EncodedContents,
     };
     console.log(result);
 
@@ -255,7 +259,7 @@ const PostUpload = () => {
 
       <section>
         <h2 className={styles["title"]}>소개</h2>
-        <Editor />
+        <Editor editorData={editorData} setEditorData={setEditorData} />
       </section>
 
       <section>
