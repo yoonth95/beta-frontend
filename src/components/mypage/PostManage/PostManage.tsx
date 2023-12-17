@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Modal } from "@/components/common";
 import { useModalStore } from "@/stores/useModalStore";
 import CommentIcon from "@/assets/comment.svg?react";
@@ -17,6 +17,7 @@ const item = {
   id: 4,
 };
 const PostManage = () => {
+  const navigate = useNavigate();
   const { openModal, setOpenModal } = useModalStore();
 
   return (
@@ -54,7 +55,9 @@ const PostManage = () => {
             ))}
         </ul>
       </div>
-      <Button style={{ fontSize: "0.75rem", width: "fit-content", marginLeft: "auto" }}>게시글 업로드</Button>
+      <Button style={{ fontSize: "0.75rem", width: "fit-content", marginLeft: "auto" }} onClick={() => navigate("./upload")}>
+        게시글 업로드
+      </Button>
 
       {openModal.state && (
         <Modal title="서울대 어쩌고">
