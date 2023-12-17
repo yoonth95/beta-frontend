@@ -26,7 +26,7 @@ import classNames from "classnames/bind";
 
 interface PropsType {
   children?: React.ReactNode;
-  type: "text" | "password";
+  type: "text" | "password" | "url";
   name?: string;
   placeholder?: string;
   value?: string;
@@ -39,7 +39,18 @@ interface PropsType {
 
 const cx = classNames.bind(styles);
 
-const InputField: React.FC<PropsType> = ({ children, type, name, placeholder, value, onChange, labelHidden, isConfirm, required, readOnly }) => {
+const InputField: React.FC<PropsType> = ({
+  children,
+  type,
+  name,
+  placeholder,
+  value,
+  onChange,
+  labelHidden,
+  isConfirm,
+  required,
+  readOnly = false,
+}) => {
   const isSignupPassword = name === "password" || name === "id";
 
   return (
