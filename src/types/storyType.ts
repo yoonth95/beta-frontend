@@ -5,7 +5,7 @@ export interface StoryResponseType {
 
 export interface StoryType {
   id: number;
-  user_id: number;
+  login_id: number;
   story_image_url: string;
   story_color: string | null;
   tags: string;

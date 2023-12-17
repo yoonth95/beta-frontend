@@ -13,7 +13,7 @@ const StoryViewModalCard: React.FC<PropsType> = ({ item }) => {
   return (
     <article className={styles.card} style={{ backgroundColor: item.story_color || "" }}>
       <>
-        <strong className={styles["card__nickname"]}>@{item.user_id}</strong>
+        <strong className={styles["card__nickname"]}>@{item.login_id}</strong>
         <div className={styles["card__img-wrapper"]}>
           <img className={styles["card__img"]} src={imgSrc} />
         </div>
