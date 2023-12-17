@@ -18,7 +18,7 @@ const sportsCategoryList = ["야구", "축구", "농구"];
 const isReservationList = ["예", "아니오"];
 const methodList = ["구글폼", "예매 대행"];
 
-const dummyItem: ShowType = {
+const showingDummy: ShowType = {
   id: 1,
   main_image_url: "/show/aaadb1cf-d39e-4e80-a0f3-32d01361ad05.jpg",
   sub_images_url:
@@ -46,7 +46,7 @@ const dummyItem: ShowType = {
   created_at: "2023-12-07T23:28:49.000Z",
 };
 
-const reservationDummyItem: ShowReservationInfoType = {
+const showReservationInfoDummy: ShowReservationInfoType = {
   id: 1,
   show_id: 1,
   method: "agency",
@@ -54,6 +54,7 @@ const reservationDummyItem: ShowReservationInfoType = {
   price: 1000,
   location: "서울시 강남구 대학로 예술극장",
   location_detail: null,
+  // TODO: 좌표구하기
   position: '{"lat": 37.5069494959122, "lng": 127.055596615858}',
   head_count: 20,
   notice: {
@@ -63,6 +64,12 @@ const reservationDummyItem: ShowReservationInfoType = {
       169, 46, 46, 46,
     ],
   },
+};
+
+const showTimesDummy = {
+  show_id: 1,
+  date_time: '{"1": "2023/12/08 - 오후 1시", "2": "2023/12/08 - 오후 5시", "3": "2023/12/10 - 오후 1시", "4": "2023/12/10 - 오후 5시"}',
+  head_count: 20,
 };
 
 // TODO: 수정 페이지 고려
@@ -82,22 +89,29 @@ const PostUpload = () => {
     position: {},
     tags: [],
     content: "",
-    is_reservation: dummyItem.is_reservation ? "예" : "아니오",
-    method: reservationDummyItem.method === "google" ? "구글폼" : "예매 대행",
-    google_form_url: reservationDummyItem.google_form_url || "",
-    price: reservationDummyItem.price || 0,
-    head_count: reservationDummyItem.head_count || 0,
-    notice: reservationDummyItem.notice || "",
+    is_reservation: showingDummy.is_reservation ? "예" : "아니오",
+    method: showReservationInfoDummy.method === "google" ? "구글폼" : "예매 대행",
+    google_form_url: showReservationInfoDummy.google_form_url || "",
+    price: showReservationInfoDummy.price || 0,
+    head_count: showReservationInfoDummy.head_count || 0,
+    date_time: (showTimesDummy.date_time && Object.values(JSON.parse(showTimesDummy.date_time))) || [],
+    notice: showReservationInfoDummy.notice || "",
   });
   const [form, onChange] = useInputs(initialForm);
 
   const [tagsInput, setTagInputs] = useState<string[]>([]);
   const [objUrls, setObjUrls] = useState<string[]>([]);
   const [date, setDate] = useState({
-    start_date: dummyItem.start_date || "",
-    end_date: dummyItem.end_date || "",
+    start_date: showingDummy.start_date || "",
+    end_date: showingDummy.end_date || "",
   });
   const [editorData, setEditorData] = useState<string>("");
+  const [editorNoticeData, setEditorNoticeData] = useState<string>("");
+  const initialList = form.date_time?.map((item) => {
+    const [date, time] = item.split(" - ");
+    return { date, time };
+  });
+  const [roundList, setRoundList] = useState(initialList);
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -136,7 +150,12 @@ const PostUpload = () => {
     // if (!tagsInput) return;
     const tags = JSON.stringify(converArrayToObject(tagsInput));
 
-    const base64EncodedContents = btoa(encodeURIComponent(editorData));
+    const base64EncodedContents = editorData && btoa(encodeURIComponent(editorData));
+    const base64EncodedNotice = (form.method === "예매 대행" && btoa(encodeURIComponent(editorNoticeData))) || null;
+
+    const roundListToDateTime = () => {
+      return roundList.map((item) => item.date + " - " + item.time);
+    };
 
     const result = {
       ...form,
@@ -147,8 +166,14 @@ const PostUpload = () => {
       start_date: date.start_date,
       end_date: date.end_date,
       tags,
-      method: form.method === "구글폼" ? "google" : "agency",
-      contents: base64EncodedContents,
+      content: base64EncodedContents,
+      is_reservation: form.is_reservation === "예" ? 1 : 0,
+      method: form.is_reservation === "예" ? (form.method === "구글폼" ? "google" : "agency") : null,
+      google_form_url: (form.method === "구글폼" && form.google_form_url) || null,
+      price: (form.method === "예매 대행" && form.price) || null,
+      head_count: (form.method === "예매 대행" && form.head_count) || null,
+      date_time: (form.method === "예매 대행" && JSON.stringify(roundListToDateTime())) || null,
+      notice: base64EncodedNotice,
     };
     console.log(result);
 
@@ -182,6 +207,11 @@ const PostUpload = () => {
     // formData.append('price', 1000 || null)
     // formData.append('head_count', 20 || null)
     // formData.append('notice', btoa(unescape(encodeURIComponent(notice innerHTML 값))) || null)
+    // formData.append('date_time', JSON.stringify(
+    //   {
+    //     1: { date: "2023/12/08", time: "오후 1시" },
+    //     2: { date: "2023/12/08", time: "오후 7시" }
+    //   }) || null)
   };
 
   return (
@@ -282,7 +312,14 @@ const PostUpload = () => {
                 구글폼url
               </InputField>
             ) : (
-              <ReservationForm />
+              <ReservationForm
+                form={form}
+                onChange={onChange}
+                roundList={roundList}
+                setRoundList={setRoundList}
+                editorNoticeData={editorNoticeData}
+                setEditorNoticeData={setEditorNoticeData}
+              />
             )}
           </>
         )}

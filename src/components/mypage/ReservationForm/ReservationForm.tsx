@@ -3,16 +3,7 @@ import { DatePicker, Editor, InputField } from "@/components/common";
 import styles from "./ReservationForm.module.css";
 import { DateInputType } from "@/types";
 
-const ReservationForm = () => {
-  const onChange = () => {
-    // 임시 함수 (useInputs 훅으로 변경 예정)
-  };
-  const [roundList, setRoundList] = useState([
-    { date: "2023-12-08", time: "오후 1시" },
-    { date: "2023-12-08", time: "오후 1시" },
-    { date: "2023-12-08", time: "오후 1시" },
-  ]);
-
+const ReservationForm = ({ form, onChange, roundList, setRoundList, editorNoticeData, setEditorNoticeData }) => {
   const [dateTime, setDateTime] = useState({
     date: "",
     time: "",
@@ -26,14 +17,15 @@ const ReservationForm = () => {
   };
 
   const handleRoundAdd = () => {
-    // roundList 추가
+    setRoundList([...roundList, dateTime]);
+    // TODO: datePicker 값 초기화
   };
   return (
     <div className={styles["reservation-form-wrapper"]}>
-      <InputField type="text" value={""} onChange={onChange}>
+      <InputField type="text" name="price" value={form.price} onChange={onChange}>
         가격
       </InputField>
-      <InputField type="text" value={""} onChange={onChange}>
+      <InputField type="text" name="head_count" value={form.head_count} onChange={onChange}>
         총 수용 가능 인원
       </InputField>
       <section className={styles["round-list"]}>
@@ -67,7 +59,7 @@ const ReservationForm = () => {
 
       <section>
         <h4 className={styles["title"]}>유의사항</h4>
-        <Editor />
+        <Editor editorData={editorNoticeData} setEditorData={setEditorNoticeData} />
       </section>
     </div>
   );
