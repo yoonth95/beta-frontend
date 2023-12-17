@@ -157,6 +157,8 @@ const PostUpload = () => {
       return roundList.map((item) => item.date + " - " + item.time);
     };
 
+    // TODO: postioin 좌표
+
     const result = {
       ...form,
       main_image_url: imgFiles[0],
@@ -167,7 +169,7 @@ const PostUpload = () => {
       end_date: date.end_date,
       tags,
       content: base64EncodedContents,
-      is_reservation: form.is_reservation === "예" ? 1 : 0,
+      is_reservation: form.is_reservation === "예" ? "1" : "0",
       method: form.is_reservation === "예" ? (form.method === "구글폼" ? "google" : "agency") : null,
       google_form_url: (form.method === "구글폼" && form.google_form_url) || null,
       price: (form.method === "예매 대행" && form.price) || null,
@@ -177,41 +179,39 @@ const PostUpload = () => {
     };
     console.log(result);
 
-    // const formData = new FormData();
+    const formData = new FormData();
 
-    // // 이미지 파일
-    // formData.append('mainImage', file[0])               // 메인 이미지
-    // for (let i = 0; i<files.length; i++) {
-    // 	formData.append('subImages', files[i] || null)    // 서브 이미지
-    // }
+    // 이미지 파일
+    formData.append("mainImage", result.main_image_url); // 메인 이미지
+    for (let i = 0; i < result.sub_images_url.length; i++) {
+      formData.append("subImages", result.sub_images_url[i] || null); // 서브 이미지
+    }
 
-    // // 텍스트
-    // formData.append('show_type', '공연' || '전시')
-    // formData.append('show_sub_type', '연극' || '음악' || '기타' || null)
-    // formData.append('title', '제목')
-    // formData.append('start_date', '2023-12-16')
-    // formData.append('end_date', '2023-12-16')
-    // formData.append('location', '도로명주소')
-    // formData.append('location_detail', '상세주소' || null)
-    // formData.append('position', JSON.strigify({"lat":37.5069494959122,"lng":127.055596615858}))
-    // formData.append('main_image_url', '이미지 파일 이름')
-    // formData.append('main_image_color', '#123456' || null)
-    // formData.append('sub_images_url', JSON.strigify({1: "이미지 이름", 2: "이미지 이름"}) || null)
-    // formData.append('univ', '서울대학교')
-    // formData.append('department', '디자인학과')
-    // formData.append('tags', JSON.strigify({1: "a", 2: "b"}) || null)
-    // formData.append('content', btoa(unescape(encodeURIComponent(content innerHTML 값))))
-    // formData.append('is_reservation', '0' || '1')
-    // formData.append('method', 'agency' || 'google' || null)
-    // formData.append('google_form_url', '구글 폼 주소' || null)
-    // formData.append('price', 1000 || null)
-    // formData.append('head_count', 20 || null)
-    // formData.append('notice', btoa(unescape(encodeURIComponent(notice innerHTML 값))) || null)
-    // formData.append('date_time', JSON.stringify(
-    //   {
-    //     1: { date: "2023/12/08", time: "오후 1시" },
-    //     2: { date: "2023/12/08", time: "오후 7시" }
-    //   }) || null)
+    const fileNames: { [key: number]: string } = {};
+    result.sub_images_url.forEach((file, index) => (fileNames[index + 1] = file.name));
+
+    // 텍스트
+    formData.append("show_type", result.show_type);
+    result.show_sub_type && formData.append("show_sub_type", result.show_sub_type);
+    formData.append("title", result.title);
+    formData.append("start_date", result.start_date);
+    formData.append("end_date", result.end_date);
+    formData.append("location", result.location);
+    formData.append("location_detail", result.location_detail);
+    formData.append("position", JSON.stringify({ lat: 37.5069494959122, lng: 127.055596615858 }));
+    formData.append("main_image_color", result.main_image_color as string);
+    formData.append("sub_images_url", JSON.stringify(fileNames));
+    formData.append("univ", "서울대학교");
+    formData.append("department", "디자인학과");
+    formData.append("tags", result.tags);
+    formData.append("content", result.content);
+    result.is_reservation && formData.append("is_reservation", result.is_reservation);
+    result.method && formData.append("method", result.method);
+    result.google_form_url && formData.append("google_form_url", result.google_form_url);
+    result.price && formData.append("price", result.price.toString());
+    result.head_count && formData.append("head_count", result.head_count.toString());
+    result.notice && formData.append("notice", result.notice);
+    result.date_time && formData.append("date_time", result.date_time);
   };
 
   return (
