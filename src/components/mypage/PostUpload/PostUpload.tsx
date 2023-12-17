@@ -79,7 +79,7 @@ const PostUpload = () => {
           </label>
           <ul className={styles["imgs-list"]}>
             {[form.main_image_url, ...form.sub_images_url].map((image) => (
-              <li>
+              <li key={image}>
                 <div className={styles["img-cover"]}>
                   <img src={image} alt="" />
                   <button type="button" className={styles["img-delete-btn"]}>
@@ -101,13 +101,13 @@ const PostUpload = () => {
 
       <section>
         <h2 className={cx("a11y-hidden", "title")}>주최 정보</h2>
-        <InputField type="text" name="title" placeholder="제목을 입력해주세요." value={form.title as string}>
+        <InputField type="text" name="title" placeholder="제목을 입력해주세요." value={form.title} onChange={onChange}>
           제목
         </InputField>
-        <InputField type="text" name="univ" placeholder="대학을 입력해주세요." value={form.univ as string}>
+        <InputField type="text" name="univ" placeholder="대학을 입력해주세요." value={form.univ} onChange={onChange}>
           대학
         </InputField>
-        <InputField type="text" name="department" placeholder="학과 또는 학부를 입력해주세요." value={form.department as string}>
+        <InputField type="text" name="department" placeholder="학과 또는 학부를 입력해주세요." value={form.department} onChange={onChange}>
           학과
         </InputField>
       </section>

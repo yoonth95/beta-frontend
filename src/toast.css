@@ -1,0 +1,6 @@
+.Toastify__progress-bar--info {
+  background-color: var(--main-color);
+}
+.Toastify__toast-icon > svg {
+  fill: var(--main-color);
+}

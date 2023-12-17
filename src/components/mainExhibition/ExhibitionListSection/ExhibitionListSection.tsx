@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BasicCard } from "@/components/common";
 import { getShows } from "@/apis";
-import { ShowFilterRequestType } from "@/types/";
+import { ShowFilterRequestType } from "@/types";
 import styles from "./ExhibitionListSection.module.css";
 
 interface PropsType {
