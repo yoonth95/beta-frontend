@@ -35,7 +35,7 @@ const Header = () => {
   const handleLogout = async () => {
     const res = patchUserLogout();
     if ((await res).ok) {
-      setUserState({ login_id: "", user_name: "", user_role: "" });
+      setUserState({ isLogin: false, login_id: "", user_name: "", user_role: "" });
       navigate("/");
     }
   };
