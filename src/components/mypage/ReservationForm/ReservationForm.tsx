@@ -1,24 +1,32 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { DatePicker, Editor, InputField, DeleteButton } from "@/components/common";
 import styles from "./ReservationForm.module.css";
 import { DateInputType } from "@/types";
+import { toast } from "react-toastify";
 
 const ReservationForm = ({ form, onChange, roundList, setRoundList, editorNoticeData, setEditorNoticeData }) => {
+  const datePickerInputRef = useRef<HTMLInputElement | null>(null);
   const [dateTime, setDateTime] = useState({
     date: "",
     time: "",
   });
 
   const handleDateTimeInput = (event: DateInputType) => {
-    if (typeof event.target.value === "object") {
+    if (event.target.value && typeof event.target.value === "object") {
       const { date, time } = event.target.value;
-      setDateTime({ ...dateTime, date, time });
+      setDateTime({ date, time });
     }
   };
 
   const handleRoundAdd = () => {
-    setRoundList([...roundList, dateTime]);
-    // TODO: datePicker 값 초기화
+    if (dateTime.date && dateTime.time) {
+      if (roundList.some((round) => round.date === dateTime.date && round.time === dateTime.time)) {
+        toast("이미 추가된 회차입니다.");
+        return;
+      }
+      setRoundList([...roundList, dateTime]);
+      datePickerInputRef.current && datePickerInputRef.current.clearDatePicker();
+    }
   };
 
   const handleRoundRemove = ({ round: removeRound }) => {
@@ -54,7 +62,7 @@ const ReservationForm = ({ form, onChange, roundList, setRoundList, editorNotice
         <article className={styles["round-item-add"]}>
           <div className={styles["round-item-add__dateTime"]}>
             <span className={styles["round-item__title"]}>날짜 및 시간</span>
-            <DatePicker type="dateWithTime" onChange={handleDateTimeInput} />
+            <DatePicker type="dateWithTime" onChange={handleDateTimeInput} ref={datePickerInputRef} />
           </div>
           <button type="button" className={styles["round-item-add__btn"]} onClick={handleRoundAdd}>
             회차 추가
