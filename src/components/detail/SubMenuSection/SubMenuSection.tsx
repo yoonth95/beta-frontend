@@ -14,7 +14,7 @@ interface SubMenuList {
 
 const SubMenuSection: React.FC<PropsType> = ({ submenuList, baseUrl }) => {
   const location = useLocation();
-  const checkUrl = (pathname) => {
+  const checkUrl = (pathname: string) => {
     if (pathname === "" && baseUrl === location.pathname) return true;
     if (pathname !== "") return location.pathname.endsWith(pathname);
   };

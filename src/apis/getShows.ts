@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ShowResponseType } from "@/types/";
+import { ShowResponseType } from "@/types";
 
 const getShows = async (
   type: string,

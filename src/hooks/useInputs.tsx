@@ -1,17 +1,13 @@
+import { FormInputs } from "@/types";
 import { useState, useCallback } from "react";
 
 const objectTypeNames = ["phone", "email"];
 
-export interface Form {
-  phone?: { phone1: string; phone2: string; phone3: string };
-  email?: { email1: string; email2: string };
-  [key: string]: boolean | object | string | number | undefined;
-}
+// useInputs 훅이 return하는 type 정의
+type UseInputs<T extends FormInputs> = [T, (e: React.ChangeEvent<HTMLInputElement>) => void, () => void];
 
-type UseInputs = [Form, (e: React.ChangeEvent<HTMLInputElement>) => void, () => void];
-
-const useInputs = (initialForm: Form): UseInputs => {
-  const [form, setForm] = useState(initialForm);
+const useInputs = <T extends FormInputs>(initialForm: T): UseInputs<T> => {
+  const [form, setForm] = useState<T>(initialForm);
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target;
@@ -21,12 +17,18 @@ const useInputs = (initialForm: Form): UseInputs => {
       return;
     }
 
-    const typeName = objectTypeNames.find((typeName) => name.includes(typeName)) as keyof Form; // phone, email
-    if (typeName) {
-      let copyValue = value;
-      if (typeName === "email" && value === "직접 입력") copyValue = "";
+    const typeName = objectTypeNames.find((typeName) => name.includes(typeName));
+    // name 예시: phone1, phone2, email1, email2, email3
+    if (typeName === "phone" || typeName === "email") {
+      const updatedForm = {
+        ...form,
+        [typeName]: {
+          ...(form[typeName] as object),
+          [name]: value === "직접 입력" && typeName === "email" ? "" : value,
+        },
+      };
 
-      setForm((form) => ({ ...form, [typeName]: { ...(form[typeName] as object), [name]: copyValue } }));
+      setForm(updatedForm);
       return;
     }
 
