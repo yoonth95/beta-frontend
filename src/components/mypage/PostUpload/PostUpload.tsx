@@ -328,7 +328,7 @@ const PostUpload = () => {
           <InputField type="text" name="location" placeholder="도로명 주소" value={location} labelHidden style={{ padding: "0 1rem" }} readOnly>
             도로명 주소
           </InputField>
-          <Postcode position={position} setPosition={setPosition} location={location} setLocation={setLocation} />
+          <Postcode setPosition={setPosition} setLocation={setLocation} />
         </div>
         <InputField
           type="text"
