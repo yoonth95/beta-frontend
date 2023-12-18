@@ -40,8 +40,8 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
   const CustomInput = forwardRef((props, ref: React.ForwardedRef<HTMLInputElement>) => {
     return (
       <div className={styles["calendar-input-wrap"]}>
-        <input {...props} ref={ref} type="text" className={styles["calendar-input"]} />
         <CalendarIcon />
+        <input {...props} ref={ref} type="text" className={styles["calendar-input"]} />
       </div>
     );
   });
@@ -62,6 +62,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
           showTimeSelect
           placeholderText="날짜 및 시간"
           autoComplete="off"
+          isClearable
         />
       );
     }
@@ -85,6 +86,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               dateFormat="yyyy/MM/dd"
               placeholderText="시작일"
               autoComplete="off"
+              isClearable
             />
           </div>
           <span className={styles["wave"]}>~</span>
@@ -105,6 +107,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               dateFormat="yyyy/MM/dd"
               placeholderText="종료일"
               autoComplete="off"
+              isClearable
             />
           </div>
         </>

@@ -35,3 +35,12 @@
   li.react-datepicker__time-list-item--selected:hover {
   background-color: var(--main-color);
 }
+
+.react-datepicker__close-icon {
+  padding-right: 0.5rem;
+}
+
+.react-datepicker__close-icon::after {
+  background-color: var(--gray200-color);
+  padding: 1px;
+}
