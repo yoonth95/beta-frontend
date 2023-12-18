@@ -7,6 +7,9 @@ import reduceImageSize from "@/utils/reduceImageSize";
 import convertArrayToObject from "@/utils/convertArrayToObject";
 import { useColor } from "color-thief-react";
 import { DateInputType, ShowReservationInfoType, ShowType } from "@/types";
+import { useMutation } from "@tanstack/react-query";
+import postShow from "@/apis/postShow";
+import { toast } from "react-toastify";
 import styles from "./PostUpload.module.css";
 import classNames from "classnames/bind";
 
@@ -140,6 +143,27 @@ const PostUpload = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!objUrls.length) {
+      toast("이미지를 1개 이상 입력해주세요.");
+      return;
+    }
+    if (!form.start_date || !form.end_date) {
+      toast("기간을 입력해주세요.");
+      return;
+    }
+    if (!tagsInput) {
+      toast("tag를 입력해주세요.");
+      return;
+    }
+    if (form.method === "구글폼" && !form.google_form_url) {
+      toast("구글폼 URL을 입력해주세요.");
+      return;
+    }
+    if (form.method === "예매 대행" && !form.price && !form.head_count && !form.date_time && !form.notice) {
+      toast("예매 작성 폼을 완성해주세요.");
+      return;
+    }
+
     const imgFiles = await Promise.all(
       objUrls.map(async (objUrl) => {
         const jpeg = await reduceImageSize(objUrl);
@@ -211,7 +235,19 @@ const PostUpload = () => {
     result.head_count && formData.append("head_count", result.head_count.toString());
     result.notice && formData.append("notice", result.notice);
     result.date_time && formData.append("date_time", result.date_time);
+
+    mutate(formData);
   };
+
+  const { mutate } = useMutation({
+    mutationFn: (formData: FormData) => postShow(formData),
+    onSuccess: (data) => {
+      if (data) toast("게시글 업로드 성공");
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   return (
     <form className={styles["post-upload-section-form"]} onSubmit={handleSubmit}>
