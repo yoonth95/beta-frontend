@@ -1,16 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, CheckBox, InputField, InputFieldGroup, RadioButtonGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
-import { getUserInfo } from "@/apis/getUserInfo";
+import { getUserInfo } from "@/apis";
+import { UserReservationFormType, ShowReservationInfoType, UserReservationInputsType } from "@/types";
 import styles from "./ReservationFormModal.module.css";
 
 // TODO: show_times API 연결
 const show_times_data = ["2023/12/08 - 오후 1시", "2023/12/08 - 오후 7시", "2023/12/10 - 오후 1시", "2023/12/10 - 오후 7시"];
 
-const ReservationFormModal = ({ showReservationInfo }) => {
-  const [form, onChange] = useInputs({
-    show_times_id: "",
-    is_receive_email: 0,
+interface PropsType {
+  showReservationInfo: Omit<ShowReservationInfoType, "method" | "google_form_url">;
+}
+
+const ReservationFormModal: React.FC<PropsType> = ({ showReservationInfo }) => {
+  const [form, onChange] = useInputs<UserReservationInputsType>({
+    show_times_id: 0,
+    is_receive_email: false,
   });
 
   const {
@@ -33,10 +38,10 @@ const ReservationFormModal = ({ showReservationInfo }) => {
   const noticeBufferData = new Uint8Array(notice.data);
   const noticeDecodedString = new TextDecoder("utf-8").decode(noticeBufferData);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = {
-      user_id: userInfo.user_id,
+    const result: UserReservationFormType = {
+      user_id: userInfo.id,
       show_id: showReservationInfo.show_id,
       show_times_id: form.show_times_id,
       is_receive_email: form.is_receive_email ? 1 : 0,

@@ -3,6 +3,7 @@ import App from "./App";
 import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage, MainExhibitionPage } from "@/pages";
 import { InfoSection, ReviewSection } from "@/components/detail";
 import Mypage from "@/pages/Mypage/Mypage";
+import { Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage, PostUpload } from "@/components/mypage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,43 @@ const router = createBrowserRouter([
       {
         path: "/mypage",
         element: <Mypage />,
+        children: [
+          {
+            index: true,
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "like",
+            element: <LikeManage />,
+          },
+          {
+            path: "review",
+            element: <ReviewManage />,
+          },
+          {
+            path: "story",
+            element: <StoryManage />,
+          },
+          {
+            path: "reservation",
+            element: <Reservation />,
+          },
+          {
+            path: "reservation-manage",
+            element: <ReservationManage />,
+          },
+          {
+            path: "post",
+            element: <PostManage />,
+            children: [
+              {
+                path: "upload",
+                element: <PostUpload />,
+              },
+            ],
+          },
+        ],
       },
     ],
   },

@@ -16,7 +16,7 @@ const Header = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const isInMyPage = useMemo(() => location.pathname === "/mypage", [location.pathname]);
+  const isInMyPage = useMemo(() => location.pathname.includes("/mypage"), [location.pathname]);
 
   useEffect(() => {
     setIsMyPageNavbarShow(false);
@@ -58,7 +58,7 @@ const Header = () => {
                 로그아웃
               </button>
               {!isInMyPage && (
-                <Link to="/mypage" className={styles["button-mypage"]}>
+                <Link to="/mypage/profile" className={styles["button-mypage"]}>
                   마이페이지
                 </Link>
               )}
@@ -81,7 +81,14 @@ const Header = () => {
               <NavbarCloseIcon />
             </button>
             <NavigationBar />
-            <button type="button" className={styles["button-logout"]}>
+            <button
+              type="button"
+              className={styles["button-logout"]}
+              onClick={() => {
+                handleLogout();
+                handleClose();
+              }}
+            >
               로그아웃
             </button>
           </div>

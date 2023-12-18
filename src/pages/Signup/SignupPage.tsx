@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import { SignForm, Button, InputField, InputFieldGroup, Timer } from "@/components/common";
-import { isPasswordCheck, isPasswordDoubleCheck } from "@/utils/passwordCheck";
-import { isEmailCheck } from "@/utils/emailCheck";
+import { isPasswordCheck, isPasswordDoubleCheck, isEmailCheck } from "@/utils";
+import { getUserInfo, postSignupAPI } from "@/apis";
+import { SignupBodyType } from "@/types/SignupBodyType";
 import styles from "./SignupPage.module.css";
 
 interface BirthdateGenderType {
@@ -20,7 +22,7 @@ interface idPasswordCheck {
 const cx = classNames.bind(styles);
 
 const SignupPage = () => {
-  const [userType, setUserType] = useState<"User" | "Admin">("User");
+  const [userType, setUserType] = useState<"user" | "admin">("user");
   const [id, setId] = useState<idPasswordCheck>({ value: "", isConfirm: false });
   const [password, setPassword] = useState<idPasswordCheck>({ value: "", isConfirm: false });
   const [checkPassword, setCheckPassword] = useState<idPasswordCheck>({ value: "", isConfirm: false });
@@ -33,28 +35,91 @@ const SignupPage = () => {
     gender: null,
   });
   const [email, setEmail] = useState({ email1: "", email2: "gmail.com" });
-  const [isEmailSend, setIsEmailSend] = useState(false);
   const [emailCertValue, setEmailCertValue] = useState("");
+  const [univEmail, setUnivEmail] = useState(""); // 학교 이메일
+  const [univName, setUnivName] = useState(""); // 학교 이름
+
+  const [isEmailSend, setIsEmailSend] = useState(false);
   const [time, setTime] = useState(180); // 3분
+  const [isCodeCheck, setIsCodeCheck] = useState(false); // 인증번호 확인 여부
+  const [isStop, setIsStop] = useState(false); // 타이머 정지
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userType === "user") {
+      setUnivEmail("");
+      setUnivName("");
+      setEmailCertValue("");
+    }
+  }, [userType]);
 
   // 제출
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({
-      타입: userType,
-      아이디: id.value,
-      비밀번호: password.value,
-      이름: name,
-      전화번호: `${phone.phone1}-${phone.phone2}-${phone.phone3}`,
-      생년월일: `${birthGender.year}-${birthGender.month}-${birthGender.day}`,
-      성별: `${birthGender.gender === "male" ? 1 : 2}`,
-      이메일: `${email.email1}@${email.email2}`,
-    });
+
+    if (!id.isConfirm) {
+      alert("아이디 중복확인을 해주세요.");
+      return;
+    }
+    if (!password.isConfirm) {
+      alert("비밀번호는 8자 이상의 영문, 숫자, 특수문자를 사용해 주세요.");
+      return;
+    }
+    if (!checkPassword.isConfirm) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    if (!isEmailSend) {
+      alert("이메일 인증을 해주세요.");
+      return;
+    }
+    if (!isCodeCheck) {
+      alert("인증번호 확인을 해주세요.");
+      return;
+    }
+    if (userType === "admin" && !univEmail) {
+      alert("학교 이메일을 입력해주세요.");
+      return;
+    }
+    if (userType === "admin" && !univName) {
+      alert("학교 이름을 입력해주세요.");
+      return;
+    }
+
+    // 회원가입 api 호출
+    const body: SignupBodyType = {
+      user_name: name,
+      user_email: `${email.email1}@${email.email2}`,
+      login_id: id.value,
+      login_pw: password.value,
+      birth_date: `${birthGender.year}-${birthGender.month}-${birthGender.day}`,
+      gender: `${birthGender.gender === "male" ? "1" : "2"}`,
+      phone_number: `${phone.phone1}-${phone.phone2}-${phone.phone3}`,
+      user_role: userType,
+    };
+    if (userType === "admin") {
+      body["univ_email"] = univEmail;
+      body["univ_name"] = univName;
+    }
+
+    const { isSuccess, message } = await postSignupAPI("/api/signup", body);
+    if (isSuccess) {
+      navigate("/login");
+    } else {
+      alert(message);
+      return;
+    }
   };
 
   // 아이디 중복확인
-  const handleCheckId = () => {
+  const handleCheckId = async () => {
     // db 조회 후 중복확인
+    const data = await getUserInfo(id.value);
+    if (data) {
+      alert("이미 가입된 아이디입니다.");
+      return;
+    }
     setId({ ...id, isConfirm: true });
   };
 
@@ -69,20 +134,45 @@ const SignupPage = () => {
   };
 
   // 이메일 전송
-  const handleSendEmail = () => {
-    const fullEmail = `${email.email1}@${email.email2}`;
+  const handleSendEmail = async () => {
+    const fullEmail = userType === "admin" ? univEmail : `${email.email1}@${email.email2}`;
     if (isEmailCheck(fullEmail)) {
       // 인증번호 이메일 발송
-      console.log("이메일 전송");
-      setTime(180);
-      setIsEmailSend(true);
+      setIsCodeCheck(false);
+      setIsStop(false);
+      const body: { user_email: string; univName?: string } = { user_email: fullEmail };
+      if (userType === "admin") body["univName"] = univName;
+      const endPoint = userType === "user" ? "/api/send-email" : "/api/send-univ-email";
+      const { isSuccess, message } = await postSignupAPI(endPoint, body);
+      if (isSuccess) {
+        setTime(180);
+        setIsEmailSend(true);
+      } else {
+        alert(message);
+        setIsEmailSend(false);
+        return;
+      }
+    } else {
+      alert("이메일 형식이 올바르지 않습니다.");
+      return;
     }
   };
 
   // 인증번호 확인
-  const handleCertConfirm = () => {
+  const handleCertConfirm = async () => {
     // 인증번호 확인
-    console.log("인증번호 확인");
+    const fullEmail = userType === "admin" ? univEmail : `${email.email1}@${email.email2}`;
+    const body: { user_email: string; code: string; univName?: string } = { user_email: fullEmail, code: emailCertValue };
+    if (userType === "admin") body["univName"] = univName;
+    const endPoint = userType === "user" ? "/api/verify-code" : "/api/verify-univ-code";
+    const { isSuccess, message } = await postSignupAPI(endPoint, body);
+    if (isSuccess) {
+      setIsCodeCheck(true);
+      setIsStop(true);
+    } else {
+      alert(message);
+      return;
+    }
   };
 
   return (
@@ -128,12 +218,39 @@ const SignupPage = () => {
           <InputField required type="text" placeholder="이름을 입력해주세요." value={name} onChange={(e) => setName(e.currentTarget.value)}>
             이름
           </InputField>
-          <InputFieldGroup required type="phone" values={phone} setValues={setPhone} />
-          <InputFieldGroup required type="birthdate-gender" values={birthGender} setValues={setBirthGender} />
-          <div className={styles["sign-section-form-group"]}>
-            <InputFieldGroup required type="email" values={email} setValues={setEmail} userType={userType} />
-            <Button onClick={handleSendEmail}>인증</Button>
-          </div>
+          <InputFieldGroup required type="phone" name="phone" values={phone} setValues={setPhone} />
+          <InputFieldGroup required type="birthdate-gender" name="gender" values={birthGender} setValues={setBirthGender} />
+          {userType === "user" ? (
+            <div className={styles["sign-section-form-group"]}>
+              <InputFieldGroup required type="email" name="email" values={email} setValues={setEmail} userType={userType} />
+              <Button onClick={handleSendEmail}>인증</Button>
+            </div>
+          ) : (
+            <>
+              <InputField
+                required
+                type="text"
+                placeholder="abc@mail.hongik.ac.kr"
+                value={univEmail}
+                onChange={(e) => setUnivEmail(e.currentTarget.value)}
+              >
+                학교 이메일
+              </InputField>
+
+              <div className={styles["sign-section-form-group"]}>
+                <InputField
+                  required
+                  type="text"
+                  placeholder="대학교 이름 (ex. 홍익대학교)"
+                  value={univName}
+                  onChange={(e) => setUnivName(e.currentTarget.value)}
+                >
+                  학교 이름
+                </InputField>
+                <Button onClick={handleSendEmail}>인증</Button>
+              </div>
+            </>
+          )}
           {isEmailSend && time > 0 && (
             <div className={cx("sign-section-form-group", "top-minus10")}>
               <InputField
@@ -147,12 +264,14 @@ const SignupPage = () => {
               >
                 인증번호
               </InputField>
-              <Button onClick={handleCertConfirm}>확인</Button>
-              <Timer time={time} setTime={setTime} />
+              <Button onClick={handleCertConfirm} disabled={isCodeCheck}>
+                확인
+              </Button>
+              <Timer time={time} setTime={setTime} isStop={isStop} />
             </div>
           )}
 
-          <Button type="submit">로그인</Button>
+          <Button type="submit">회원가입</Button>
         </form>
       </SignForm>
     </main>

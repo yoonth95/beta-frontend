@@ -1,30 +1,39 @@
 import React from "react";
 import styles from "./InfoSection.module.css";
 import LocationMap from "./LocationMap";
-import { useShowItemInfoStore } from "@/stores/useShowItemInfoStore";
+import { useShowInfoStore } from "@/stores/useShowInfoStore";
+import { toast } from "react-toastify";
 
-type onCopyFn = (text: string) => Promise<boolean>;
+type onCopyFn = (text: string) => void;
 
 const copyClipBoard: onCopyFn = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
-    return true;
+    toast.info("클립보드에 복사되었습니다.", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   } catch (error) {
     console.error(error);
-    return false;
   }
 };
 
 const InfoSection = () => {
-  const { showItemInfo } = useShowItemInfoStore();
-  if (!showItemInfo) return <h2>loading...</h2>;
+  const { showInfo } = useShowInfoStore();
+  if (!showInfo) return <h2>loading...</h2>;
 
-  const { univ, department, title, location, start_date, end_date } = showItemInfo;
+  const { univ, department, title, location, start_date, end_date } = showInfo;
 
-  const tags = Object.values(JSON.parse(showItemInfo.tags));
-  const position = JSON.parse(showItemInfo.position);
-  const contentBufferData = new Uint8Array(showItemInfo.content.data);
-  const contentDecodedString = new TextDecoder("utf-8").decode(contentBufferData);
+  const tags = showInfo.tags && Object.values(JSON.parse(showInfo.tags));
+  const position = showInfo.position && JSON.parse(showInfo.position);
+  const contentBufferData = showInfo.content && new Uint8Array(showInfo.content.data);
+  const contentDecodedString = contentBufferData && new TextDecoder("utf-8").decode(contentBufferData);
 
   return (
     <>

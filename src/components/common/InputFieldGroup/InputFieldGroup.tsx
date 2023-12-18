@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { BirthdateGenderValues, PropsType } from "./InputFieldGroupType";
+import React, { useState, SetStateAction } from "react";
+import { BirthdateGenderValues, EmailValues, PhoneValues, PropsType } from "./InputFieldGroupType";
 import { getYears, getMonths, getDays } from "@/utils/dateSelect";
+import univList from "@/data/univList.json";
 import styles from "./InputFieldGroup.module.css";
 
 /** 수정필요
@@ -18,17 +19,23 @@ import styles from "./InputFieldGroup.module.css";
 
 const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userType, required, name, onChange: handleChange, readOnly = false }) => {
   const handleSelectChange = (field: keyof BirthdateGenderValues, value: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setValues!((prev: any) => ({ ...prev, [field]: value }));
+    if (type === "birthdate-gender") {
+      setValues!((prev: BirthdateGenderValues) => ({ ...prev, [field]: value }));
+    }
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    if (value === "직접 입력") {
-      setValues!((prev: any) => ({ ...prev, [name]: "" })); // email2
-      return;
+
+    if (type === "phone") {
+      const newValues: SetStateAction<PhoneValues> = (prev) => ({ ...prev, [name]: value });
+      setValues!(newValues);
+    } else if (type === "email") {
+      const newValues: SetStateAction<EmailValues> = (prev) => ({ ...prev, [name]: value });
+      setValues!(newValues);
+    } else if (type === "birthdate-gender") {
+      const newValues: SetStateAction<BirthdateGenderValues> = (prev) => ({ ...prev, [name]: value });
+      setValues!(newValues);
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setValues!((prev: any) => ({ ...prev, [name]: value }));
   };
 
   const [isReadOnly, setIsReadOnly] = useState(true);
@@ -129,7 +136,7 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
 
       return (
         <fieldset className={styles["fieldset-box"]} name={name}>
-          <label>{userType === "User" ? "이메일" : "학교 이메일"}</label>
+          <label>{userType === "user" ? "이메일" : "학교 이메일"}</label>
           <div className={styles["fieldset-box__list"]}>
             <input
               required={required}
