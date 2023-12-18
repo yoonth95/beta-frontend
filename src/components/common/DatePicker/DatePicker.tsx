@@ -9,6 +9,10 @@ import { DateInputType } from "@/types";
 import formattingDate from "@/utils/formattingDate";
 import formattingTime from "@/utils/formattingTime";
 
+interface DatePickerRef {
+  clearDatePicker: () => void;
+}
+
 interface PropsType {
   startDate?: string;
   endDate?: string;
@@ -16,7 +20,7 @@ interface PropsType {
   type: "period" | "dateWithTime";
 }
 
-const DatePicker: React.ForwardRefRenderFunction<HTMLDivElement, PropsType> = (
+const DatePicker: React.ForwardRefRenderFunction<DatePickerRef, PropsType> = (
   { startDate: defaultStartDate, endDate: defaultEndDate, onChange, type },
   forwardedRef,
 ) => {
@@ -44,6 +48,7 @@ const DatePicker: React.ForwardRefRenderFunction<HTMLDivElement, PropsType> = (
       const date = formattingDate(dateObject);
       const event: DateInputType = { target: { name, value: date } };
       onChange(event);
+      return;
     }
     onChange({ target: { name, value: "" } });
   };
@@ -93,7 +98,7 @@ const DatePicker: React.ForwardRefRenderFunction<HTMLDivElement, PropsType> = (
               customInput={<CustomInput />}
               name="start_date"
               selected={startDate}
-              onChange={(date: Date) => {
+              onChange={(date: Date | null) => {
                 setStartDate(date);
                 handleChangePeriodInput("start_date", date);
               }}
@@ -113,7 +118,7 @@ const DatePicker: React.ForwardRefRenderFunction<HTMLDivElement, PropsType> = (
               customInput={<CustomInput />}
               name="end_date"
               selected={endDate}
-              onChange={(date: Date) => {
+              onChange={(date: Date | null) => {
                 setEndDate(date);
                 handleChangePeriodInput("end_date", date);
               }}
