@@ -9,7 +9,7 @@ import "./toast.css";
 import router from "./Router";
 import "./global.css";
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
