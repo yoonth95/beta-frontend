@@ -87,6 +87,12 @@
   gap: 1rem;
 }
 
+@media (max-width: 440px) {
+  .l_address {
+    flex-wrap: wrap;
+  }
+}
+
 .l_address fieldset {
   flex-grow: 4;
 }
