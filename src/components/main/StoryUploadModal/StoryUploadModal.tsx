@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useColor } from "color-thief-react";
 import { Button, TagInput } from "@/components/common";
 import reduceImageSize from "@/utils/reduceImageSize";
-import converArrayToObject from "@/utils/converArrayToObject";
+import convertArrayToObject from "@/utils/convertArrayToObject";
 import { useLoginStore } from "@/stores/useLoginStore";
 import { useModalStore } from "@/stores/useModalStore";
 import { postStory } from "@/apis";
@@ -46,7 +46,7 @@ const StoryUploadModal = () => {
 
     const jpeg = await reduceImageSize(objUrl);
     const file = new File([jpeg], new Date().toString(), { type: "image/jpeg" });
-    const tags = JSON.stringify(converArrayToObject(tagsInput));
+    const tags = JSON.stringify(convertArrayToObject(tagsInput));
 
     const formData = new FormData();
     formData.append("story_image_url", file);

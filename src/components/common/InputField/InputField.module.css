@@ -31,3 +31,17 @@
 .input-box__check.success circle {
   fill: green;
 }
+
+.input-unit {
+  position: absolute;
+  top: 65%;
+  left: 170px;
+  transform: translateY(-50%);
+  color: var(--gray400-color);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

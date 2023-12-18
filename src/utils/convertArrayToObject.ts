@@ -1,4 +1,4 @@
-const converArrayToObject = (arr: string[]) => {
+const convertArrayToObject = (arr: string[]) => {
   const obj: { [key: string]: string } = {};
 
   arr.forEach((value, index) => {
@@ -7,4 +7,4 @@ const converArrayToObject = (arr: string[]) => {
   return obj;
 };
 
-export default converArrayToObject;
+export default convertArrayToObject;
