@@ -6,5 +6,6 @@ import getShowInfo from "./getShowInfo";
 import getShowReservationInfo from "./getShowReservationInfo";
 import getUserInfo from "./getUserInfo";
 import postStory from "./postStory";
+import getUserLikeList from "./getUserLikeList";
 
-export { getShows, getStories, getBannerImages, postSignupAPI, getShowInfo, getShowReservationInfo, getUserInfo, postStory };
+export { getShows, getStories, getBannerImages, postSignupAPI, getShowInfo, getShowReservationInfo, getUserInfo, postStory, getUserLikeList };
