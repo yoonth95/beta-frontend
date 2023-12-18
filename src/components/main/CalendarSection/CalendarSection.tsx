@@ -9,6 +9,7 @@ import { getShows } from "@/apis";
 import { ShowType } from "@/types";
 import classNames from "classnames/bind";
 import styles from "./CalendarSection.module.css";
+import CalendarSectionSkeleton from "./CalendarSectionSkeleton";
 
 const cx = classNames.bind(styles);
 
@@ -68,11 +69,10 @@ const CalendarSection = () => {
         ))}
       </div>
       <div className={styles["cards-container"]}>
-        {status === "pending" && <>Loading...</>}
-        {status !== "pending" &&
-          data.map((item: ShowType) => {
-            return <BasicCard key={item.id} item={item} />;
-          })}
+        {status === "pending" && <CalendarSectionSkeleton />}
+        {data?.map((item: ShowType) => {
+          return <BasicCard key={item.id} item={item} />;
+        })}
       </div>
       <Button
         onClick={() => {

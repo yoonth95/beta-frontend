@@ -44,3 +44,19 @@
 .story-more-btn:hover {
   background-color: var(--gray100-color);
 }
+
+.carousel-container {
+  width: 100%;
+  aspect-ratio: 12/3.6;
+}
+
+@media (max-width: 760px) {
+  .carousel-container {
+    aspect-ratio: 9/3.6;
+  }
+}
+@media (max-width: 600px) {
+  .carousel-container {
+    aspect-ratio: 6/3.6;
+  }
+}
