@@ -32,6 +32,9 @@
   font-size: 1rem;
   box-sizing: border-box;
 }
+.fieldset-box__list > select {
+  padding: 0;
+}
 .fieldset-box__input-list,
 .fieldset-box__select-list {
   display: flex;

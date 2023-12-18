@@ -12,7 +12,7 @@ const item = {
   user_phone: "010-1234-5678",
   user_birthdate: "1990-01-01",
   user_gender: 1,
-  user_role: "User",
+  user_role: "user",
 };
 
 interface BirthdateGenderType {
@@ -131,7 +131,7 @@ const Profile = () => {
         이름
       </InputField>
       <div className={styles["profile-section-form-group"]}>
-        <InputFieldGroup required type="email" values={email} setValues={setEmail} userType={"User"} />
+        <InputFieldGroup required type="email" name="email" values={email} setValues={setEmail} userType={"user"} />
         <Button onClick={handleSendEmail}>인증</Button>
       </div>
       {isEmailSend && time > 0 && (
@@ -151,8 +151,8 @@ const Profile = () => {
           <Timer time={time} setTime={setTime} />
         </div>
       )}
-      <InputFieldGroup required type="birthdate-gender" values={birthGender} setValues={setBirthGender} />
-      <InputFieldGroup required type="phone" values={phone} setValues={setPhone} />
+      <InputFieldGroup required type="birthdate-gender" name="gender" values={birthGender} setValues={setBirthGender} />
+      <InputFieldGroup required type="phone" name="phone" values={phone} setValues={setPhone} />
 
       <div className={styles["profile-submit-button"]}>
         <Button type="submit">수정 완료</Button>
