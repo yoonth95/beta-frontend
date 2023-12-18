@@ -103,7 +103,8 @@ const PostUpload = () => {
   const [form, onChange] = useInputs(initialForm);
 
   const [tagsInput, setTagInputs] = useState<string[]>([]);
-  const [objUrls, setObjUrls] = useState<string[]>([]);
+  const [imgFiles, setImgFiles] = useState<File[]>([]);
+  const [imgPreviewUrls, setImgPreviewUrls] = useState<string[]>([]);
   const [date, setDate] = useState({
     start_date: showingDummy.start_date || "",
     end_date: showingDummy.end_date || "",
@@ -118,16 +119,17 @@ const PostUpload = () => {
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
+    setImgFiles([...imgFiles, ...e.target.files]);
     const previewImgSrc = [...e.target.files].map((file) => URL.createObjectURL(file));
-    setObjUrls([...objUrls, ...previewImgSrc]);
+    setImgPreviewUrls([...imgPreviewUrls, ...previewImgSrc]);
   };
   useEffect(() => {
     return () => {
-      if (objUrls) {
-        objUrls.forEach((objUrl) => URL.revokeObjectURL(objUrl));
+      if (imgPreviewUrls) {
+        imgPreviewUrls.forEach((objUrl) => URL.revokeObjectURL(objUrl));
       }
     };
-  }, [objUrls]);
+  }, [imgPreviewUrls]);
 
   const handleDateInput = (event: DateInputType) => {
     const { name, value } = event.target;
@@ -138,16 +140,16 @@ const PostUpload = () => {
     setTagInputs(tags);
   };
 
-  const { data: main_image_color } = useColor(objUrls[0], "hex");
+  const { data: main_image_color } = useColor(imgPreviewUrls[0], "hex");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!objUrls.length) {
+    if (!imgFiles.length) {
       toast("이미지를 1개 이상 입력해주세요.");
       return;
     }
-    if (!form.start_date || !form.end_date) {
+    if (!date.start_date || !date.end_date) {
       toast("기간을 입력해주세요.");
       return;
     }
@@ -164,10 +166,11 @@ const PostUpload = () => {
       return;
     }
 
-    const imgFiles = await Promise.all(
-      objUrls.map(async (objUrl) => {
-        const jpeg = await reduceImageSize(objUrl);
-        return new File([jpeg], new Date().toString(), { type: "image/jpeg" });
+    const resizedImgFiles = await Promise.all(
+      imgFiles.map(async (file) => {
+        const blobString = URL.createObjectURL(file);
+        const jpeg = await reduceImageSize(blobString);
+        return new File([jpeg], new Date().toISOString(), { type: "image/jpeg" });
       }),
     );
 
@@ -184,8 +187,8 @@ const PostUpload = () => {
 
     const result = {
       ...form,
-      main_image_url: imgFiles[0],
-      sub_images_url: imgFiles.slice(1),
+      main_image_url: resizedImgFiles[0],
+      sub_images_url: resizedImgFiles.slice(1),
       main_image_color,
       show_sub_type: form.show_type === "전시" ? null : form.show_sub_type,
       start_date: date.start_date,
@@ -224,8 +227,8 @@ const PostUpload = () => {
     formData.append("position", JSON.stringify({ lat: 37.5069494959122, lng: 127.055596615858 }));
     formData.append("main_image_color", result.main_image_color as string);
     formData.append("sub_images_url", JSON.stringify(fileNames));
-    formData.append("univ", "서울대학교");
-    formData.append("department", "디자인학과");
+    formData.append("univ", result.univ);
+    formData.append("department", result.department);
     formData.append("tags", result.tags);
     formData.append("content", result.content);
     result.is_reservation && formData.append("is_reservation", result.is_reservation);
@@ -259,7 +262,7 @@ const PostUpload = () => {
             <input type="file" accept="image/*" multiple onChange={handleChangeImage} />
           </label>
           <ul className={styles["imgs-list"]}>
-            {objUrls.map((image) => (
+            {imgPreviewUrls.map((image) => (
               <li key={image}>
                 <div className={styles["img-cover"]}>
                   <img src={image} alt="" />
