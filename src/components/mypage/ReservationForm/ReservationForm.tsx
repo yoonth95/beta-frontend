@@ -44,10 +44,10 @@ const ReservationForm: React.FC<PropsType> = ({ form, onChange, roundList, setRo
 
   return (
     <div className={styles["reservation-form-wrapper"]}>
-      <InputField type="text" name="price" value={form.price} onChange={onChange}>
+      <InputField type="number" name="price" value={form.price} onChange={onChange} style={{ width: "200px" }} unit="원">
         가격
       </InputField>
-      <InputField type="text" name="head_count" value={form.head_count} onChange={onChange}>
+      <InputField type="number" name="head_count" value={form.head_count} onChange={onChange} style={{ width: "200px" }} unit="명">
         총 수용 가능 인원
       </InputField>
       <section className={styles["round-list"]}>

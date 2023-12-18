@@ -289,13 +289,20 @@ const PostUpload = () => {
 
       <section>
         <h2 className={cx("a11y-hidden", "title")}>주최 정보</h2>
-        <InputField type="text" name="title" placeholder="제목을 입력해주세요." value={form.title} onChange={onChange}>
+        <InputField type="text" name="title" placeholder="제목을 입력해주세요." value={form.title} onChange={onChange} style={{ padding: "0 1rem" }}>
           제목
         </InputField>
-        <InputField type="text" name="univ" placeholder="대학을 입력해주세요." value={form.univ} onChange={onChange}>
+        <InputField type="text" name="univ" placeholder="대학을 입력해주세요." value={form.univ} onChange={onChange} style={{ padding: "0 1rem" }}>
           대학
         </InputField>
-        <InputField type="text" name="department" placeholder="학과 또는 학부를 입력해주세요." value={form.department} onChange={onChange}>
+        <InputField
+          type="text"
+          name="department"
+          placeholder="학과 또는 학부를 입력해주세요."
+          value={form.department}
+          onChange={onChange}
+          style={{ padding: "0 1rem" }}
+        >
           학과
         </InputField>
       </section>
@@ -310,12 +317,28 @@ const PostUpload = () => {
       <section>
         <h2 className={styles["title"]}>주소</h2>
         <div className={styles["l_address"]}>
-          <InputField type="text" name="location" placeholder="도로명 주소" value={form.location} onChange={onChange} labelHidden>
+          <InputField
+            type="text"
+            name="location"
+            placeholder="도로명 주소"
+            value={form.location}
+            onChange={onChange}
+            labelHidden
+            style={{ padding: "0 1rem" }}
+          >
             도로명 주소
           </InputField>
           <Button>주소 찾기</Button>
         </div>
-        <InputField type="text" name="location_detail" placeholder="상세 주소" value={form.location_detail} onChange={onChange} labelHidden>
+        <InputField
+          type="text"
+          name="location_detail"
+          placeholder="상세 주소"
+          value={form.location_detail}
+          onChange={onChange}
+          labelHidden
+          style={{ padding: "0 1rem" }}
+        >
           상세 주소
         </InputField>
       </section>
