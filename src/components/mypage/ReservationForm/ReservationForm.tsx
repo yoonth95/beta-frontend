@@ -1,11 +1,20 @@
 import React, { useRef, useState } from "react";
 import { DatePicker, Editor, InputField, DeleteButton } from "@/components/common";
 import styles from "./ReservationForm.module.css";
-import { DateInputType } from "@/types";
+import { DateInputType, DateWithTime } from "@/types";
 import { toast } from "react-toastify";
 
-const ReservationForm = ({ form, onChange, roundList, setRoundList, editorNoticeData, setEditorNoticeData }) => {
-  const datePickerInputRef = useRef<HTMLInputElement | null>(null);
+interface PropsType {
+  form: any;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  roundList: DateWithTime[];
+  setRoundList: React.Dispatch<React.SetStateAction<DateWithTime[]>>;
+  editorNoticeData: string;
+  setEditorNoticeData: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const ReservationForm: React.FC<PropsType> = ({ form, onChange, roundList, setRoundList, editorNoticeData, setEditorNoticeData }) => {
+  const datePickerInputRef = useRef<HTMLDivElement | null>(null);
   const [dateTime, setDateTime] = useState({
     date: "",
     time: "",
@@ -29,7 +38,7 @@ const ReservationForm = ({ form, onChange, roundList, setRoundList, editorNotice
     }
   };
 
-  const handleRoundRemove = ({ round: removeRound }) => {
+  const handleRoundRemove = ({ round: removeRound }: { round: DateWithTime }) => {
     setRoundList((prev) => prev.filter((round) => round !== removeRound));
   };
 
