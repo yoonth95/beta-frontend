@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 import { Carousel } from "@/components/common";
 import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 import { getBannerImages } from "@/apis";
@@ -13,8 +14,6 @@ const Banner = () => {
     queryFn: async () => await getBannerImages(),
   });
 
-  if (status === "error") return <>{error.message}</>;
-
   const handleClickBannerImage = (showId: number) => (e: React.MouseEvent) => {
     if (isDragging) {
       e.stopPropagation();
@@ -22,20 +21,23 @@ const Banner = () => {
     }
     navigate(`detail/${showId}`);
   };
+
+  if (status === "pending") return <Skeleton className={styles.section} />;
   return (
-    <>
-      <Carousel index={0}>
-        {status === "pending" ? (
-          <>loading...</>
-        ) : (
-          data.map((item) => (
+    <section className={styles.section}>
+      <h2 className={"a11y-hidden"}>진행중인 공연/전시 배너</h2>
+
+      <>
+        {status === "error" && <>{error.message}</>}
+        <Carousel index={0}>
+          {data?.map((item) => (
             <div onClick={handleClickBannerImage(item.show_id)} key={item.id}>
               <img src={`${import.meta.env.VITE_APP_IMAGE_DOMAIN}${item.image_url}`} className={styles["banner-image"]} />
             </div>
-          ))
-        )}
-      </Carousel>
-    </>
+          ))}
+        </Carousel>
+      </>
+    </section>
   );
 };
 
