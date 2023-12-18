@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DatePicker, Editor, InputField } from "@/components/common";
+import { DatePicker, Editor, InputField, DeleteButton } from "@/components/common";
 import styles from "./ReservationForm.module.css";
 import { DateInputType } from "@/types";
 
@@ -20,6 +20,11 @@ const ReservationForm = ({ form, onChange, roundList, setRoundList, editorNotice
     setRoundList([...roundList, dateTime]);
     // TODO: datePicker 값 초기화
   };
+
+  const handleRoundRemove = ({ round: removeRound }) => {
+    setRoundList((prev) => prev.filter((round) => round !== removeRound));
+  };
+
   return (
     <div className={styles["reservation-form-wrapper"]}>
       <InputField type="text" name="price" value={form.price} onChange={onChange}>
@@ -42,7 +47,7 @@ const ReservationForm = ({ form, onChange, roundList, setRoundList, editorNotice
                 <span className={styles["round-item__content"]}>{round.time}</span>
               </div>
             </div>
-            <button>x</button>
+            <DeleteButton spanHidden="해당 회차 삭제" onClick={() => handleRoundRemove({ round })} />
           </article>
         ))}
 
