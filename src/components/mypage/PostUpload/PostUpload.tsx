@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
+import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
 import { Postcode } from "@/components/main";
 import useInputs from "@/hooks/useInputs";
 import { ReservationForm } from "..";
@@ -130,6 +130,14 @@ const PostUpload = () => {
     setImgFiles([...imgFiles, ...e.target.files]);
     const previewImgSrc = [...e.target.files].map((file) => URL.createObjectURL(file));
     setImgPreviewUrls([...imgPreviewUrls, ...previewImgSrc]);
+  };
+  const handleRemoveImage = (image: string) => {
+    const deleteImgIndex = imgPreviewUrls.indexOf(image);
+    // file 객체 리스트에서 제거
+    const newImgFiles = [...imgFiles.slice(0, deleteImgIndex), ...imgFiles.slice(deleteImgIndex + 1)];
+    setImgFiles(newImgFiles);
+    // 미리보기 blob url 리스트에서 제거
+    setImgPreviewUrls((prev) => prev.filter((previewUrl) => previewUrl !== image));
   };
   useEffect(() => {
     return () => {
@@ -274,9 +282,7 @@ const PostUpload = () => {
               <li key={image}>
                 <div className={styles["img-cover"]}>
                   <img src={image} alt="" />
-                  <button type="button" className={styles["img-delete-btn"]}>
-                    x
-                  </button>
+                  <DeleteButton spanHidden="해당 이미지 삭제" onClick={() => handleRemoveImage(image)} forImage />
                 </div>
               </li>
             ))}
