@@ -46,3 +46,15 @@
 .concert-list article {
   aspect-ratio: 2/1;
 }
+
+.concert-list article h3 {
+  font-size: 1rem;
+}
+
+.concert-list article p {
+  font-size: 0.9rem;
+}
+
+.concert-list article p:last-child {
+  font-size: 0.7rem;
+}
