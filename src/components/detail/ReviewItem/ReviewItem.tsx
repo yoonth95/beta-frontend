@@ -1,21 +1,43 @@
-import React from "react";
-import IconEllipsisVertical from "@/assets/icon-ellipsis-vertical.png";
-import styles from "./ReviewItem.module.css";
-import getElapsedTime from "@/utils/getElapsedTime";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { queryClient } from "@/main";
+import { useMutation } from "@tanstack/react-query";
+import { ReviewEditForm } from "..";
 import EllipsisProfileImg from "@/assets/ellipsis-profile.svg?react";
+import IconEllipsisVertical from "@/assets/icon-ellipsis-vertical.png";
+import { ReviewDeleteParamType, ReviewType } from "@/types";
+import { useLoginStore } from "@/stores/useLoginStore";
+import getElapsedTime from "@/utils/getElapsedTime";
+import { deleteReview } from "@/apis";
+import styles from "./ReviewItem.module.css";
 
-interface ReviewItemType {
+interface PropsType {
   item: ReviewType;
+  clickedReviewId: number | null;
+  setClickedReviewId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-interface ReviewType {
-  id: number;
-  username: string;
-  createdAt: string;
-  text: string | null;
-}
+const ReviewItem: React.FC<PropsType> = ({ item, clickedReviewId, setClickedReviewId }) => {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const { id: show_id } = useParams();
+  const {
+    userState: { login_id },
+  } = useLoginStore();
 
-const ReviewItem: React.FC<ReviewItemType> = ({ item }) => {
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: (review: ReviewDeleteParamType) => deleteReview(review),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reviewData", show_id],
+      });
+    },
+  });
+
+  const handleClickDelete = (item: ReviewType) => () => {
+    const { id: review_id, login_id, show_id } = item;
+    deleteMutate({ review_id, login_id, show_id });
+  };
+
   return (
     <div className={styles["review"]}>
       <div className={styles["review-content-top"]}>
@@ -23,22 +45,39 @@ const ReviewItem: React.FC<ReviewItemType> = ({ item }) => {
           <div className={styles["profile-img-cover"]}>
             <EllipsisProfileImg />
           </div>
-          <strong className={styles["username"]}>{item.username}</strong>
+          <strong className={styles["username"]}>{item.user_id}</strong>
         </div>
-        <span className={styles["review__created-at"]}>{getElapsedTime(item.createdAt)}</span>
+        <span className={styles["review__created-at"]}>{getElapsedTime(item.created_at)}</span>
       </div>
-      <h4 className={styles["review__text"]}>{item.text}</h4>
+      {!isEditMode ? <h4 className={styles["review__text"]}>{item.comment}</h4> : <ReviewEditForm item={item} setIsEditMode={setIsEditMode} />}
 
-      {/* 본인 댓글에만 더보기 버튼 */}
-      {/* active로 제어 */}
-      <button type="button" className={styles["review__ellipsis"]}>
-        <img src={IconEllipsisVertical} />
-      </button>
-
-      <div className={styles["review__button-list"]}>
-        <button type="button">수정</button>
-        <button type="button">삭제</button>
-      </div>
+      <>
+        {login_id === item.login_id && (
+          <button
+            type="button"
+            onClick={() => setClickedReviewId(item.id)}
+            onBlur={() => setClickedReviewId(null)}
+            className={styles["review__ellipsis"]}
+          >
+            <img src={IconEllipsisVertical} />
+          </button>
+        )}
+        {clickedReviewId === item.id && (
+          <div className={styles["review__button-list"]}>
+            <button
+              type="button"
+              onMouseDown={() => {
+                setIsEditMode(true);
+              }}
+            >
+              수정
+            </button>
+            <button type="button" onMouseDown={handleClickDelete(item)}>
+              삭제
+            </button>
+          </div>
+        )}
+      </>
     </div>
   );
 };
