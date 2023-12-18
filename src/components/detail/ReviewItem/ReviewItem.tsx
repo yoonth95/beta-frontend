@@ -45,7 +45,7 @@ const ReviewItem: React.FC<PropsType> = ({ item, clickedReviewId, setClickedRevi
           <div className={styles["profile-img-cover"]}>
             <EllipsisProfileImg />
           </div>
-          <strong className={styles["username"]}>{item.user_id}</strong>
+          <strong className={styles["username"]}>{item.login_id.slice(0, 3) + "***"}</strong>
         </div>
         <span className={styles["review__created-at"]}>{getElapsedTime(item.created_at)}</span>
       </div>
