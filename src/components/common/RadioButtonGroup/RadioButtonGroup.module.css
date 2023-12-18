@@ -1,9 +1,9 @@
 .fieldset {
   display: flex;
-  gap: 10px;
 }
 .fieldset.column {
   flex-direction: column;
+  gap: 10px;
 }
 
 .fieldset * {

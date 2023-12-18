@@ -13,7 +13,7 @@
 }
 
 .post-upload-section-form > section > fieldset {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .upload-imgs-wrapper {
@@ -32,6 +32,7 @@
   width: 15vw;
   min-width: 130px;
   max-width: 10rem;
+  aspect-ratio: 1/1;
 }
 .upload-img-input input {
   display: none;
@@ -51,7 +52,6 @@
 }
 
 .img-cover {
-  aspect-ratio: 1/1;
   border: 1px solid var(--gray200-color);
   border-radius: 0.5rem;
   overflow: hidden;
@@ -69,19 +69,46 @@
   right: 0.5rem;
 }
 .l_date {
-  display: flex;
-  gap: 2rem;
+  display: grid;
+  grid-template-areas: "a b c";
+  gap: 1rem;
+}
+@media (max-width: 420px) {
+  .l_date {
+    flex-direction: column;
+    grid-template-areas:
+      "a b"
+      "c c";
+  }
 }
 
 .l_address {
   display: flex;
+  gap: 1rem;
 }
 
 .l_address fieldset {
-  flex: 4;
+  flex-grow: 4;
 }
 
 .l_address button {
-  flex: 1;
-  margin-left: 2rem;
+  flex-grow: 1;
+  flex-basis: 100px;
+  flex-shrink: 0;
+}
+
+.tags-section :global(.tags-input) {
+  width: 100%;
+}
+.tags-section :global(.tagify__tag) {
+  max-width: calc(100% - 10px);
+}
+.tags-section :global(.tagify__tag > div::before) {
+  --tag-inset-shadow-size: 10rem;
+}
+.tags-section :global(.tagify__tag-text) {
+  word-break: break-all;
+}
+.tags-section :global(.tagify__tag__removeBtn) {
+  flex-shrink: 0;
 }

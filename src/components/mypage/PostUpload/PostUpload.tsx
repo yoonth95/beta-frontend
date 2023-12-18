@@ -4,7 +4,7 @@ import useInputs from "@/hooks/useInputs";
 import { ReservationForm } from "..";
 import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
 import reduceImageSize from "@/utils/reduceImageSize";
-import converArrayToObject from "@/utils/convertArrayToObject";
+import convertArrayToObject from "@/utils/convertArrayToObject";
 import { useColor } from "color-thief-react";
 import { DateInputType, ShowReservationInfoType, ShowType } from "@/types";
 import styles from "./PostUpload.module.css";
@@ -136,10 +136,10 @@ const PostUpload = () => {
   };
 
   const { data: main_image_color } = useColor(objUrls[0], "hex");
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // if (!objUrls) return;
     const imgFiles = await Promise.all(
       objUrls.map(async (objUrl) => {
         const jpeg = await reduceImageSize(objUrl);
@@ -147,8 +147,7 @@ const PostUpload = () => {
       }),
     );
 
-    // if (!tagsInput) return;
-    const tags = JSON.stringify(converArrayToObject(tagsInput));
+    const tags = JSON.stringify(convertArrayToObject(tagsInput));
 
     const base64EncodedContents = editorData && btoa(encodeURIComponent(editorData));
     const base64EncodedNotice = (form.method === "예매 대행" && btoa(encodeURIComponent(editorNoticeData))) || null;
@@ -184,7 +183,7 @@ const PostUpload = () => {
     // 이미지 파일
     formData.append("mainImage", result.main_image_url); // 메인 이미지
     for (let i = 0; i < result.sub_images_url.length; i++) {
-      formData.append("subImages", result.sub_images_url[i] || null); // 서브 이미지
+      formData.append("subImages", result.sub_images_url[i]); // 서브 이미지
     }
 
     const fileNames: { [key: number]: string } = {};
@@ -282,7 +281,7 @@ const PostUpload = () => {
         </InputField>
       </section>
 
-      <section>
+      <section className={styles["tags-section"]}>
         <h2 className={styles["title"]}>태그</h2>
         <TagInput handleChange={handleChangeTags} />
       </section>
