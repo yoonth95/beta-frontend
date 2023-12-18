@@ -4,15 +4,11 @@ import { queryClient } from "@/main";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/common";
 import { ReviewPostParamType } from "@/types";
-import { useLoginStore } from "@/stores/useLoginStore";
 import { postReview } from "@/apis";
 import styles from "./ReviewForm.module.css";
 
 const ReviewForm = () => {
   const { id: show_id } = useParams();
-  const {
-    userState: { login_id },
-  } = useLoginStore();
   const [reviewInput, setReviewInput] = useState("");
   const { mutate } = useMutation({
     mutationFn: (comment: ReviewPostParamType) => postReview(comment),
@@ -26,9 +22,9 @@ const ReviewForm = () => {
 
   const handleReviewForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!show_id || !login_id || !reviewInput) return;
+    if (!show_id || !reviewInput) return;
 
-    mutate({ show_id, login_id, comment: reviewInput });
+    mutate({ show_id, comment: reviewInput });
   };
 
   return (

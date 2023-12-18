@@ -15,19 +15,16 @@ export interface ReviewType {
 
 export interface ReviewPostParamType {
   show_id: string;
-  login_id: string;
   comment: string;
 }
 
 export interface ReviewDeleteParamType {
   review_id: number;
   show_id: number;
-  login_id: string;
 }
 
 export interface ReviewPatchParamType {
   review_id: number;
   show_id: number;
-  login_id: string;
   comment: string;
 }

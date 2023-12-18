@@ -34,8 +34,8 @@ const ReviewItem: React.FC<PropsType> = ({ item, clickedReviewId, setClickedRevi
   });
 
   const handleClickDelete = (item: ReviewType) => () => {
-    const { id: review_id, login_id, show_id } = item;
-    deleteMutate({ review_id, login_id, show_id });
+    const { id: review_id, show_id } = item;
+    deleteMutate({ review_id, show_id });
   };
 
   return (
@@ -49,7 +49,8 @@ const ReviewItem: React.FC<PropsType> = ({ item, clickedReviewId, setClickedRevi
         </div>
         <span className={styles["review__created-at"]}>{getElapsedTime(item.created_at)}</span>
       </div>
-      {!isEditMode ? <h4 className={styles["review__text"]}>{item.comment}</h4> : <ReviewEditForm item={item} setIsEditMode={setIsEditMode} />}
+      {!isEditMode && <h4 className={styles["review__text"]}>{item.comment}</h4>}
+      {isEditMode && <ReviewEditForm item={item} setIsEditMode={setIsEditMode} />}
 
       <>
         {login_id === item.login_id && (

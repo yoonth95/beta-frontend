@@ -32,8 +32,8 @@ const ReviewEditForm: React.FC<PropsType> = ({ item, setIsEditMode }) => {
 
   const handleSubmitEditForm = (item: ReviewType) => (e: React.FormEvent) => {
     e.preventDefault();
-    const { id: review_id, login_id, show_id } = item;
-    editMutate({ review_id, login_id, show_id, comment: reviewInput });
+    const { id: review_id, show_id } = item;
+    editMutate({ review_id, show_id, comment: reviewInput });
   };
 
   return (
