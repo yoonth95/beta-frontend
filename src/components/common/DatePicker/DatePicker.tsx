@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import ko from "date-fns/locale/ko";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,7 +16,11 @@ interface PropsType {
   type: "period" | "dateWithTime";
 }
 
-const DatePicker: React.FC<PropsType> = forwardRef(({ startDate: defaultStartDate, endDate: defaultEndDate, onChange, type }, ref) => {
+const DatePicker: React.ForwardRefRenderFunction<HTMLDivElement, PropsType> = (
+  { startDate: defaultStartDate, endDate: defaultEndDate, onChange, type },
+  forwardedRef,
+) => {
+  const datePickerRef = useRef<HTMLDivElement>(null);
   const [startDate, setStartDate] = useState<Date | null>((defaultStartDate && new Date(defaultStartDate)) || null);
   const [endDate, setEndDate] = useState<Date | null>((defaultEndDate && new Date(defaultEndDate)) || null);
 
@@ -45,10 +49,8 @@ const DatePicker: React.FC<PropsType> = forwardRef(({ startDate: defaultStartDat
   };
 
   // 부모에서 input 값 clear하기
-  useImperativeHandle(ref, () => ({
-    clearDatePicker: () => {
-      setStartDate(null);
-    },
+  useImperativeHandle(forwardedRef, () => ({
+    clearDatePicker: () => setStartDate(null),
   }));
 
   const CustomInput = forwardRef((props, ref: React.ForwardedRef<HTMLInputElement>) => {
@@ -65,6 +67,7 @@ const DatePicker: React.FC<PropsType> = forwardRef(({ startDate: defaultStartDat
       return (
         <ReactDatePicker
           locale={ko}
+          ref={datePickerRef}
           customInput={<CustomInput />}
           name="start_date_time"
           selected={startDate}
@@ -131,6 +134,6 @@ const DatePicker: React.FC<PropsType> = forwardRef(({ startDate: defaultStartDat
     default:
       return;
   }
-});
+};
 
-export default DatePicker;
+export default forwardRef(DatePicker);
