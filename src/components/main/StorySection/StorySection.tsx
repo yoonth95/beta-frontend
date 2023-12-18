@@ -6,6 +6,7 @@ import { useModalStore } from "@/stores/useModalStore";
 import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 import { getStories } from "@/apis";
 import styles from "./StorySection.module.css";
+import StorySectionSkeleton from "./StorySectionSkeleton";
 
 const StorySection = () => {
   const { openModal, setOpenModal } = useModalStore();
@@ -36,9 +37,6 @@ const StorySection = () => {
     setOpenModal({ state: true, type: "more" });
   };
 
-  if (status === "pending") return <>loading...</>;
-  if (status === "error") return <>{error.message}</>;
-
   return (
     <>
       <section className={styles["section"]}>
@@ -52,11 +50,18 @@ const StorySection = () => {
           </button>
         </div>
 
-        <Carousel index={1}>
-          {data.map((item, index) => (
-            <StoryCard key={item.id} item={item} onClick={handleClickStoryCard(index)} />
-          ))}
-        </Carousel>
+        <div className={styles["carousel-container"]}>
+          {status === "pending" && <StorySectionSkeleton />}
+
+          {status !== "pending" && (
+            <Carousel index={1}>
+              {data?.map((item, index) => (
+                <StoryCard key={item.id} item={item} onClick={handleClickStoryCard(index)} />
+              ))}
+            </Carousel>
+          )}
+          {status === "error" && <>{error.message}</>}
+        </div>
         {openModal.state && (
           <>
             {openModal.type === "upload" ? (
