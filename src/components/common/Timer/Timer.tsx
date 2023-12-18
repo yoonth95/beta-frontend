@@ -4,9 +4,10 @@ import styles from "./Timer.module.css";
 interface PropsType {
   time: number;
   setTime: React.Dispatch<React.SetStateAction<number>>;
+  isStop?: boolean;
 }
 
-const Timer: React.FC<PropsType> = ({ time, setTime }) => {
+const Timer: React.FC<PropsType> = ({ time, setTime, isStop }) => {
   const getSeconds = (time: number): string => {
     const seconds = time % 60;
     return seconds < 10 ? `0${seconds}` : `${seconds}`;
@@ -17,12 +18,12 @@ const Timer: React.FC<PropsType> = ({ time, setTime }) => {
       setTime((prev) => prev - 1);
     }, 1000);
 
-    if (time <= 0) {
+    if (time <= 0 || isStop) {
       clearInterval(timer);
     }
 
     return () => clearInterval(timer);
-  }, [time]);
+  }, [time, isStop]);
 
   return (
     <div className={styles["timer-container"]}>
