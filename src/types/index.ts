@@ -5,6 +5,7 @@ import { UserReservationFormType, UserReservationInputsType } from "./userReserv
 import { MemberResponseType, MemberType } from "./memberType";
 import { DateInputType } from "./datePickerInputType";
 import { FormInputs } from "./formInputsType";
+import { ReviewsGetResponse, ReviewType, ReviewPostParamType, ReviewDeleteParamType, ReviewPatchParamType } from "./reviewType";
 
 export {
   type ShowResponseType,
@@ -20,4 +21,9 @@ export {
   type MemberResponseType,
   type DateInputType,
   type FormInputs,
+  type ReviewsGetResponse,
+  type ReviewType,
+  type ReviewPostParamType,
+  type ReviewDeleteParamType,
+  type ReviewPatchParamType,
 };
