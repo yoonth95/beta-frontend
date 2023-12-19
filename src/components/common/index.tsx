@@ -14,6 +14,7 @@ import CheckBox from "./CheckBox/CheckBox";
 import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
 import DatePicker from "./DatePicker/DatePicker";
 import Editor from "./Editor/Editor";
+import DeleteButton from "./DeleteButton/DeleteButton";
 
 export {
   Button,
@@ -32,4 +33,5 @@ export {
   RadioButtonGroup,
   DatePicker,
   Editor,
+  DeleteButton,
 };

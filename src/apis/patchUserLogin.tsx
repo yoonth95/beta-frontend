@@ -17,6 +17,7 @@ export const patchUserLogin = async (login_id: string, login_pw: string, user_ro
       user_role,
     });
     userLoginInfo = data.data;
+    userLoginInfo["isLogin"] = true;
     return { isSuccess, userLoginInfo, message };
   } catch (error) {
     const axiosError = error as AxiosError<ErrorResponse>;

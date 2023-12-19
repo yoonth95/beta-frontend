@@ -1,0 +1,18 @@
+.ck .ck-content h4 {
+  font-size: 1.7rem;
+}
+.ck .ck-content h5 {
+  font-size: 1.5rem;
+}
+.ck .ck-content h6 {
+  font-size: 1.3rem;
+}
+.ck .ck-content ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+.ck .ck-content ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
