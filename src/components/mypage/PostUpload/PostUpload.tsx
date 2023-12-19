@@ -58,7 +58,6 @@ const showReservationInfoDummy: ShowReservationInfoType = {
   price: 1000,
   location: "서울시 강남구 대학로 예술극장",
   location_detail: null,
-  // TODO: 좌표구하기
   position: '{"lat": 37.5069494959122, "lng": 127.055596615858}',
   head_count: 20,
   notice: {
@@ -70,6 +69,7 @@ const showReservationInfoDummy: ShowReservationInfoType = {
   },
 };
 
+// TODO: api type
 const showTimesDummy = {
   show_id: 1,
   date_time: '{"1": "2023/12/08 - 오후 1시", "2": "2023/12/08 - 오후 5시", "3": "2023/12/10 - 오후 1시", "4": "2023/12/10 - 오후 5시"}',
@@ -162,23 +162,31 @@ const PostUpload = () => {
     e.preventDefault();
 
     if (!imgFiles.length) {
-      toast("이미지를 1개 이상 입력해주세요.");
+      toast.error("이미지를 1개 이상 업로드 해주세요.");
+      return;
+    }
+    if (imgFiles.length > 10) {
+      toast.error("이미지를 10개 이하로 업로드 해주세요.");
+      return;
+    }
+    if (!form.title || !form.univ || !form.department) {
+      toast.error("주최자 정보를 입력해주세요.");
       return;
     }
     if (!date.start_date || !date.end_date) {
-      toast("기간을 입력해주세요.");
+      toast.error("기간을 입력해주세요.");
       return;
     }
-    if (!tagsInput) {
-      toast("tag를 입력해주세요.");
+    if (!location) {
+      toast.error("주소를 입력해주세요.");
       return;
     }
     if (form.method === "구글폼" && !form.google_form_url) {
-      toast("구글폼 URL을 입력해주세요.");
+      toast.error("구글폼 URL을 입력해주세요.");
       return;
     }
     if (form.method === "예매 대행" && !form.price && !form.head_count && !form.date_time && !form.notice) {
-      toast("예매 작성 폼을 완성해주세요.");
+      toast.error("예매 작성 폼을 완성해주세요.");
       return;
     }
 
@@ -190,7 +198,7 @@ const PostUpload = () => {
       }),
     );
 
-    const tags = JSON.stringify(convertArrayToObject(tagsInput));
+    const tags = (tagsInput.length && JSON.stringify(convertArrayToObject(tagsInput))) || null;
 
     const base64EncodedContents = editorData && btoa(encodeURIComponent(editorData));
     const base64EncodedNotice = (form.method === "예매 대행" && btoa(encodeURIComponent(editorNoticeData))) || null;
@@ -239,13 +247,13 @@ const PostUpload = () => {
     formData.append("start_date", result.start_date);
     formData.append("end_date", result.end_date);
     formData.append("location", result.location);
-    formData.append("location_detail", result.location_detail);
+    result.location_detail && formData.append("location_detail", result.location_detail);
     formData.append("position", result.position);
     formData.append("main_image_color", result.main_image_color as string);
     formData.append("sub_images_url", JSON.stringify(fileNames));
     formData.append("univ", result.univ);
     formData.append("department", result.department);
-    formData.append("tags", result.tags);
+    result.tags && formData.append("tags", result.tags);
     formData.append("content", result.content);
     result.is_reservation && formData.append("is_reservation", result.is_reservation);
     result.method && formData.append("method", result.method);
