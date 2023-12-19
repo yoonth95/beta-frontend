@@ -17,7 +17,6 @@ const PostManage = () => {
   const navigate = useNavigate();
   const { openModal, setOpenModal } = useModalStore();
   const [showId, setShowId] = useState<string>("");
-  const [selectedShowTitle, setSelectedShowTitle] = useState<string>("");
 
   // 게시글 리스트를 가져오는 쿼리
   const {
@@ -50,9 +49,8 @@ const PostManage = () => {
   if (statusShowList === "pending") return <h1>loading...</h1>;
   if (statusShowList === "error") return <h1>{errorShowList.message}</h1>;
 
-  const handleClickReviewsCnt = async (title, showId: string) => {
-    setOpenModal({ state: true, type: "" });
-    setSelectedShowTitle(title);
+  const handleClickReviewsCnt = async (title: string, showId: string) => {
+    setOpenModal({ state: true, type: title });
     setShowId(() => showId);
     refetchReviews();
   };
@@ -100,7 +98,7 @@ const PostManage = () => {
       </Button>
 
       {openModal.state && (
-        <Modal title={selectedShowTitle}>
+        <Modal title={openModal.type}>
           {statusReviewList !== "success" ? (
             <h1>loading...</h1>
           ) : (
