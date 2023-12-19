@@ -78,6 +78,11 @@
   padding: 1rem;
   background-color: var(--gray100-color);
 }
+.info-description__content * {
+  width: 100%;
+  text-wrap: wrap;
+  line-height: 1.2rem;
+}
 
 .info-description h4 {
   font-size: 1.2rem;
@@ -94,13 +99,17 @@
 .info-description p {
   font-size: 0.8rem;
 }
+.info-description ul,
+.info-description ol {
+  font-size: 0.8rem;
+  list-style-position: inside;
+  margin: 0.5rem 0;
+}
 
 .info-description ul {
   list-style-type: disc;
-  list-style-position: inside;
 }
 
 .info-description ol {
   list-style-type: decimal;
-  list-style-position: inside;
 }
