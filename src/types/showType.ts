@@ -21,6 +21,7 @@ export interface ShowType {
   tags: string | null;
   content: Content;
   is_reservation: number;
+  user_liked: 0 | 1;
   created_at: string;
 }
 
