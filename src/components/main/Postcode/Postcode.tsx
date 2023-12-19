@@ -1,5 +1,5 @@
 import { Button } from "@/components/common";
-import React from "react";
+import React, { SetStateAction } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
 const kakao = window.kakao;
@@ -30,8 +30,7 @@ const getPosition = async (data) => {
   x = coords.getLng();
   y = coords.getLat();
 
-  console.log(x, y);
-  return { lng: x, lat: y };
+  return { lat: x, lng: y };
 };
 
 const getLocation = (data) => {
@@ -57,14 +56,19 @@ const getLocation = (data) => {
   return fullAddress;
 };
 
-const Postcode = ({ setPosition, setLocation }) => {
+interface PropsType {
+  setPosition: React.Dispatch<SetStateAction<object>>;
+  setLocation: React.Dispatch<SetStateAction<string>>;
+}
+
+const Postcode: React.FC<PropsType> = ({ setPosition, setLocation }) => {
   const open = useDaumPostcodePopup();
 
-  const handleComplete = (data) => {
+  const handleComplete = async (data) => {
     // position
-    setPosition(getPosition(data));
+    setPosition(await getPosition(data));
     // location
-    setLocation(getLocation(data));
+    setLocation(await getLocation(data));
   };
 
   const handleClick = () => {
