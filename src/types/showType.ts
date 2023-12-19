@@ -19,15 +19,10 @@ export interface ShowType {
   univ: string;
   department: string;
   tags: string | null;
-  content: Content;
+  content: string;
   is_reservation: number;
   user_liked: 0 | 1;
   created_at: string;
-}
-
-export interface Content {
-  type: string;
-  data: number[];
 }
 
 export interface ShowFilterRequestType {
