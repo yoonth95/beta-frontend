@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import ko from "date-fns/locale/ko";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,6 +9,10 @@ import { DateInputType } from "@/types";
 import formattingDate from "@/utils/formattingDate";
 import formattingTime from "@/utils/formattingTime";
 
+interface DatePickerRef {
+  clearDatePicker: () => void;
+}
+
 interface PropsType {
   startDate?: string;
   endDate?: string;
@@ -16,32 +20,49 @@ interface PropsType {
   type: "period" | "dateWithTime";
 }
 
-const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate: defaultEndDate, onChange, type }) => {
+const DatePicker: React.ForwardRefRenderFunction<DatePickerRef, PropsType> = (
+  { startDate: defaultStartDate, endDate: defaultEndDate, onChange, type },
+  forwardedRef,
+) => {
+  const datePickerRef = useRef<HTMLDivElement>(null);
   const [startDate, setStartDate] = useState<Date | null>((defaultStartDate && new Date(defaultStartDate)) || null);
   const [endDate, setEndDate] = useState<Date | null>((defaultEndDate && new Date(defaultEndDate)) || null);
 
   // 날짜와 시간을 고르는 input
-  const handleChangeDateWithTimeInput = (name: string, value: Date) => {
-    const dateObject = new Date(value);
-    const date = formattingDate(dateObject);
-    const time = formattingTime(dateObject);
-    const event: DateInputType = { target: { name, value: { date, time } } };
-    onChange(event);
+  const handleChangeDateWithTimeInput = (name: string, value: Date | null) => {
+    if (value) {
+      const dateObject = new Date(value);
+      const date = formattingDate(dateObject);
+      const time = formattingTime(dateObject);
+      const event: DateInputType = { target: { name, value: { date, time } } };
+      onChange(event);
+      return;
+    }
+    onChange({ target: { name, value: { date: "", time: "" } } });
   };
 
   // 날짜만 고르는 input
-  const handleChangePeriodInput = (name: string, value: Date) => {
-    const dateObject = new Date(value);
-    const date = formattingDate(dateObject);
-    const event: DateInputType = { target: { name, value: date } };
-    onChange(event);
+  const handleChangePeriodInput = (name: string, value: Date | null) => {
+    if (value) {
+      const dateObject = new Date(value);
+      const date = formattingDate(dateObject);
+      const event: DateInputType = { target: { name, value: date } };
+      onChange(event);
+      return;
+    }
+    onChange({ target: { name, value: "" } });
   };
+
+  // 부모에서 input 값 clear하기
+  useImperativeHandle(forwardedRef, () => ({
+    clearDatePicker: () => setStartDate(null),
+  }));
 
   const CustomInput = forwardRef((props, ref: React.ForwardedRef<HTMLInputElement>) => {
     return (
       <div className={styles["calendar-input-wrap"]}>
-        <input {...props} ref={ref} type="text" className={styles["calendar-input"]} />
         <CalendarIcon />
+        <input {...props} ref={ref} type="text" className={styles["calendar-input"]} />
       </div>
     );
   });
@@ -51,10 +72,11 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
       return (
         <ReactDatePicker
           locale={ko}
+          ref={datePickerRef}
           customInput={<CustomInput />}
           name="start_date_time"
           selected={startDate}
-          onChange={(date: Date) => {
+          onChange={(date: Date | null) => {
             setStartDate(date);
             handleChangeDateWithTimeInput("start_date_time", date);
           }}
@@ -62,6 +84,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
           showTimeSelect
           placeholderText="날짜 및 시간"
           autoComplete="off"
+          isClearable
         />
       );
     }
@@ -75,7 +98,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               customInput={<CustomInput />}
               name="start_date"
               selected={startDate}
-              onChange={(date: Date) => {
+              onChange={(date: Date | null) => {
                 setStartDate(date);
                 handleChangePeriodInput("start_date", date);
               }}
@@ -85,6 +108,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               dateFormat="yyyy/MM/dd"
               placeholderText="시작일"
               autoComplete="off"
+              isClearable
             />
           </div>
           <span className={styles["wave"]}>~</span>
@@ -94,7 +118,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               customInput={<CustomInput />}
               name="end_date"
               selected={endDate}
-              onChange={(date: Date) => {
+              onChange={(date: Date | null) => {
                 setEndDate(date);
                 handleChangePeriodInput("end_date", date);
               }}
@@ -105,6 +129,7 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
               dateFormat="yyyy/MM/dd"
               placeholderText="종료일"
               autoComplete="off"
+              isClearable
             />
           </div>
         </>
@@ -116,4 +141,4 @@ const DatePicker: React.FC<PropsType> = ({ startDate: defaultStartDate, endDate:
   }
 };
 
-export default DatePicker;
+export default forwardRef(DatePicker);

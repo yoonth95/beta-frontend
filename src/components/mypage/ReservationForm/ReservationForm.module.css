@@ -19,7 +19,8 @@
 
 .round-item {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
+  align-items: center;
 }
 
 .round-item__box,
@@ -34,13 +35,14 @@
 }
 
 .round-item-add {
-  width: 300px;
+  max-width: 400px;
 }
 
 .round-item-add__dateTime {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .round-item__box-row {

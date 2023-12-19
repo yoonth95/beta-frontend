@@ -2,9 +2,6 @@
   position: relative;
   margin-bottom: 2rem;
 }
-.review:hover .review__ellipsis {
-  display: block;
-}
 
 .review-content-top {
   display: flex;
@@ -50,7 +47,7 @@
 }
 
 .review__ellipsis {
-  display: none;
+  display: block;
   width: 32px;
   height: 32px;
   position: absolute;
@@ -59,24 +56,16 @@
   margin-left: auto;
 }
 
-.review__ellipsis.active {
-  display: block;
-}
-
 .review__ellipsis img {
   height: 100%;
 }
 
 .review__button-list {
-  display: none;
-}
-
-.review__ellipsis.active + .review__button-list {
   width: 80px;
   display: flex;
   flex-direction: column;
   position: absolute;
-  right: -3.9rem;
+  right: 0;
   top: 1.875rem;
   z-index: 10;
   background-color: #fff;
@@ -89,6 +78,7 @@
   padding: 10px 0;
   font-size: 0.75rem;
 }
+
 .review__button-list button:hover {
   background-color: var(--gray100-color);
 }

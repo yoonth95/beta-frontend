@@ -6,14 +6,16 @@ export interface ShowResponseType {
 export interface ShowType {
   id: number;
   show_type: string;
-  show_sub_type: string;
+  show_sub_type: string | null;
   title: string;
   start_date: string;
   end_date: string;
   location: string;
+  location_detail: string | null;
   position: string | null;
   main_image_url: string;
   sub_images_url: string | null;
+  main_image_color: string | null;
   univ: string;
   department: string;
   tags: string | null;

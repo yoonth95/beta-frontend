@@ -1,37 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { verifyTokenAPI } from "@/apis/getVerifyToken";
 import { useLoginStore } from "@/stores/useLoginStore";
 
-interface PropsType {
-  isLogin: boolean;
-  login_id: string;
-  user_name: string;
-  user_role: string;
-}
+const useAuth = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const { userState, setUserState } = useLoginStore();
+  const { pathname } = useLocation();
 
-const useAuth = (
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  setData: React.Dispatch<React.SetStateAction<PropsType | null>>, // 수정된 타입
-  setIsError: React.Dispatch<React.SetStateAction<boolean>>,
-) => {
-  const { setUserState } = useLoginStore();
+  const verifyToken = async () => {
+    try {
+      const res = await verifyTokenAPI();
+      setUserState(res);
+    } catch (error) {
+      console.error(error);
+      setIsError(true);
+      setUserState({ isLogin: false, login_id: "", user_name: "", user_role: "" });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const verifyToken = async () => {
-      try {
-        const res = await verifyTokenAPI();
-        setIsLoading(false);
-        setData(res);
-        setUserState(res); // setUserState를 호출하여 전역 상태 업데이트
-      } catch (error) {
-        console.error(error);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     verifyToken();
-  }, [setIsLoading, setData, setIsError, setUserState]);
+  }, [pathname]); // Removed pathname dependency to avoid unnecessary re-verifications
+
+  return { isLoading, isError, user: userState };
 };
 
 export default useAuth;
