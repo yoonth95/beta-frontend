@@ -5,53 +5,58 @@ import CommentIcon from "@/assets/comment.svg?react";
 import classNames from "classnames/bind";
 import styles from "./PostManage.module.css";
 import LikeIcon from "@/assets/like.svg?react";
+import { useQuery } from "@tanstack/react-query";
+import { getMyShowList } from "@/apis";
 
 const cx = classNames.bind(styles);
 
-const item = {
-  title: "서울대학교 산업디자인학과 23년 졸전 놀러오세요",
-  date: "2023.12.04 ~ 2023.12.08",
-  likeCount: 46,
-  reviewCount: 2,
-  id: 4,
-};
 const PostManage = () => {
   const navigate = useNavigate();
   const { openModal, setOpenModal } = useModalStore();
+
+  const {
+    status,
+    data: showList,
+    error,
+  } = useQuery({
+    queryKey: ["showList"],
+    queryFn: () => getMyShowList(),
+  });
+
+  if (status === "pending") return <h1>loading...</h1>;
+  if (status === "error") return <h1>{error.message}</h1>;
 
   return (
     <>
       <div className={styles["container"]}>
         <ul className={styles["list"]}>
-          {Array(5)
-            .fill(item)
-            .map((item) => (
-              <li className={cx("list-row", "list-item")}>
-                <Link to={"/detail/3"} className={styles["list-row-left"]}>
-                  <h3 className={cx("list-item__title", "ellipsis-multi")}>{item.title}</h3>
-                  <p className={styles["list-item__date"]}>{item.date}</p>
-                </Link>
-                <div className={styles["list-row-right"]}>
-                  <div className={styles["like-cnt"]}>
-                    <LikeIcon />
-                    <span>{item.likeCount}</span>
-                  </div>
-                  <Button
-                    reverseColor={true}
-                    onClick={() => {
-                      setOpenModal({ state: true, type: "" });
-                    }}
-                    style={{ padding: "0.6rem" }}
-                  >
-                    <CommentIcon className={styles["cmt-icon"]} />
-                    <span>{item.reviewCount}</span>
-                  </Button>
-                  <Button reverseColor={true} style={{ padding: "0.6rem" }}>
-                    수정/삭제
-                  </Button>
+          {showList.map((item) => (
+            <li className={cx("list-row", "list-item")}>
+              <Link to={"/detail/3"} className={styles["list-row-left"]}>
+                <h3 className={cx("list-item__title", "ellipsis-multi")}>{item.title}</h3>
+                <p className={styles["list-item__date"]}>{item.start_date + " ~ " + item.end_date}</p>
+              </Link>
+              <div className={styles["list-row-right"]}>
+                <div className={styles["like-cnt"]}>
+                  <LikeIcon />
+                  <span>{item.likes_count}</span>
                 </div>
-              </li>
-            ))}
+                <Button
+                  reverseColor={true}
+                  onClick={() => {
+                    setOpenModal({ state: true, type: "" });
+                  }}
+                  style={{ padding: "0.6rem" }}
+                >
+                  <CommentIcon className={styles["cmt-icon"]} />
+                  <span>{item.reviews_count}</span>
+                </Button>
+                <Button reverseColor={true} style={{ padding: "0.6rem" }} onClick={() => navigate("./update", { state: item.id })}>
+                  수정/삭제
+                </Button>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
       <Button style={{ fontSize: "0.75rem", width: "fit-content", marginLeft: "auto" }} onClick={() => navigate("./upload")}>
