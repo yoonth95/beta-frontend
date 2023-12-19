@@ -181,13 +181,15 @@ const PostUpload = () => {
       toast.error("주소를 입력해주세요.");
       return;
     }
-    if (form.method === "구글폼" && !form.google_form_url) {
-      toast.error("구글폼 URL을 입력해주세요.");
-      return;
-    }
-    if (form.method === "예매 대행" && !form.price && !form.head_count && !form.date_time && !form.notice) {
-      toast.error("예매 작성 폼을 완성해주세요.");
-      return;
+    if (form.is_reservation === "예") {
+      if (form.method === "구글폼" && !form.google_form_url) {
+        toast.error("구글폼 URL을 입력해주세요.");
+        return;
+      }
+      if (form.method === "예매 대행" && !form.price && !form.head_count && !form.date_time && !form.notice) {
+        toast.error("예매 작성 폼을 완성해주세요.");
+        return;
+      }
     }
 
     const resizedImgFiles = await Promise.all(
@@ -200,7 +202,21 @@ const PostUpload = () => {
 
     const tags = (tagsInput.length && JSON.stringify(convertArrayToObject(tagsInput))) || null;
 
-    const base64EncodedContents = editorData && btoa(encodeURIComponent(editorData));
+    // const encodeUnicode = (str) => {
+    //   // URL 인코딩 후 각 문자를 Base64로 인코딩 가능한 형태로 변환
+    //   // const encodedURI =
+    //   return encodeURIComponent(str)
+    //     .split("")
+    //     .map(function (c) {
+    //       return String.fromCharCode("0x" + c.charCodeAt(0).toString(16));
+    //     })
+    //     .join("");
+
+    //   // Base64 인코딩
+    //   // return btoa(encodedURI);
+    // };
+    // const base64EncodedContents = editorData && encodeUnicode(editorData);
+    const base64EncodedContents = editorData && btoa(unescape(encodeURIComponent(editorData)));
     const base64EncodedNotice = (form.method === "예매 대행" && btoa(encodeURIComponent(editorNoticeData))) || null;
 
     const roundListToDateTime = () => {
@@ -224,7 +240,7 @@ const PostUpload = () => {
       google_form_url: (form.method === "구글폼" && form.google_form_url) || null,
       price: (form.method === "예매 대행" && form.price) || null,
       head_count: (form.method === "예매 대행" && form.head_count) || null,
-      date_time: (form.method === "예매 대행" && JSON.stringify(roundListToDateTime())) || null,
+      date_time: (form.method === "예매 대행" && JSON.stringify(convertArrayToObject(roundListToDateTime()))) || null,
       notice: base64EncodedNotice,
     };
     console.log(result);
