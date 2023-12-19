@@ -7,11 +7,12 @@ const cx = classNames.bind(styles);
 
 interface PropsType {
   active: boolean;
+  onClick: () => void;
 }
 
-const LikeButton: React.FC<PropsType> = ({ active }) => {
+const LikeButton: React.FC<PropsType> = ({ active, onClick }) => {
   return (
-    <button className={cx("like-button", active && "active")}>
+    <button type="button" className={cx("like-button", active && "active")} onClick={onClick}>
       <LikeSvg className={styles["like-button__svg"]} />
       <span>좋아요</span>
     </button>

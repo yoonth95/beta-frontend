@@ -9,16 +9,7 @@ type onCopyFn = (text: string) => void;
 const copyClipBoard: onCopyFn = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
-    toast.info("클립보드에 복사되었습니다.", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.info("클립보드에 복사되었습니다.");
   } catch (error) {
     console.error(error);
   }
@@ -73,7 +64,7 @@ const InfoSection = () => {
           <h4 className={styles["info-title__title"]}>{title}</h4>
           <p className={styles["info-title__date"]}>{start_date + " ~ " + end_date}</p>
           <p className={styles["info-title__location"]}>{location}</p>
-          {!tags.length && (
+          {!!tags.length && (
             <ul className={styles["info-title__tags"]}>
               {tags.map((tag) => (
                 <li key={tag} className={styles.tag}>
