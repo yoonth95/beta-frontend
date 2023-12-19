@@ -6,6 +6,7 @@ import getShowInfo from "./getShowInfo";
 import getShowReservationInfo from "./getShowReservationInfo";
 import getUserInfo from "./getUserInfo";
 import postStory from "./postStory";
+import getUserLikeList from "./getUserLikeList";
 import getReviews from "./getReviews";
 import postReview from "./postReview";
 import deleteReview from "./deleteReview";

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
+import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
+import { Postcode } from "@/components/main";
 import useInputs from "@/hooks/useInputs";
 import { ReservationForm } from "..";
 import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
@@ -105,6 +106,13 @@ const PostUpload = () => {
   const [tagsInput, setTagInputs] = useState<string[]>([]);
   const [imgFiles, setImgFiles] = useState<File[]>([]);
   const [imgPreviewUrls, setImgPreviewUrls] = useState<string[]>([]);
+  const [location, setLocation] = useState<string>(form.location || "");
+  const [position, setPosition] = useState(
+    form.position || {
+      lat: 0,
+      lng: 0,
+    },
+  );
   const [date, setDate] = useState({
     start_date: showingDummy.start_date || "",
     end_date: showingDummy.end_date || "",
@@ -122,6 +130,14 @@ const PostUpload = () => {
     setImgFiles([...imgFiles, ...e.target.files]);
     const previewImgSrc = [...e.target.files].map((file) => URL.createObjectURL(file));
     setImgPreviewUrls([...imgPreviewUrls, ...previewImgSrc]);
+  };
+  const handleRemoveImage = (image: string) => {
+    const deleteImgIndex = imgPreviewUrls.indexOf(image);
+    // file 객체 리스트에서 제거
+    const newImgFiles = [...imgFiles.slice(0, deleteImgIndex), ...imgFiles.slice(deleteImgIndex + 1)];
+    setImgFiles(newImgFiles);
+    // 미리보기 blob url 리스트에서 제거
+    setImgPreviewUrls((prev) => prev.filter((previewUrl) => previewUrl !== image));
   };
   useEffect(() => {
     return () => {
@@ -183,8 +199,6 @@ const PostUpload = () => {
       return roundList.map((item) => item.date + " - " + item.time);
     };
 
-    // TODO: postioin 좌표
-
     const result = {
       ...form,
       main_image_url: resizedImgFiles[0],
@@ -193,6 +207,8 @@ const PostUpload = () => {
       show_sub_type: form.show_type === "전시" ? null : form.show_sub_type,
       start_date: date.start_date,
       end_date: date.end_date,
+      location,
+      position: JSON.stringify(position),
       tags,
       content: base64EncodedContents,
       is_reservation: form.is_reservation === "예" ? "1" : "0",
@@ -224,7 +240,7 @@ const PostUpload = () => {
     formData.append("end_date", result.end_date);
     formData.append("location", result.location);
     formData.append("location_detail", result.location_detail);
-    formData.append("position", JSON.stringify({ lat: 37.5069494959122, lng: 127.055596615858 }));
+    formData.append("position", result.position);
     formData.append("main_image_color", result.main_image_color as string);
     formData.append("sub_images_url", JSON.stringify(fileNames));
     formData.append("univ", result.univ);
@@ -266,9 +282,7 @@ const PostUpload = () => {
               <li key={image}>
                 <div className={styles["img-cover"]}>
                   <img src={image} alt="" />
-                  <button type="button" className={styles["img-delete-btn"]}>
-                    x
-                  </button>
+                  <DeleteButton spanHidden="해당 이미지 삭제" onClick={() => handleRemoveImage(image)} forImage />
                 </div>
               </li>
             ))}
@@ -317,18 +331,10 @@ const PostUpload = () => {
       <section>
         <h2 className={styles["title"]}>주소</h2>
         <div className={styles["l_address"]}>
-          <InputField
-            type="text"
-            name="location"
-            placeholder="도로명 주소"
-            value={form.location}
-            onChange={onChange}
-            labelHidden
-            style={{ padding: "0 1rem" }}
-          >
+          <InputField type="text" name="location" placeholder="도로명 주소" value={location} labelHidden style={{ padding: "0 1rem" }} readOnly>
             도로명 주소
           </InputField>
-          <Button>주소 찾기</Button>
+          <Postcode setPosition={setPosition} setLocation={setLocation} />
         </div>
         <InputField
           type="text"

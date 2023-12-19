@@ -61,13 +61,7 @@
   object-fit: contain;
   width: 100%;
 }
-.img-delete-btn {
-  width: 1.5rem;
-  height: 1.5rem;
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-}
+
 .l_date {
   display: grid;
   grid-template-areas: "a b c";
@@ -85,6 +79,12 @@
 .l_address {
   display: flex;
   gap: 1rem;
+}
+
+@media (max-width: 440px) {
+  .l_address {
+    flex-wrap: wrap;
+  }
 }
 
 .l_address fieldset {

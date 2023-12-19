@@ -22,3 +22,11 @@
   stroke: var(--main-color);
   stroke-width: 1;
 }
+
+.img-delete-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
