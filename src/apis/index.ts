@@ -29,4 +29,5 @@ export {
   patchReview,
   postLike,
   deleteLike,
+  getUserLikeList,
 };
