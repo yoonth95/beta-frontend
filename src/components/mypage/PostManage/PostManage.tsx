@@ -6,9 +6,9 @@ import CommentIcon from "@/assets/comment.svg?react";
 import classNames from "classnames/bind";
 import styles from "./PostManage.module.css";
 import LikeIcon from "@/assets/like.svg?react";
-import { useQuery } from "@tanstack/react-query";
-import { getMyShowList, getReviews } from "@/apis";
-import { ReviewType } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { deleteReview, getMyShowList, getReviews } from "@/apis";
+import { ReviewDeleteParamType, ReviewType } from "@/types";
 import getElapsedTime from "@/utils/getElapsedTime";
 
 const cx = classNames.bind(styles);
@@ -16,29 +16,50 @@ const cx = classNames.bind(styles);
 const PostManage = () => {
   const navigate = useNavigate();
   const { openModal, setOpenModal } = useModalStore();
-  const [reviewData, setReviewData] = useState<ReviewType[]>([]);
+  const [showId, setShowId] = useState<string>("");
+  const [selectedShowTitle, setSelectedShowTitle] = useState<string>("");
 
+  // 게시글 리스트를 가져오는 쿼리
   const {
-    status,
+    status: statusShowList,
     data: showList,
-    error,
+    error: errorShowList,
   } = useQuery({
-    queryKey: ["showList"],
+    queryKey: ["showList", showId],
     queryFn: () => getMyShowList(),
   });
 
-  if (status === "pending") return <h1>loading...</h1>;
-  if (status === "error") return <h1>{error.message}</h1>;
+  // 후기 리스트를 가져오는 쿼리 (조건부로 호출)
+  const {
+    status: statusReviewList,
+    data: reviewList,
+    error: errorReviewList,
+    refetch: refetchReviews,
+  } = useQuery({
+    queryKey: ["reviewList", showId],
+    queryFn: () => getReviews(showId),
+    enabled: !!showId,
+  });
 
-  const handleClickReviewsCnt = async (showId: string) => {
+  // 후기 삭제를 위한 뮤테이션
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: (review: ReviewDeleteParamType) => deleteReview(review),
+    onSuccess: () => refetchReviews(),
+  });
+
+  if (statusShowList === "pending") return <h1>loading...</h1>;
+  if (statusShowList === "error") return <h1>{errorShowList.message}</h1>;
+
+  const handleClickReviewsCnt = async (title, showId: string) => {
     setOpenModal({ state: true, type: "" });
-    try {
-      const data = await getReviews(showId);
-      setReviewData(data);
-    } catch (e) {
-      // 에러 페이지 처리
-      console.error(e);
-    }
+    setSelectedShowTitle(title);
+    setShowId(() => showId);
+    refetchReviews();
+  };
+
+  const handleClickDelete = (item: ReviewType) => () => {
+    const { id: review_id, show_id } = item;
+    deleteMutate({ review_id, show_id });
   };
 
   return (
@@ -59,7 +80,7 @@ const PostManage = () => {
                     <span className="a11y-hidden">개의 좋아요</span>
                   </span>
                 </div>
-                <Button reverseColor={true} onClick={() => handleClickReviewsCnt(item.id.toString())} style={{ padding: "0.6rem" }}>
+                <Button reverseColor={true} onClick={() => handleClickReviewsCnt(item.title, item.id.toString())} style={{ padding: "0.6rem" }}>
                   <CommentIcon className={styles["cmt-icon"]} />
                   <span>
                     {item.reviews_count}
@@ -79,20 +100,30 @@ const PostManage = () => {
       </Button>
 
       {openModal.state && (
-        <Modal title="서울대 어쩌고">
-          <strong className={styles["review-count"]}>총 후기수: {reviewData.length}명</strong>
-          <ul className={styles["review-list"]}>
-            {reviewData.map((item) => (
-              <li className={styles["review"]}>
-                <div className={styles["review-contents"]}>
-                  <strong className={styles["review__nickname"]}>{item.login_id.slice(0, 3) + "***"}</strong>
-                  <p className={styles["review__content"]}>{item.comment}</p>
-                  <span className={styles["review__date"]}>{getElapsedTime(item.created_at)}</span>
-                </div>
-                <DeleteButton spanHidden="해당 댓글 삭제" onClick={() => console.log("댓글 삭제")} />
-              </li>
-            ))}
-          </ul>
+        <Modal title={selectedShowTitle}>
+          {statusReviewList !== "success" ? (
+            <h1>loading...</h1>
+          ) : (
+            <>
+              <strong className={styles["review-count"]}>총 후기수: {reviewList.length}명</strong>
+              {reviewList.length ? (
+                <ul className={styles["review-list"]}>
+                  {reviewList.map((item) => (
+                    <li className={styles["review"]}>
+                      <div className={styles["review-contents"]}>
+                        <strong className={styles["review__nickname"]}>{item.login_id.slice(0, 3) + "***"}</strong>
+                        <p className={styles["review__content"]}>{item.comment}</p>
+                        <span className={styles["review__date"]}>{getElapsedTime(item.created_at)}</span>
+                      </div>
+                      <DeleteButton spanHidden="해당 댓글 삭제" onClick={handleClickDelete(item)} />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>댓글이 없습니다</p>
+              )}
+            </>
+          )}
         </Modal>
       )}
     </>
