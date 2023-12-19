@@ -9,16 +9,7 @@ type onCopyFn = (text: string) => void;
 const copyClipBoard: onCopyFn = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text);
-    toast.info("클립보드에 복사되었습니다.", {
-      position: "top-center",
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    toast.info("클립보드에 복사되었습니다.");
   } catch (error) {
     console.error(error);
   }
@@ -30,7 +21,7 @@ const InfoSection = () => {
 
   const { univ, department, title, location, start_date, end_date } = showInfo;
 
-  const tags = showInfo.tags && Object.values(JSON.parse(showInfo.tags));
+  const tags: string[] = showInfo.tags ? Object.values(JSON.parse(showInfo.tags)) : [];
   const position = showInfo.position && JSON.parse(showInfo.position);
   const contentBufferData = showInfo.content && new Uint8Array(showInfo.content.data);
   const contentDecodedString = contentBufferData && new TextDecoder("utf-8").decode(contentBufferData);

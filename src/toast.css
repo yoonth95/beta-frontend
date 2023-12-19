@@ -1,6 +1,6 @@
 .Toastify__progress-bar--info {
-  background-color: var(--main-color);
+  background-color: var(--gray300-color);
 }
-.Toastify__toast-icon > svg {
-  fill: var(--main-color);
+.Toastify__toast--info .Toastify__toast-icon > svg {
+  fill: var(--gray300-color);
 }
