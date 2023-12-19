@@ -1,4 +1,7 @@
 import React from "react";
+import { DeleteButton } from "@/components/common";
+import getElapsedTime from "@/utils/getElapsedTime";
+import isInDay from "@/utils/isInDay";
 import styles from "./ReviewMypageItem.module.css";
 
 interface ReviewMypageItemProps {
@@ -9,6 +12,13 @@ interface ReviewMypageItemProps {
 }
 
 const ReviewMypageItem: React.FC<ReviewMypageItemProps> = (item) => {
+  const handleClickDeleteButton = () => {
+    console.log("삭제");
+  };
+
+  const elapsedTime = getElapsedTime(item.date);
+  const isNew = isInDay(item.date);
+  console.log(isNew);
   return (
     <div className={styles["ReviewItem-container"]}>
       <div className={styles["ReviewItem-box"]}>
@@ -18,11 +28,11 @@ const ReviewMypageItem: React.FC<ReviewMypageItemProps> = (item) => {
         </div>
         <div className={styles["ReviewItem-section-bottom"]}>
           <span className="ellipsis">{item.comment}</span>
-          <strong>{item.date}</strong>
-          <div className={styles["newCircle"]}>N</div>
+          <strong>{elapsedTime}</strong>
+          {isNew && <div className={styles["newCircle"]}>N</div>}
         </div>
       </div>
-      <div className={styles["delete__button"]}></div>
+      <DeleteButton onClick={handleClickDeleteButton} spanHidden="삭제" />
     </div>
   );
 };
