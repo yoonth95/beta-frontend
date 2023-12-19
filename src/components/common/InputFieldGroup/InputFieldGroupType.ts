@@ -16,37 +16,32 @@ export interface EmailValues {
   email2: string;
 }
 
-interface PhoneInputProps {
+interface CommonType {
+  userType?: "user" | "admin";
+  required?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
+  readOnly?: boolean;
+}
+
+interface PhoneInputProps extends CommonType {
   type: "phone";
   values: PhoneValues;
   setValues?: SetValuesFunction<PhoneValues>;
-  userType?: "User" | "Admin";
-  required?: boolean;
   name: "phone";
-  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
-  readOnly?: boolean;
 }
 
-interface BirthdateGenderInputProps {
+interface BirthdateGenderInputProps extends CommonType {
   type: "birthdate-gender";
   values: BirthdateGenderValues;
   setValues?: SetValuesFunction<BirthdateGenderValues>;
-  userType?: "User" | "Admin";
-  required?: boolean;
   name: "gender";
-  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
-  readOnly?: boolean;
 }
 
-interface EmailInputProps {
+interface EmailInputProps extends CommonType {
   type: "email";
   values: EmailValues;
   setValues?: SetValuesFunction<EmailValues>;
-  userType?: "User" | "Admin";
-  required?: boolean;
   name: "email";
-  onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLSelectElement>;
-  readOnly?: boolean;
 }
 
 export type SetValuesFunction<T> = React.Dispatch<React.SetStateAction<T>>;

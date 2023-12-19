@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
-import { Button, Modal } from "@/components/common";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Modal, DeleteButton } from "@/components/common";
 import { useModalStore } from "@/stores/useModalStore";
 import CommentIcon from "@/assets/comment.svg?react";
-import DeleteIcon from "@/assets/plus.svg?react";
 import classNames from "classnames/bind";
 import styles from "./PostManage.module.css";
 import LikeIcon from "@/assets/like.svg?react";
@@ -17,6 +16,7 @@ const item = {
   id: 4,
 };
 const PostManage = () => {
+  const navigate = useNavigate();
   const { openModal, setOpenModal } = useModalStore();
 
   return (
@@ -54,7 +54,9 @@ const PostManage = () => {
             ))}
         </ul>
       </div>
-      <Button style={{ fontSize: "0.75rem", width: "fit-content", marginLeft: "auto" }}>게시글 업로드</Button>
+      <Button style={{ fontSize: "0.75rem", width: "fit-content", marginLeft: "auto" }} onClick={() => navigate("./upload")}>
+        게시글 업로드
+      </Button>
 
       {openModal.state && (
         <Modal title="서울대 어쩌고">
@@ -73,11 +75,7 @@ const PostManage = () => {
                     </p>
                     <span className={styles["review__date"]}>2023-12-08</span>
                   </div>
-
-                  <button type="button" className={styles["delete-btn"]}>
-                    <DeleteIcon />
-                    <span className={"a11y-hidden"}>해당 댓글 삭제</span>
-                  </button>
+                  <DeleteButton spanHidden="해당 댓글 삭제" onClick={() => console.log("댓글 삭제")} />
                 </li>
               ))}
           </ul>

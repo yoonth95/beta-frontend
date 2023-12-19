@@ -26,7 +26,7 @@ import classNames from "classnames/bind";
 
 interface PropsType {
   children?: React.ReactNode;
-  type: "text" | "password";
+  type: "text" | "password" | "url" | "number";
   name?: string;
   placeholder?: string;
   value?: string;
@@ -35,18 +35,43 @@ interface PropsType {
   isConfirm?: boolean;
   required?: boolean;
   readOnly?: boolean;
+  style?: React.CSSProperties;
+  unit?: string;
 }
 
 const cx = classNames.bind(styles);
 
-const InputField: React.FC<PropsType> = ({ children, type, name, placeholder, value, onChange, labelHidden, isConfirm, required, readOnly }) => {
+const InputField: React.FC<PropsType> = ({
+  children,
+  type,
+  name,
+  placeholder,
+  value,
+  onChange,
+  labelHidden,
+  isConfirm,
+  required,
+  readOnly = false,
+  style,
+  unit,
+}) => {
   const isSignupPassword = name === "password" || name === "id";
 
   return (
     <fieldset className={styles["fieldset-box"]}>
       <label className={labelHidden ? "a11y-hidden" : ""}>{children}</label>
-      <input required={required} readOnly={readOnly} type={type} name={name} placeholder={placeholder} value={value || ""} onChange={onChange} />
+      <input
+        required={required}
+        readOnly={readOnly}
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        value={value || ""}
+        onChange={onChange}
+        style={{ ...style }}
+      />
       {isSignupPassword && <CheckIcon className={cx("input-box__check", isConfirm && "success")} />}
+      {unit && <span className={styles["input-unit"]}>{unit}</span>}
     </fieldset>
   );
 };

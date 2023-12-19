@@ -78,12 +78,10 @@ const router = createBrowserRouter([
           {
             path: "post",
             element: <PostManage />,
-            children: [
-              {
-                path: "upload",
-                element: <PostUpload />,
-              },
-            ],
+          },
+          {
+            path: "post/upload",
+            element: <PostUpload />,
           },
         ],
       },

@@ -1,12 +1,14 @@
 import getShows from "./getShows";
 import getStories from "./getStories";
 import getBannerImages from "./getBannerImages";
+import postSignupAPI from "./postSignupAPI";
 import getShowInfo from "./getShowInfo";
 import getShowReservationInfo from "./getShowReservationInfo";
 import getUserInfo from "./getUserInfo";
+import postStory from "./postStory";
 import getReviews from "./getReviews";
 import postReview from "./postReview";
 import deleteReview from "./deleteReview";
 import patchReview from "./patchReview";
 
-export { getShows, getStories, getBannerImages, getShowInfo, getShowReservationInfo, getUserInfo, getReviews, postReview, deleteReview, patchReview };
+export { getShows, getStories, getBannerImages, postSignupAPI, getShowInfo, getShowReservationInfo, getUserInfo, postStory,  getReviews, postReview, deleteReview, patchReview };
