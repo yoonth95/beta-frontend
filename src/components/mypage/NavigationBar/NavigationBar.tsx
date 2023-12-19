@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink, useLocation, useSearchParams } from "react-router-dom";
 import classNames from "classnames/bind";
+import { useLoginStore } from "@/stores/useLoginStore";
 import styles from "./NavigationBar.module.css";
 
 const cx = classNames.bind(styles);
@@ -20,7 +21,8 @@ const adminNavList = [
 ];
 
 const Navigation = () => {
-  const [isAdmin, setIsAdmin] = useState(true); // 전역 상태로 관리할 예정
+  const { userState } = useLoginStore();
+  const [isAdmin, setIsAdmin] = useState(userState.user_role === "admin"); // 전역 상태로 관리할 예정
   const navList = isAdmin ? adminNavList : userNavList;
   const location = useLocation();
 

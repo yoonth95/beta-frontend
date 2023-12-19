@@ -1,0 +1,78 @@
+.filter-row {
+  width: 100%;
+  padding-bottom: 2.5rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2.5rem;
+  font-size: 0.875rem;
+}
+
+.filter-row-select {
+  margin-top: 0.625rem;
+}
+.filter-row__title {
+  word-break: keep-all;
+}
+
+.filter-contents {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: auto;
+  height: 100%;
+}
+
+.filter-contents::-webkit-scrollbar {
+  display: none;
+}
+
+.exhibition-list {
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13.125rem, 1fr));
+  gap: 2.5rem 1.25rem;
+  width: 100%;
+}
+
+.concert-list {
+  padding-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18.4375rem, 1fr));
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.concert-list article {
+  aspect-ratio: 2/1;
+}
+
+.concert-list article h3 {
+  font-size: 1rem;
+}
+
+.concert-list article p {
+  font-size: 0.9rem;
+}
+
+.concert-list article p:last-child {
+  font-size: 0.7rem;
+}
+
+@media (max-width: 375px) {
+  .concert-list {
+    grid-template-columns: repeat(auto-fill, minmax(16.4375rem, 1fr));
+  }
+  .concert-list article > a > div:last-child {
+    zoom: 0.8;
+  }
+}
+
+@media (max-width: 320px) {
+  .concert-list article > a > div:last-child {
+    zoom: 0.7;
+  }
+  .filter-row button {
+    min-width: 4.625rem;
+  }
+}

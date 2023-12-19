@@ -6,5 +6,10 @@ import getShowInfo from "./getShowInfo";
 import getShowReservationInfo from "./getShowReservationInfo";
 import getUserInfo from "./getUserInfo";
 import postStory from "./postStory";
+import getUserLikeList from "./getUserLikeList";
+import getReviews from "./getReviews";
+import postReview from "./postReview";
+import deleteReview from "./deleteReview";
+import patchReview from "./patchReview";
 
-export { getShows, getStories, getBannerImages, postSignupAPI, getShowInfo, getShowReservationInfo, getUserInfo, postStory };
+export { getShows, getStories, getBannerImages, postSignupAPI, getShowInfo, getShowReservationInfo, getUserInfo, postStory, getUserLikeList, getReviews, postReview, deleteReview, patchReview };

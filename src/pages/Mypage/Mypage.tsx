@@ -17,7 +17,7 @@ const Mypage: React.FC = () => {
   );
 };
 
-const getMypageTitle = (pathname) => {
+const getMypageTitle = (pathname: string) => {
   const sequences = pathname.split("/");
   const tab = sequences[sequences.length - 1];
   switch (tab) {
