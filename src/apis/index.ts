@@ -11,5 +11,22 @@ import getReviews from "./getReviews";
 import postReview from "./postReview";
 import deleteReview from "./deleteReview";
 import patchReview from "./patchReview";
+import postLike from "./postLike";
+import deleteLike from "./deleteLike";
 
-export { getShows, getStories, getBannerImages, postSignupAPI, getShowInfo, getShowReservationInfo, getUserInfo, postStory, getUserLikeList, getReviews, postReview, deleteReview, patchReview };
+export {
+  getShows,
+  getStories,
+  getBannerImages,
+  postSignupAPI,
+  getShowInfo,
+  getShowReservationInfo,
+  getUserInfo,
+  postStory,
+  getReviews,
+  postReview,
+  deleteReview,
+  patchReview,
+  postLike,
+  deleteLike,
+};

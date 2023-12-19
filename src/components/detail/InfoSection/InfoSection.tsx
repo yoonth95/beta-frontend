@@ -30,7 +30,7 @@ const InfoSection = () => {
 
   const { univ, department, title, location, start_date, end_date } = showInfo;
 
-  const tags = showInfo.tags && Object.values(JSON.parse(showInfo.tags));
+  const tags: string[] = showInfo.tags ? Object.values(JSON.parse(showInfo.tags)) : [];
   const position = showInfo.position && JSON.parse(showInfo.position);
   const contentBufferData = showInfo.content && new Uint8Array(showInfo.content.data);
   const contentDecodedString = contentBufferData && new TextDecoder("utf-8").decode(contentBufferData);
