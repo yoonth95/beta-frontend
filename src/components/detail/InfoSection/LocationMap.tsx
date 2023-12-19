@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import mapPinIcon from "@/assets/icon-map-pin.svg";
 
 const { kakao } = window;
@@ -8,17 +8,15 @@ interface PropsType {
   lng: number;
 }
 
-export default function LocationMap({ lat = 127.055596615858, lng = 37.5069494959122 }: PropsType) {
-  // const [map, setMap] = useState(null);
-
+export default function LocationMap({ lat, lng }: PropsType) {
+  const mapRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const container = document.getElementById("map");
+    const container = mapRef.current;
     const options = {
       center: new kakao.maps.LatLng(lat, lng),
       level: 4, // 지도의 확대 레벨
     };
-    const map = new kakao.maps.Map(container, options);
-    // setMap(kakaoMap);
+    var map = new kakao.maps.Map(container as HTMLDivElement, options);
 
     const imageSrc = mapPinIcon; // 마커이미지의 주소입니다
     const imageSize = new kakao.maps.Size(29, 42); // 마커이미지의 크기입니다
@@ -32,11 +30,12 @@ export default function LocationMap({ lat = 127.055596615858, lng = 37.506949495
       image: markerImage,
     });
     marker.setMap(map);
-  }, []);
+  }, [lat, lng]);
 
   return (
     <div
-      id="map"
+      ref={mapRef}
+      // id="map"
       style={{
         width: "100%",
         height: "400px",
