@@ -7,7 +7,7 @@ import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
 import reduceImageSize from "@/utils/reduceImageSize";
 import convertArrayToObject from "@/utils/convertArrayToObject";
 import { useColor } from "color-thief-react";
-import { DateInputType, ShowReservationInfoType, ShowType } from "@/types";
+import { DateInputType, DateWithTime } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import postShow from "@/apis/postShow";
 import { toast } from "react-toastify";
@@ -22,52 +22,20 @@ const sportsCategoryList = ["야구", "축구", "농구"];
 const isReservationList = ["예", "아니오"];
 const methodList = ["구글폼", "예매 대행"];
 
-const showingDummy: ShowType = {
-  id: 1,
-  main_image_url: "/show/aaadb1cf-d39e-4e80-a0f3-32d01361ad05.jpg",
-  sub_images_url:
-    '{"1": "/show/f48b59ae-f78a-4d89-8dd4-a2c0f2ff7c30.jpg", "2": "/show/3549261d-30db-4dba-af06-9448557adce5.jpg", "3": "/show/0ff57092-4957-4c5c-9d45-35b34d6b02ab.png", "4": "/show/404670852_18168423643293747_605813767255233837_n.jpg"}',
-  main_image_color: null,
-  show_type: "",
-  show_sub_type: "",
-  title: "사랑의 묘약",
-  univ: "서울대학교",
-  department: "산업디자인학과",
-  start_date: "2023-12-01",
-  end_date: "2023-12-07",
-  location: "서울시 강남구 대학로 예술극장",
-  location_detail: null,
-  position: '{"lat": 37.5069494959122, "lng": 127.055596615858}',
-  tags: '{"1": "abc", "2": "def", "3": "ghi"}',
-  content: "",
-  is_reservation: 1,
-  // user_liked: 0,
-  created_at: "2023-12-07T23:28:49.000Z",
-};
-
-const showReservationInfoDummy: ShowReservationInfoType = {
-  id: 1,
-  show_id: 1,
-  method: "agency",
-  google_form_url: null,
-  price: 1000,
-  location: "서울시 강남구 대학로 예술극장",
-  location_detail: null,
-  position: '{"lat": 37.5069494959122, "lng": 127.055596615858}',
-  head_count: 20,
-  notice: {
-    type: "Buffer",
-    data: [
-      236, 130, 172, 235, 158, 145, 236, 157, 152, 32, 235, 172, 152, 236, 149, 189, 32, 236, 151, 176, 234, 183, 185, 32, 235, 130, 180, 236, 154,
-      169, 46, 46, 46,
-    ],
-  },
-};
-
-const showTimesDummy = {
-  show_id: 1,
-  date_time: '{"1": "2023/12/08 - 오후 1시", "2": "2023/12/08 - 오후 5시", "3": "2023/12/10 - 오후 1시", "4": "2023/12/10 - 오후 5시"}',
-  head_count: 20,
+const defaultValues = {
+  show_type: categoryList[0],
+  show_sub_type: concertCategoryList[0],
+  title: "",
+  univ: "",
+  department: "",
+  location: "",
+  location_detail: "",
+  is_reservation: isReservationList[0],
+  method: methodList[0],
+  google_form_url: "",
+  price: "",
+  head_count: "",
+  date_time: [],
 };
 
 // 인코딩
@@ -76,49 +44,21 @@ function bytesToBase64(bytes: Uint8Array): string {
   return btoa(binString);
 }
 
-// TODO: 수정 페이지 고려
 const PostUpload = () => {
-  const [initialForm, setInitialForm] = useState({
-    main_image_url: "",
-    sub_images_url: [],
-    show_type: "공연",
-    show_sub_type: "연극",
-    title: "",
-    univ: "",
-    department: "",
-    start_date: "",
-    end_date: "",
-    location: "",
-    location_detail: "",
-    position: (showingDummy.position && JSON.parse(showingDummy.position)) || { lat: 0, lng: 0 },
-    tags: [],
-    content: "",
-    is_reservation: showingDummy.is_reservation ? "예" : "아니오",
-    method: showReservationInfoDummy.method === "google" ? "구글폼" : "예매 대행",
-    google_form_url: showReservationInfoDummy.google_form_url || "",
-    price: showReservationInfoDummy.price || 0,
-    head_count: showReservationInfoDummy.head_count || 0,
-    date_time: (showTimesDummy.date_time && Object.values(JSON.parse(showTimesDummy.date_time))) || [],
-    notice: showReservationInfoDummy.notice || "",
-  });
-  const [form, onChange] = useInputs(initialForm);
+  const [form, onChange] = useInputs(defaultValues);
 
   const [tagsInput, setTagInputs] = useState<string[]>([]);
   const [imgFiles, setImgFiles] = useState<File[]>([]);
   const [imgPreviewUrls, setImgPreviewUrls] = useState<string[]>([]);
-  const [location, setLocation] = useState<string>(form.location || "");
-  const [position, setPosition] = useState(form.position);
   const [date, setDate] = useState({
-    start_date: showingDummy.start_date || "",
-    end_date: showingDummy.end_date || "",
+    start_date: "",
+    end_date: "",
   });
+  const [location, setLocation] = useState<string>("");
+  const [position, setPosition] = useState<object>({});
   const [editorData, setEditorData] = useState<string>("");
+  const [roundList, setRoundList] = useState<DateWithTime[]>([]);
   const [editorNoticeData, setEditorNoticeData] = useState<string>("");
-  const initialList = form.date_time?.map((item) => {
-    const [date, time] = item.split(" - ");
-    return { date, time };
-  });
-  const [roundList, setRoundList] = useState(initialList);
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -156,27 +96,40 @@ const PostUpload = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!imgFiles.length) {
-      toast("이미지를 1개 이상 입력해주세요.");
+    if (imgFiles.length < 2) {
+      toast.error("이미지를 2개 이상 업로드 해주세요.");
+      return;
+    }
+    if (imgFiles.length > 10) {
+      toast.error("이미지를 10개 이하로 업로드 해주세요.");
+      return;
+    }
+    if (!form.title || !form.univ || !form.department) {
+      toast.error("주최자 정보를 입력해주세요.");
       return;
     }
     if (!date.start_date || !date.end_date) {
-      toast("기간을 입력해주세요.");
+      toast.error("기간을 입력해주세요.");
       return;
     }
-    if (!tagsInput) {
-      toast("tag를 입력해주세요.");
+    if (!tagsInput.length) {
+      toast.error("tag를 입력해주세요.");
       return;
     }
-    if (form.method === "구글폼" && !form.google_form_url) {
-      toast("구글폼 URL을 입력해주세요.");
+    if (!location) {
+      toast.error("주소를 입력해주세요.");
       return;
     }
-    if (form.method === "예매 대행" && !form.price && !form.head_count && !form.date_time && !form.notice) {
-      toast("예매 작성 폼을 완성해주세요.");
-      return;
+    if (form.is_reservation === "예") {
+      if (form.method === "구글폼" && !form.google_form_url) {
+        toast("구글폼 URL을 입력해주세요.");
+        return;
+      }
+      if (form.method === "예매 대행" && !form.price && !form.head_count && !form.date_time.length) {
+        toast("예매 작성 폼을 완성해주세요.");
+        return;
+      }
     }
-
     const resizedImgFiles = await Promise.all(
       imgFiles.map(async (file) => {
         const blobString = URL.createObjectURL(file);
@@ -185,7 +138,7 @@ const PostUpload = () => {
       }),
     );
 
-    const tags = JSON.stringify(convertArrayToObject(tagsInput));
+    const tags = tagsInput.length ? JSON.stringify(convertArrayToObject(tagsInput)) : null;
 
     const base64EncodedContents = (!!editorData && bytesToBase64(new TextEncoder().encode(editorData))) || null;
     const base64EncodedNotice =
@@ -210,9 +163,9 @@ const PostUpload = () => {
       is_reservation: form.is_reservation === "예" ? "1" : "0",
       method: form.is_reservation === "예" ? (form.method === "구글폼" ? "google" : "agency") : null,
       google_form_url: (form.method === "구글폼" && form.google_form_url) || null,
-      price: (form.method === "예매 대행" && form.price) || null,
-      head_count: (form.method === "예매 대행" && form.head_count) || null,
-      date_time: (form.method === "예매 대행" && JSON.stringify(roundListToDateTime())) || null,
+      price: (form.method === "예매 대행" && form.price.toString()) || null,
+      head_count: (form.method === "예매 대행" && form.head_count.toString()) || null,
+      date_time: (form.method === "예매 대행" && JSON.stringify(convertArrayToObject(roundListToDateTime()))) || null,
       notice: base64EncodedNotice,
     };
     console.log(result);
@@ -241,13 +194,13 @@ const PostUpload = () => {
     formData.append("sub_images_url", JSON.stringify(fileNames));
     formData.append("univ", result.univ);
     formData.append("department", result.department);
-    formData.append("tags", result.tags);
-    formData.append("content", result.content);
+    result.tags && formData.append("tags", result.tags);
+    result.content && formData.append("content", result.content);
     result.is_reservation && formData.append("is_reservation", result.is_reservation);
     result.method && formData.append("method", result.method);
     result.google_form_url && formData.append("google_form_url", result.google_form_url);
-    result.price && formData.append("price", result.price.toString());
-    result.head_count && formData.append("head_count", result.head_count.toString());
+    result.price && formData.append("price", result.price);
+    result.head_count && formData.append("head_count", result.head_count);
     result.notice && formData.append("notice", result.notice);
     result.date_time && formData.append("date_time", result.date_time);
 
@@ -289,6 +242,7 @@ const PostUpload = () => {
       <section>
         <h2 className={styles["title"]}>카테고리</h2>
         <RadioButtonGroup radioList={categoryList} name="show_type" onChange={onChange} />
+        {/* TODO: show_type에 맞는 sub_type 값 처리 */}
         {form.show_type === "공연" && (
           <RadioButtonGroup radioList={concertCategoryList} name="show_sub_type" defaultValue={form.show_sub_type} onChange={onChange} />
         )}
