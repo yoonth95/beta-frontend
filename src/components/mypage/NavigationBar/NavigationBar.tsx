@@ -22,8 +22,7 @@ const adminNavList = [
 
 const Navigation = () => {
   const { userState } = useLoginStore();
-  const [isAdmin, setIsAdmin] = useState(userState.user_role === "admin"); // 전역 상태로 관리할 예정
-  const navList = isAdmin ? adminNavList : userNavList;
+  const navList = userState.user_role === "admin" ? adminNavList : userNavList;
   const location = useLocation();
 
   return (

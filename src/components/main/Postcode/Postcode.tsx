@@ -30,7 +30,6 @@ const getPosition = async (data) => {
   x = coords.getLng();
   y = coords.getLat();
 
-  console.log(x, y);
   return { lng: x, lat: y };
 };
 
@@ -60,11 +59,11 @@ const getLocation = (data) => {
 const Postcode = ({ setPosition, setLocation }) => {
   const open = useDaumPostcodePopup();
 
-  const handleComplete = (data) => {
+  const handleComplete = async (data) => {
     // position
-    setPosition(getPosition(data));
+    setPosition(await getPosition(data));
     // location
-    setLocation(getLocation(data));
+    setLocation(await getLocation(data));
   };
 
   const handleClick = () => {
