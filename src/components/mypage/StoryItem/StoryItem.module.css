@@ -1,7 +1,4 @@
 .story-item {
-  min-width: 11.375rem;
-  width: 11.375rem;
-  /* padding: 0 10px; */
   border: 1px solid var(--gray200-color);
   height: 20rem;
   position: relative;
