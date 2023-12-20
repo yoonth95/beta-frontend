@@ -5,5 +5,7 @@ import MainConcertPage from "./MainConcert/MainConcertPage";
 import MainExhibitionPage from "./MainExhibition/MainExhibitionPage";
 import DetailPage from "./Detail/DetailPage";
 import ErrorPage from "./Error/ErrorPage";
+import PaySuccessPage from "./PaySuccess/PaySuccessPage";
+import PayFailPage from "./PayFail/PayFailPage";
 
-export { LoginPage, SignupPage, MainPage, MainConcertPage, MainExhibitionPage, DetailPage, ErrorPage };
+export { LoginPage, SignupPage, MainPage, MainConcertPage, MainExhibitionPage, DetailPage, ErrorPage, PaySuccessPage, PayFailPage };
