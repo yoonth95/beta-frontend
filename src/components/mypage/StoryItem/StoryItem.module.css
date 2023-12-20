@@ -1,4 +1,4 @@
-.StoryManage-item {
+.story-item {
   min-width: 11.375rem;
   width: 11.375rem;
   /* padding: 0 10px; */
@@ -8,19 +8,19 @@
   cursor: pointer;
 }
 
-.StoryManage-item button {
+.story-item > button {
   position: absolute;
   top: 0.8125rem;
   right: 0.8125rem;
 }
 
-.StoryManage-item img {
+.story-item > img {
   width: 100%;
   height: 100%;
   object-fit: fill;
 }
 
-.StoryManage-item div {
+.story-date {
   position: absolute;
   bottom: 0.8125rem;
   right: 0.8125rem;

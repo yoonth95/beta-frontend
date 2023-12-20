@@ -19,10 +19,10 @@ const StoryItem: React.FC<PropsType> = ({ item }) => {
     console.log(e.currentTarget.name);
   };
   return (
-    <div className={styles["StoryManage-item"]} onClick={() => openModal(item.id)}>
+    <div className={styles["story-item"]} onClick={() => openModal(item.id)}>
       <DeleteButton onClick={deleteStory} spanHidden={`${item.id}`} name={`${item.id}`} />
       <img src="/card-image.png" alt="" />
-      <div>23.12.02</div>
+      <div className={styles["story-date"]}>23.12.02</div>
     </div>
   );
 };

@@ -27,7 +27,7 @@ const dummy = [
 
 const StoryManage = () => {
   return (
-    <div className={styles["StoryManage-container"]}>
+    <div className={styles["story-container"]}>
       {dummy.map((item) => (
         <StoryItem key={item.id} item={item} />
       ))}
