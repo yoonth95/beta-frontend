@@ -29,7 +29,7 @@ interface PropsType {
   type: "text" | "password" | "url" | "number";
   name?: string;
   placeholder?: string;
-  value?: string;
+  value?: string | number | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   labelHidden?: boolean;
   isConfirm?: boolean;
