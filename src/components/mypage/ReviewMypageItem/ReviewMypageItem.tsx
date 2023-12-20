@@ -1,7 +1,7 @@
 import React from "react";
 import { DeleteButton } from "@/components/common";
 import getElapsedTime from "@/utils/getElapsedTime";
-import isInDay from "@/utils/isInDay";
+import isWithinOneDay from "@/utils/isWithinOneDay";
 import styles from "./ReviewMypageItem.module.css";
 
 interface ReviewMypageItemProps {
@@ -17,7 +17,7 @@ const ReviewMypageItem: React.FC<ReviewMypageItemProps> = (item) => {
   };
 
   const elapsedTime = getElapsedTime(item.date);
-  const isNew = isInDay(item.date);
+  const isNew = isWithinOneDay(item.date);
   console.log(isNew);
   return (
     <div className={styles["reviewItem-container"]}>
