@@ -99,6 +99,7 @@ const PostManage = () => {
 
       {openModal.state && (
         <Modal title={openModal.type}>
+          {statusReviewList === "error" && <h1>{errorReviewList.message}</h1>}
           {statusReviewList !== "success" ? (
             <h1>loading...</h1>
           ) : (
