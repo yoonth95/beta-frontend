@@ -188,7 +188,7 @@ const PostUpload = () => {
     formData.append("start_date", result.start_date);
     formData.append("end_date", result.end_date);
     formData.append("location", result.location);
-    formData.append("location_detail", result.location_detail);
+    result.location_detail && formData.append("location_detail", result.location_detail);
     formData.append("position", result.position);
     formData.append("main_image_color", result.main_image_color as string);
     formData.append("sub_images_url", JSON.stringify(fileNames));

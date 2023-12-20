@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import classNames from "classnames/bind";
 import { BasicCard, FilterButton } from "@/components/common";
 import { TicketCard } from "@/components/mainConcert";
 import { getUserLikeList } from "@/apis";
 import styles from "./LikeManage.module.css";
+
+const cx = classNames.bind(styles);
 
 const categories = ["공연", "전시", "스포츠"];
 
@@ -21,7 +24,7 @@ const LikeManage = () => {
     data: userLikeList,
   } = useQuery({
     queryKey: ["userLikeList"],
-    queryFn: () => getUserLikeList(), // TODO: 로그인 정보에서 아이디 값 가져오기
+    queryFn: () => getUserLikeList(),
   });
 
   if (status === "pending") return <h1>loading...</h1>;
@@ -29,7 +32,7 @@ const LikeManage = () => {
 
   const renderLikeList = () => {
     return (
-      <ul className={filter === "전시" ? styles["exhibition-list"] : styles["concert-list"]}>
+      <ul className={cx(filter === "전시" ? "exhibition-list" : "concert-list")}>
         {userLikeList
           .filter((data) => data.show_type === filter)
           .map((item) => (

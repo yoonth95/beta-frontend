@@ -7,7 +7,8 @@ interface ReviewDeleteResponse {
 }
 
 const deleteReview = async (review: ReviewDeleteParamType) => {
-  await axios.delete<ReviewDeleteResponse>("/api/show/review-delete", { data: review });
+  const { review_id, show_id } = review;
+  await axios.delete<ReviewDeleteResponse>(`/api/show/review-delete/${review_id}/${show_id}`);
 };
 
 export default deleteReview;
