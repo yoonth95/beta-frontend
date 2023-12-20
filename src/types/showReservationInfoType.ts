@@ -13,10 +13,14 @@ export interface ShowReservationInfoType {
   position: string;
   price: number | null;
   head_count: number | null;
-  notice: Notice | null;
+  notice: string | null;
+  date_time: DateTime[];
+  title: string;
 }
 
-export interface Notice {
-  type: string;
-  data: number[];
+export interface DateTime {
+  id: number;
+  show_id: number;
+  date_time: string;
+  head_count: number;
 }

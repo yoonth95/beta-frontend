@@ -12,7 +12,7 @@ export interface ShowType {
   end_date: string;
   location: string;
   location_detail: string | null;
-  position: string | null;
+  position: string;
   main_image_url: string;
   sub_images_url: string | null;
   main_image_color: string | null;
@@ -21,7 +21,7 @@ export interface ShowType {
   tags: string | null;
   content: string;
   is_reservation: number;
-  user_liked: 0 | 1;
+  user_liked?: 0 | 1;
   created_at: string;
 }
 
