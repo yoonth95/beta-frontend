@@ -46,7 +46,7 @@ const PostManage = () => {
                     <CommentIcon className={styles["cmt-icon"]} />
                     <span>{item.reviewCount}</span>
                   </Button>
-                  <Button reverseColor={true} style={{ padding: "0.6rem" }}>
+                  <Button reverseColor={true} style={{ padding: "0.6rem" }} onClick={() => navigate("./update", { state: item.id })}>
                     수정/삭제
                   </Button>
                 </div>
