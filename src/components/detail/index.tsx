@@ -6,7 +6,9 @@ import ReviewSection from "./ReviewSection/ReviewSection";
 import ReviewForm from "./ReviewForm/ReviewForm";
 import ReviewItem from "./ReviewItem/ReviewItem";
 import GuestAccess from "./GuestAccess/GuestAccess";
-import ReservationFormModal from "./ReservationFormModal/ReservationFormModal";
+import ReservationModal from "./ReservationModal/ReservationModal";
+import ReservationForm from "./ReservationForm/ReservationForm";
+import ReservationPayment from "./ReservationPayment/ReservationPayment";
 import ReviewEditForm from "./ReviewEditForm/ReviewEditForm";
 
 export {
@@ -18,6 +20,8 @@ export {
   ReviewForm,
   ReviewItem,
   GuestAccess,
-  ReservationFormModal,
+  ReservationModal,
+  ReservationForm,
+  ReservationPayment,
   ReviewEditForm,
 };
