@@ -39,14 +39,9 @@ const showingDummy: ShowType = {
   location_detail: null,
   position: '{"lat": 37.5069494959122, "lng": 127.055596615858}',
   tags: '{"1": "abc", "2": "def", "3": "ghi"}',
-  content: {
-    type: "Buffer",
-    data: [
-      236, 130, 172, 235, 158, 145, 236, 157, 152, 32, 235, 172, 152, 236, 149, 189, 32, 236, 151, 176, 234, 183, 185, 32, 235, 130, 180, 236, 154,
-      169, 46, 46, 46,
-    ],
-  },
+  content: "",
   is_reservation: 1,
+  // user_liked: 0,
   created_at: "2023-12-07T23:28:49.000Z",
 };
 
@@ -76,6 +71,12 @@ const showTimesDummy = {
   head_count: 20,
 };
 
+// 인코딩
+function bytesToBase64(bytes: Uint8Array): string {
+  const binString = String.fromCodePoint(...Array.from(bytes));
+  return btoa(binString);
+}
+
 // TODO: 수정 페이지 고려
 const PostUpload = () => {
   const [initialForm, setInitialForm] = useState({
@@ -90,7 +91,7 @@ const PostUpload = () => {
     end_date: "",
     location: "",
     location_detail: "",
-    position: {},
+    position: (showingDummy.position && JSON.parse(showingDummy.position)) || { lat: 0, lng: 0 },
     tags: [],
     content: "",
     is_reservation: showingDummy.is_reservation ? "예" : "아니오",
@@ -107,12 +108,7 @@ const PostUpload = () => {
   const [imgFiles, setImgFiles] = useState<File[]>([]);
   const [imgPreviewUrls, setImgPreviewUrls] = useState<string[]>([]);
   const [location, setLocation] = useState<string>(form.location || "");
-  const [position, setPosition] = useState(
-    form.position || {
-      lat: 0,
-      lng: 0,
-    },
-  );
+  const [position, setPosition] = useState(form.position);
   const [date, setDate] = useState({
     start_date: showingDummy.start_date || "",
     end_date: showingDummy.end_date || "",
@@ -202,22 +198,9 @@ const PostUpload = () => {
 
     const tags = (tagsInput.length && JSON.stringify(convertArrayToObject(tagsInput))) || null;
 
-    // const encodeUnicode = (str) => {
-    //   // URL 인코딩 후 각 문자를 Base64로 인코딩 가능한 형태로 변환
-    //   // const encodedURI =
-    //   return encodeURIComponent(str)
-    //     .split("")
-    //     .map(function (c) {
-    //       return String.fromCharCode("0x" + c.charCodeAt(0).toString(16));
-    //     })
-    //     .join("");
-
-    //   // Base64 인코딩
-    //   // return btoa(encodedURI);
-    // };
-    // const base64EncodedContents = editorData && encodeUnicode(editorData);
-    const base64EncodedContents = editorData && btoa(unescape(encodeURIComponent(editorData)));
-    const base64EncodedNotice = (form.method === "예매 대행" && btoa(encodeURIComponent(editorNoticeData))) || null;
+    const base64EncodedContents = (!!editorData && bytesToBase64(new TextEncoder().encode(editorData))) || null;
+    const base64EncodedNotice =
+      (form.method === "예매 대행" && !!editorNoticeData && bytesToBase64(new TextEncoder().encode(editorNoticeData))) || null;
 
     const roundListToDateTime = () => {
       return roundList.map((item) => item.date + " - " + item.time);
