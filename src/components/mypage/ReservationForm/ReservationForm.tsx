@@ -5,15 +5,30 @@ import { DateInputType, DateWithTime } from "@/types";
 import { toast } from "react-toastify";
 
 interface PropsType {
-  form: any;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  form?: any;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  price?: number | null;
+  setPrice?: React.Dispatch<React.SetStateAction<number | null>>;
+  headCount?: number | null;
+  setHeadCount?: React.Dispatch<React.SetStateAction<number | null>>;
   roundList: DateWithTime[];
   setRoundList: React.Dispatch<React.SetStateAction<DateWithTime[]>>;
   editorNoticeData: string;
   setEditorNoticeData: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ReservationForm: React.FC<PropsType> = ({ form, onChange, roundList, setRoundList, editorNoticeData, setEditorNoticeData }) => {
+const ReservationForm: React.FC<PropsType> = ({
+  form,
+  onChange,
+  price,
+  setPrice,
+  headCount,
+  setHeadCount,
+  roundList,
+  setRoundList,
+  editorNoticeData,
+  setEditorNoticeData,
+}) => {
   const datePickerInputRef = useRef<HTMLDivElement | null>(null);
   const [dateTime, setDateTime] = useState({
     date: "",
@@ -44,10 +59,30 @@ const ReservationForm: React.FC<PropsType> = ({ form, onChange, roundList, setRo
 
   return (
     <div className={styles["reservation-form-wrapper"]}>
-      <InputField type="number" name="price" value={form.price} onChange={onChange} style={{ width: "200px" }} unit="원">
+      <InputField
+        type="number"
+        name="price"
+        value={(form && form.price) || price}
+        onChange={(e) => {
+          onChange && onChange(e);
+          setPrice && setPrice(parseInt(e.target.value));
+        }}
+        style={{ width: "200px" }}
+        unit="원"
+      >
         가격
       </InputField>
-      <InputField type="number" name="head_count" value={form.head_count} onChange={onChange} style={{ width: "200px" }} unit="명">
+      <InputField
+        type="number"
+        name="head_count"
+        value={(form && form.head_count) || headCount}
+        onChange={(e) => {
+          onChange && onChange(e);
+          setHeadCount && setHeadCount(parseInt(e.target.value));
+        }}
+        style={{ width: "200px" }}
+        unit="명"
+      >
         총 수용 가능 인원
       </InputField>
       <section className={styles["round-list"]}>
