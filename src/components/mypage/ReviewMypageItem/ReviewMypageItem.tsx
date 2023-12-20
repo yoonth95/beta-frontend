@@ -20,16 +20,16 @@ const ReviewMypageItem: React.FC<ReviewMypageItemProps> = (item) => {
   const isNew = isInDay(item.date);
   console.log(isNew);
   return (
-    <div className={styles["ReviewItem-container"]}>
-      <div className={styles["ReviewItem-box"]}>
-        <div className={styles["ReviewItem-section-top"]}>
+    <div className={styles["reviewItem-container"]}>
+      <div className={styles["reviewItem-box"]}>
+        <div className={styles["reviewItem-section-top"]}>
           <strong>{item.login_id}</strong>
           <span className="ellipsis">{item.title}</span>
         </div>
-        <div className={styles["ReviewItem-section-bottom"]}>
+        <div className={styles["reviewItem-section-bottom"]}>
           <span className="ellipsis">{item.comment}</span>
           <strong>{elapsedTime}</strong>
-          {isNew && <div className={styles["newCircle"]}>N</div>}
+          {isNew && <div className={styles["new-circle"]}>N</div>}
         </div>
       </div>
       <DeleteButton onClick={handleClickDeleteButton} spanHidden="삭제" />

@@ -28,7 +28,7 @@ const dummy = [
 
 const ReviewManage = () => {
   return (
-    <div className={styles["RevieManage-container"]}>
+    <div className={styles["review-container"]}>
       {dummy.map((item) => (
         <ReviewMypageItem key={item.id} {...item} />
       ))}

@@ -1,4 +1,4 @@
-.ReviewItem-container {
+.reviewItem-container {
   display: flex;
   align-items: center;
   gap: 0.9375rem;
@@ -7,7 +7,7 @@
   overflow: hidden;
 }
 
-.ReviewItem-box {
+.reviewItem-box {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -22,22 +22,22 @@
   box-sizing: border-box;
 }
 
-.ReviewItem-box:hover {
+.reviewItem-box:hover {
   background-color: var(--gray100-color);
 }
 
-.ReviewItem-section-top {
+.reviewItem-section-top {
   display: flex;
   gap: 1.25rem;
   align-items: center;
   width: 80%;
 }
 
-.ReviewItem-section-top span {
+.reviewItem-section-top span {
   color: var(--gray400-color);
 }
 
-.ReviewItem-section-bottom {
+.reviewItem-section-bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,7 +45,7 @@
   width: 100%;
 }
 
-.ReviewItem-section-bottom span {
+.reviewItem-section-bottom span {
   color: var(--gray400-color);
   font-size: 0.875rem;
   width: 70%;
@@ -54,7 +54,7 @@
   flex-basis: 0;
 }
 
-.ReviewItem-section-bottom strong {
+.reviewItem-section-bottom strong {
   font-size: 0.875rem;
   color: var(--gray400-color);
   width: 30%;
@@ -62,7 +62,7 @@
   flex-shrink: 0;
 }
 
-.newCircle {
+.new-circle {
   flex-shrink: 0;
   width: 1.125rem;
   height: 1.125rem;
@@ -80,28 +80,28 @@
 }
 
 @media screen and (max-width: 450px) {
-  .ReviewItem-section-top {
+  .reviewItem-section-top {
     width: 100%;
   }
-  .ReviewItem-section-top strong {
+  .reviewItem-section-top strong {
     display: none;
   }
-  .ReviewItem-section-top span {
+  .reviewItem-section-top span {
     font-weight: 700;
   }
-  .ReviewItem-section-bottom {
+  .reviewItem-section-bottom {
     flex-direction: column;
     align-items: flex-start;
     height: 3rem;
   }
-  .ReviewItem-section-bottom span {
+  .reviewItem-section-bottom span {
     width: 100%;
     text-align: start;
   }
-  .ReviewItem-section-bottom strong {
+  .reviewItem-section-bottom strong {
     width: 100%;
   }
-  .newCircle {
+  .new-circle {
     display: none;
   }
 }
