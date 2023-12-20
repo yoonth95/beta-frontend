@@ -1,0 +1,38 @@
+.StoryManage-item {
+  min-width: 11.375rem;
+  width: 11.375rem;
+  /* padding: 0 10px; */
+  border: 1px solid var(--gray200-color);
+  height: 20rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.StoryManage-item button {
+  position: absolute;
+  top: 0.8125rem;
+  right: 0.8125rem;
+}
+
+.StoryManage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.StoryManage-item div {
+  position: absolute;
+  bottom: 0.8125rem;
+  right: 0.8125rem;
+  width: 4rem;
+  height: 1.375rem;
+  color: white;
+  font-size: 0.625rem;
+  font-weight: bold;
+  background-color: var(--gray200-color);
+  border-radius: 0.3125rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 140.625%;
+}
