@@ -69,11 +69,12 @@ const StorySection = () => {
         </div>
         {openModal.state && (
           <>
-            {openModal.type === "upload" ? (
+            {openModal.type === "upload" && (
               <Modal width={"18.75rem"} height={"33.75rem"} title={"스토리 업로드"}>
                 <StoryUploadModal />
               </Modal>
-            ) : (
+            )}
+            {openModal.type === "more" && (
               <Modal title={"스토리"} titleHidden={true}>
                 <StoryViewModal initialSlide={initialSlide} />
               </Modal>
