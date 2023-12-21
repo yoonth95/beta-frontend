@@ -1,5 +1,5 @@
 import { FormInputs } from "@/types";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 const objectTypeNames = ["phone", "email"];
 
@@ -14,6 +14,11 @@ const useInputs = <T extends FormInputs>(initialForm: T): UseInputs<T> => {
 
     if (type === "checkbox") {
       setForm((form) => ({ ...form, [name]: e.target.checked }));
+      return;
+    }
+
+    if (type === "radio" && name === "show_times_id") {
+      setForm((form) => ({ ...form, [name]: Number(value) }));
       return;
     }
 
