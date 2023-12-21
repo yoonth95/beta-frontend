@@ -9,6 +9,7 @@ import ReservationListModal from "./ReservationListModal/ReservationListModal";
 import PostManage from "./PostManage/PostManage";
 import PostUpload from "./PostUpload/PostUpload";
 import ReservationForm from "./ReservationForm/ReservationForm";
+import Postcode from "./Postcode/Postcode";
 
 export {
   NavigationBar,
@@ -22,4 +23,5 @@ export {
   ReservationListModal,
   PostUpload,
   ReservationForm,
+  Postcode,
 };
