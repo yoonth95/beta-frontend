@@ -24,7 +24,7 @@ const PostManage = () => {
     data: showList,
     error: errorShowList,
   } = useQuery({
-    queryKey: ["showList", showId],
+    queryKey: ["showList"],
     queryFn: () => getMyShowList(),
   });
 
@@ -52,7 +52,6 @@ const PostManage = () => {
   const handleClickReviewsCnt = async (title: string, showId: string) => {
     setOpenModal({ state: true, type: title });
     setShowId(() => showId);
-    refetchReviews();
   };
 
   const handleClickDelete = (item: ReviewType) => () => {
@@ -65,7 +64,7 @@ const PostManage = () => {
       <div className={styles["container"]}>
         <ul className={styles["list"]}>
           {showList.map((item) => (
-            <li className={cx("list-row", "list-item")}>
+            <li className={cx("list-row", "list-item")} key={item}>
               <Link to={`/detail/${item.id}`} className={styles["list-row-left"]}>
                 <h3 className={cx("list-item__title", "ellipsis-multi")}>{item.title}</h3>
                 <p className={styles["list-item__date"]}>{item.start_date + " ~ " + item.end_date}</p>
