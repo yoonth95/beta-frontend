@@ -1,6 +1,6 @@
 import { ShowResponseType, ShowType, ShowFilterRequestType } from "./showType";
 import { StoryResponseType, StoryType } from "./storyType";
-import { ShowReservationInfoType, ShowReservationInfoResponseType } from "./showReservationInfoType";
+import { ShowReservationInfoResponseType, ShowReservationInfoType, AgencyReservationInfoType } from "./showReservationInfoType";
 import { UserReservationFormType, UserReservationInputsType } from "./userReservationFormType";
 import { MemberResponseType, MemberType } from "./memberType";
 import { DateInputType, DateWithTime } from "./datePickerInputType";
@@ -15,6 +15,7 @@ export {
   type StoryType,
   type ShowReservationInfoResponseType,
   type ShowReservationInfoType,
+  type AgencyReservationInfoType,
   type UserReservationInputsType,
   type UserReservationFormType,
   type MemberType,

@@ -6,19 +6,21 @@ export interface ShowReservationInfoResponseType {
 export interface ShowReservationInfoType {
   id: number;
   show_id: number;
-  method: string | null;
-  google_form_url: string | null;
+  method: "google" | "agency";
+  google_form_url: null | string;
   location: string;
   location_detail: string | null;
   position: string;
   price: number | null;
   head_count: number | null;
   notice: string | null;
-  date_time: DateTime[];
+  date_time: ShowDateTime[];
   title: string;
 }
 
-export interface DateTime {
+export type AgencyReservationInfoType = Omit<ShowReservationInfoType, "method" | "google_form_url">;
+
+interface ShowDateTime {
   id: number;
   show_id: number;
   date_time: string;

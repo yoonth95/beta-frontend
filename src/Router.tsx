@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage, MainExhibitionPage } from "@/pages";
+import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage, MainExhibitionPage, PaySuccessPage, PayFailPage } from "@/pages";
 import { InfoSection, ReviewSection } from "@/components/detail";
 import Mypage from "@/pages/Mypage/Mypage";
 import { Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage, PostUpload } from "@/components/mypage";
@@ -87,6 +87,19 @@ const router = createBrowserRouter([
           {
             path: "post/update",
             element: <PostUpdate />,
+          },
+        ],
+      },
+      {
+        path: "/payment",
+        children: [
+          {
+            path: "success",
+            element: <PaySuccessPage />,
+          },
+          {
+            path: "fail",
+            element: <PayFailPage />,
           },
         ],
       },
