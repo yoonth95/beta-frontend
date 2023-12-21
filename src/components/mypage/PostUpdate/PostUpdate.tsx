@@ -47,6 +47,7 @@ const PostUpdate = () => {
   const navigate = useNavigate();
   const locationObj = useLocation();
   const showId = locationObj.state || undefined;
+  const [isLoading, setIsLoading] = useState(false);
 
   // 게시글 정보
   const [showType, setShowType] = useState(categoryList[0]);
@@ -60,7 +61,7 @@ const PostUpdate = () => {
   });
   const [location, setLocation] = useState<string>("");
   const [position, setPosition] = useState<object>({});
-  const [locationDetail, setLocationDetail] = useState("");
+  const [locationDetail, setLocationDetail] = useState<string>("");
   const [tagsInput, setTagInputs] = useState<string[]>([]);
   const [isReservation, setIsReservation] = useState(isReservationList[1]);
 
@@ -102,11 +103,10 @@ const PostUpdate = () => {
     data: showReservationInfoData,
     status: showReservationInfoStatus,
     error: showReservationInfoError,
-    refetch: refetchShowReservationInfoData,
   } = useQuery({
     queryKey: ["showReservationInfoData", showId],
     queryFn: () => getShowReservationInfo(showId),
-    enabled: false,
+    enabled: !!showInfoData?.is_reservation,
   });
 
   // 게시글 수정 업데이트
@@ -138,7 +138,6 @@ const PostUpdate = () => {
 
   useEffect(() => {
     if (status === "success" && showInfoData) {
-      if (showInfoData.is_reservation) refetchShowReservationInfoData();
       console.log(showInfoData);
 
       setTitle(showInfoData.title);
@@ -159,6 +158,10 @@ const PostUpdate = () => {
       setDate({ start_date: showInfoData.start_date, end_date: showInfoData.end_date });
       showInfoData.tags && setTagInputs(Object.values(JSON.parse(showInfoData.tags)) as string[]);
       showInfoData.content && setEditorData(new TextDecoder().decode(base64ToBytes(showInfoData.content)));
+
+      if (!showInfoData.is_reservation) {
+        setIsLoading(() => true);
+      }
     }
   }, [showInfoData]);
 
@@ -180,6 +183,7 @@ const PostUpdate = () => {
         );
         showReservationInfoData.notice && setEditorNoticeData(new TextDecoder().decode(base64ToBytes(showReservationInfoData.notice)));
       }
+      setIsLoading(() => true);
     }
   }, [showReservationInfoData]);
 
@@ -187,7 +191,9 @@ const PostUpdate = () => {
   if (status === "pending") return <h1>loading...</h1>;
 
   if (showReservationInfoStatus === "error") return <h1>{showReservationInfoError.message}</h1>;
-  if (showReservationInfoStatus === "pending") return <h1>loading...</h1>;
+  if (showInfoData.is_reservation && showReservationInfoStatus === "pending") return <h1>loading reservationInfo...</h1>;
+
+  if (!isLoading) return <h1>loading state update ...</h1>;
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
