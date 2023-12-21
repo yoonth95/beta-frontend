@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Carousel, Modal } from "@/components/common";
-import { StoryCard, StoryUploadModal, StoryViewModal } from "@/components/main";
+import { StoryCard, StoryUploadModal, StoryViewModal, StorySectionSkeleton } from "@/components/main";
 import { useModalStore } from "@/stores/useModalStore";
 import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 import { getStories } from "@/apis";
 import styles from "./StorySection.module.css";
-import StorySectionSkeleton from "./StorySectionSkeleton";
 
 const StorySection = () => {
   const { openModal, setOpenModal } = useModalStore();
