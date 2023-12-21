@@ -13,6 +13,7 @@ import deleteReview from "./deleteReview";
 import patchReview from "./patchReview";
 import postLike from "./postLike";
 import deleteLike from "./deleteLike";
+import getUserReviewList from "./getUserReviewList";
 import getMyShowList from "./getMyShowList";
 
 export {
@@ -31,5 +32,6 @@ export {
   postLike,
   deleteLike,
   getUserLikeList,
+  getUserReviewList,
   getMyShowList,
 };
