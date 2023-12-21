@@ -1,0 +1,5 @@
+.story-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11.25rem, 1fr));
+  justify-content: center;
+}
