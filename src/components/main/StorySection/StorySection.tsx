@@ -6,9 +6,13 @@ import { useModalStore } from "@/stores/useModalStore";
 import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 import { getStories } from "@/apis";
 import styles from "./StorySection.module.css";
+import { useLoginStore } from "@/stores/useLoginStore";
 
 const StorySection = () => {
   const { openModal, setOpenModal } = useModalStore();
+  const {
+    userState: { user_role },
+  } = useLoginStore();
   const [initialSlide, setInitialSlide] = useState(0);
   const { isDragging } = useCarouselDragStore();
 
@@ -41,9 +45,11 @@ const StorySection = () => {
       <section className={styles["section"]}>
         <div className={styles["header"]}>
           <h2 className={styles["header__title"]}>스토리</h2>
-          <button type="button" className={styles["story-add-btn"]} onClick={handleClickUploadBtn}>
-            <span className="a11y-hidden">스토리 추가버튼</span>
-          </button>
+          {user_role === "user" && (
+            <button type="button" className={styles["story-add-btn"]} onClick={handleClickUploadBtn}>
+              <span className="a11y-hidden">스토리 추가버튼</span>
+            </button>
+          )}
           <button className={styles["story-more-btn"]} type="button" onClick={handleClickMoreBtn}>
             더보기
           </button>
