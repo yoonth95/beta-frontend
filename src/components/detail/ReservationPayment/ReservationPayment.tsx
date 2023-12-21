@@ -55,7 +55,7 @@ const ReservationPayment: React.FC<PropsType> = ({ showInfo, userInfo }) => {
                   orderName: title,
                   customerName: user_name,
                   customerEmail: user_email,
-                  customerMobilePhone: phone_number,
+                  customerMobilePhone: phone_number.replace(/-/g, ""),
                   successUrl: `${window.location.origin}/payment/success`,
                   failUrl: `${window.location.origin}/payment/fail`,
                 });
