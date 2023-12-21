@@ -32,7 +32,7 @@ const InfoSection = () => {
 
   const { univ, department, title, location, location_detail, start_date, end_date } = showInfo;
 
-  const tags = (showInfo.tags && showInfo.tags.length && Object.values(JSON.parse(showInfo.tags))) || [];
+  const tags: string[] = showInfo.tags ? Object.values(JSON.parse(showInfo.tags)) : [];
   const position = showInfo.position && JSON.parse(showInfo.position);
   const decodedContent = showInfo.content ? new TextDecoder().decode(base64ToBytes(showInfo.content)) : null;
 

@@ -15,6 +15,8 @@ import postLike from "./postLike";
 import deleteLike from "./deleteLike";
 import putShow from "./putShow";
 import deleteShow from "./deleteShow";
+import getUserReviewList from "./getUserReviewList";
+import getMyShowList from "./getMyShowList";
 
 export {
   getShows,
@@ -34,4 +36,6 @@ export {
   getUserLikeList,
   putShow,
   deleteShow,
+  getUserReviewList,
+  getMyShowList,
 };
