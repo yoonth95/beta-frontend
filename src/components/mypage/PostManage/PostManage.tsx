@@ -55,8 +55,10 @@ const PostManage = () => {
   };
 
   const handleClickDelete = (item: ReviewType) => () => {
-    const { id: review_id, show_id } = item;
-    deleteMutate({ review_id, show_id });
+    if (confirm("정말 삭제하시겠습니까?")) {
+      const { id: review_id, show_id } = item;
+      deleteMutate({ review_id, show_id });
+    }
   };
 
   return (
