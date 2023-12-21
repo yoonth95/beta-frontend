@@ -63,14 +63,20 @@ const PostUpdate = () => {
   const [position, setPosition] = useState<object>({});
   const [locationDetail, setLocationDetail] = useState<string>("");
   const [tagsInput, setTagInputs] = useState<string[]>([]);
+  const [editorData, setEditorData] = useState<string>("");
   const [isReservation, setIsReservation] = useState(isReservationList[1]);
 
+  // 이미지 관련
   const [imgFiles, setImgFiles] = useState<File[]>([]);
   const [imgPreviewUrls, setImgPreviewUrls] = useState<string[]>([]);
   const [imgExistingUrls, setImgExistingUrls] = useState<string[]>([]);
-  const { data: main_image_color } = useColor(imgPreviewUrls[0], "hex");
-  const [editorData, setEditorData] = useState<string>("");
-
+  const { data: main_image_color } = useColor(
+    imgExistingUrls[0] ? `${import.meta.env.VITE_APP_IMAGE_DOMAIN + imgExistingUrls[0]}` : imgPreviewUrls[0],
+    "hex",
+    {
+      crossOrigin: "anonymous",
+    },
+  );
   // 게시글 예매 정보
   const [method, setMethod] = useState(methodList[0]);
   const [googleFormUrl, setGoogleFormUrl] = useState<string | null>(null);
@@ -202,6 +208,7 @@ const PostUpdate = () => {
     setImgPreviewUrls([...imgPreviewUrls, ...previewImgSrc]);
   };
 
+  // 새로 입력된 이미지들 삭제
   const handleRemoveImage = (image: string) => {
     const deleteImgIndex = imgPreviewUrls.indexOf(image);
     // file 객체 리스트에서 제거
@@ -209,6 +216,10 @@ const PostUpdate = () => {
     setImgFiles(newImgFiles);
     // 미리보기 blob url 리스트에서 제거
     setImgPreviewUrls((prev) => prev.filter((previewUrl) => previewUrl !== image));
+  };
+  // 기존 이미지들 삭제
+  const handleRemoveExistingImage = (image) => {
+    setImgExistingUrls((prev) => prev.filter((previewUrl) => previewUrl !== image));
   };
 
   const handleDateInput = (event: DateInputType) => {
@@ -224,11 +235,13 @@ const PostUpdate = () => {
   const handleUpdateShow = async (e) => {
     e.preventDefault();
 
-    if (imgFiles.length < 2) {
+    const imgCnt = imgFiles.length + imgExistingUrls.length;
+
+    if (imgCnt < 2) {
       toast.error("이미지를 2개 이상 업로드 해주세요.");
       return;
     }
-    if (imgFiles.length > 10) {
+    if (imgCnt > 10) {
       toast.error("이미지를 10개 이하로 업로드 해주세요.");
       return;
     }
@@ -255,12 +268,6 @@ const PostUpdate = () => {
       }
     }
 
-    // if (imgExistingUrls.length) {
-    //   const urlToFileArray = imgExistingUrls.map((imgUrl) => {
-    //     imgUrl
-    //   });
-    // }
-
     const resizedImgFiles = await Promise.all(
       imgFiles.map(async (file) => {
         const blobString = URL.createObjectURL(file);
@@ -273,8 +280,6 @@ const PostUpdate = () => {
     const base64EncodedNotice = (method === "예매 대행" && !!editorNoticeData && bytesToBase64(new TextEncoder().encode(editorNoticeData))) || null;
 
     const result = {
-      main_image_url: resizedImgFiles[0],
-      sub_images_url: resizedImgFiles.slice(1),
       main_image_color,
       show_type: showType,
       show_sub_type: showType === "전시" ? null : showSubType,
@@ -301,14 +306,21 @@ const PostUpdate = () => {
 
     const formData = new FormData();
 
-    // 이미지 파일
-    formData.append("mainImage", result.main_image_url); // 메인 이미지
-    for (let i = 0; i < result.sub_images_url.length; i++) {
-      formData.append("subImages", result.sub_images_url[i]); // 서브 이미지
+    // 기존 이미지, 추가된 이미지 리스트 종합해서 main, sub 이미지 고르기
+    let finalSubImages;
+    if (imgExistingUrls.length) {
+      finalSubImages = resizedImgFiles;
+    } else {
+      formData.append("mainImage", resizedImgFiles[0]); // 메인 이미지
+      finalSubImages = resizedImgFiles.slice(1);
+    }
+    for (let i = 0; i < finalSubImages.length; i++) {
+      formData.append("subImages", finalSubImages[i]); // 서브 이미지
     }
 
     const fileNames: { [key: number]: string } = {};
-    result.sub_images_url.forEach((file, index) => (fileNames[index + 1] = file.name));
+    finalSubImages.forEach((file, index) => (fileNames[index + 1] = file.name));
+    formData.append("sub_images_url", JSON.stringify(fileNames));
 
     // 텍스트
     formData.append("show_id", showId);
@@ -321,7 +333,6 @@ const PostUpdate = () => {
     result.location_detail && formData.append("location_detail", result.location_detail);
     formData.append("position", result.position);
     formData.append("main_image_color", result.main_image_color as string);
-    formData.append("sub_images_url", JSON.stringify(fileNames));
     formData.append("univ", result.univ);
     formData.append("department", result.department);
     result.tags && formData.append("tags", result.tags);
@@ -360,18 +371,18 @@ const PostUpdate = () => {
               <li key={image}>
                 <div className={styles["img-cover"]}>
                   <img src={import.meta.env.VITE_APP_IMAGE_DOMAIN + image} alt="" />
-                  <DeleteButton spanHidden="해당 이미지 삭제" onClick={() => handleRemoveImage(image)} forImage />
+                  <DeleteButton spanHidden="해당 이미지 삭제" onClick={() => handleRemoveExistingImage(image)} forImage />
                 </div>
               </li>
             ))}
-            {/* {imgPreviewUrls.map((image) => (
+            {imgPreviewUrls.map((image) => (
               <li key={image}>
                 <div className={styles["img-cover"]}>
                   <img src={image} alt="" />
                   <DeleteButton spanHidden="해당 이미지 삭제" onClick={() => handleRemoveImage(image)} forImage />
                 </div>
               </li>
-            ))} */}
+            ))}
           </ul>
         </div>
       </section>
