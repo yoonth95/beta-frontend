@@ -1,7 +1,15 @@
-import { Button, CheckBox, InputField, InputFieldGroup, RadioButtonGroup } from "@/components/common";
+import { toast } from "react-toastify";
+import { Button, CheckBox, InputField, InputFieldGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
-import { UserReservationFormType, UserReservationInputsType, AgencyReservationInfoType, MemberType } from "@/types";
+import { useModalStore } from "@/stores/useModalStore";
+import { useReservationFormStore } from "@/stores/useReservationFormStore";
+import { UserReservationInputsType, AgencyReservationInfoType, MemberType, UserReservationFormType } from "@/types";
 import styles from "./ReservationForm.module.css";
+import classNames from "classnames/bind";
+import RadioStyles from "@/components/common/RadioButtonGroup/RadioButtonGroup.module.css";
+import { postReservation } from "@/apis";
+
+const cx = classNames.bind(RadioStyles);
 
 interface PropsType {
   showInfo: AgencyReservationInfoType;
@@ -10,13 +18,8 @@ interface PropsType {
 }
 
 const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentStep }) => {
-  const [form, onChange] = useInputs<UserReservationInputsType>({
-    show_times_id: 0,
-    is_receive_email: false,
-  });
-
+  const { setOpenModal } = useModalStore();
   const { location, price, notice, date_time } = showInfo;
-  const show_date_time = date_time.map((item) => item.date_time);
 
   const { user_name, user_email, phone_number } = userInfo;
   const [email1, email2] = user_email.split("@");
@@ -24,20 +27,34 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
   const noticeBufferData = notice && new Uint8Array(notice.data);
   const noticeDecodedString = noticeBufferData && new TextDecoder("utf-8").decode(noticeBufferData);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [form, onChange] = useInputs<UserReservationInputsType>({
+    show_times_id: date_time[0].id,
+    is_receive_email: false,
+  });
+
+  const { setReservationForm } = useReservationFormStore();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result: UserReservationFormType = {
-      user_id: userInfo.id,
       show_id: showInfo.show_id,
       show_times_id: form.show_times_id,
       is_receive_email: form.is_receive_email ? 1 : 0,
-    };
-    if (price === 0) {
-      //  post 요청
+    } as const;
+
+    if (price !== 0) {
+      setReservationForm(result);
+      goToPaymentStep();
       return;
     }
 
-    goToPaymentStep();
+    try {
+      await postReservation(result);
+      setOpenModal({ state: false, type: "" });
+      toast("예매 성공하였습니다. 마이페이지에서 확인해주세요");
+    } catch (err) {
+      // 예매실패
+    }
   };
 
   return (
@@ -62,7 +79,21 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
       <form id="reservation" onSubmit={handleSubmit}>
         <div className={styles["show-round"]}>
           <h2>회차 선택</h2>
-          <RadioButtonGroup radioList={show_date_time} name="round" onChange={onChange} flexDirectionColumn />
+          <fieldset className={cx("fieldset", "column")}>
+            {date_time.map((item) => (
+              <label key={item.id}>
+                <input
+                  type="radio"
+                  name={"show_times_id"}
+                  value={item.id}
+                  checked={item.id === form.show_times_id}
+                  onChange={onChange}
+                  disabled={item.head_count === 0}
+                />
+                <span>{item.date_time}</span>
+              </label>
+            ))}
+          </fieldset>
         </div>
 
         <div className={styles["show-reservation-user-info"]}>
