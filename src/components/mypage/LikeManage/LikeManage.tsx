@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
-import { BasicCard, FilterButton } from "@/components/common";
-import { TicketCard } from "@/components/mainConcert";
+import { BasicCard, FilterButton, TicketCard } from "@/components/common";
 import { getUserLikeList } from "@/apis";
 import styles from "./LikeManage.module.css";
 
