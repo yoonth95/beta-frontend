@@ -116,7 +116,8 @@ const SignupPage = () => {
   const handleCheckId = async () => {
     // db 조회 후 중복확인
     const data = await getUserInfo(id.value);
-    if (data) {
+
+    if (!data.ok) {
       alert("이미 가입된 아이디입니다.");
       return;
     }
