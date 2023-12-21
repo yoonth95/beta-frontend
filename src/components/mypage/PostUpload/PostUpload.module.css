@@ -100,15 +100,3 @@
 .tags-section :global(.tags-input) {
   width: 100%;
 }
-.tags-section :global(.tagify__tag) {
-  max-width: calc(100% - 10px);
-}
-.tags-section :global(.tagify__tag > div::before) {
-  --tag-inset-shadow-size: 10rem;
-}
-.tags-section :global(.tagify__tag-text) {
-  word-break: break-all;
-}
-.tags-section :global(.tagify__tag__removeBtn) {
-  flex-shrink: 0;
-}
