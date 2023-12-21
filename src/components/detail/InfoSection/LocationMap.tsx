@@ -1,7 +1,7 @@
-import { Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
+import { useEffect, useRef } from "react";
 import mapPinIcon from "@/assets/icon-map-pin.svg";
 
-const apiKey = import.meta.env.VITE_APP_KAKAOMAP_API_KEY as string;
+const { kakao } = window;
 
 interface PropsType {
   lat: number;
@@ -9,43 +9,37 @@ interface PropsType {
 }
 
 export default function LocationMap({ lat, lng }: PropsType) {
-  useKakaoLoader({ appkey: apiKey });
+  const mapRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const container = mapRef.current;
+    const options = {
+      center: new kakao.maps.LatLng(lat, lng),
+      level: 4, // 지도의 확대 레벨
+    };
+    var map = new kakao.maps.Map(container as HTMLDivElement, options);
+
+    const imageSrc = mapPinIcon; // 마커이미지의 주소입니다
+    const imageSize = new kakao.maps.Size(29, 42); // 마커이미지의 크기입니다
+    const imageOption = { offset: new kakao.maps.Point(14.5, 42) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+    const marker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(lat, lng),
+      image: markerImage,
+    });
+    marker.setMap(map);
+  }, [lat, lng]);
 
   return (
-    <Map // 지도를 표시할 Container
-      id="map"
-      center={{
-        // 지도의 중심좌표
-        lat,
-        lng,
-      }}
+    <div
+      ref={mapRef}
+      // id="map"
       style={{
-        // 지도의 크기
         width: "100%",
         height: "400px",
       }}
-      level={4} // 지도의 확대 레벨
-    >
-      <MapMarker // 마커를 생성합니다
-        position={{
-          // 마커가 표시될 위치입니다
-          lat,
-          lng,
-        }}
-        image={{
-          src: mapPinIcon, // 마커이미지의 주소입니다
-          size: {
-            width: 29,
-            height: 42,
-          }, // 마커이미지의 크기입니다
-          options: {
-            offset: {
-              x: 14.5,
-              y: 42,
-            }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-          },
-        }}
-      />
-    </Map>
+    ></div>
   );
 }

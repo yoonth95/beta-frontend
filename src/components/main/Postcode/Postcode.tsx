@@ -1,6 +1,7 @@
+import React, { SetStateAction } from "react";
 import { Button } from "@/components/common";
-import React from "react";
-import { useDaumPostcodePopup } from "react-daum-postcode";
+import { useDaumPostcodePopup, Address } from "react-daum-postcode";
+import { AddressSearchResult } from "@/types/addressSearchType";
 
 const kakao = window.kakao;
 
@@ -8,9 +9,9 @@ const getAddressCoords = (address: string) => {
   const geoCoder = new kakao.maps.services.Geocoder();
 
   return new Promise((resolve, reject) => {
-    geoCoder.addressSearch(address, (result: any, status: any) => {
+    geoCoder.addressSearch(address, (result: AddressSearchResult[], status: any) => {
       if (status === kakao.maps.services.Status.OK) {
-        const coords = new kakao.maps.LatLng(result[0].x, result[0].y);
+        const coords = new kakao.maps.LatLng(+result[0].x, +result[0].y);
         resolve(coords);
       } else {
         reject(status);
@@ -19,22 +20,18 @@ const getAddressCoords = (address: string) => {
   });
 };
 
-const getPosition = async (data) => {
-  let mainAddress = "";
-  let x = 0;
-  let y = 0;
+const getPosition = async (data: Address) => {
+  try {
+    const coords = await getAddressCoords(data.roadAddress || data.jibunAddress);
+    const x = coords.getLng();
+    const y = coords.getLat();
 
-  mainAddress = data.roadAddress || data.jibunAddress;
-
-  const coords = await getAddressCoords(mainAddress);
-  x = coords.getLng();
-  y = coords.getLat();
-
-  console.log(x, y);
-  return { lng: x, lat: y };
+    return { lat: x, lng: y };
+  } catch (e) {
+    console.error(e);
+  }
 };
-
-const getLocation = (data) => {
+const getLocation = (data: Address) => {
   let fullAddress = data.address;
   let extraAddress = ""; //추가될 주소
   // let localAddress = data.sido + ' ' + data.sigungu; //지역주소(시, 도 + 시, 군, 구)
@@ -57,14 +54,25 @@ const getLocation = (data) => {
   return fullAddress;
 };
 
-const Postcode = ({ setPosition, setLocation }) => {
+interface PropsType {
+  setPosition: React.Dispatch<SetStateAction<object>>;
+  setLocation: React.Dispatch<SetStateAction<string>>;
+}
+
+const Postcode: React.FC<PropsType> = ({ setPosition, setLocation }) => {
   const open = useDaumPostcodePopup();
 
-  const handleComplete = (data) => {
-    // position
-    setPosition(getPosition(data));
-    // location
-    setLocation(getLocation(data));
+  const handleComplete = async (data: Address) => {
+    try {
+      const position = await getPosition(data);
+
+      if (position) {
+        setLocation(await getLocation(data));
+        setPosition(position);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleClick = () => {

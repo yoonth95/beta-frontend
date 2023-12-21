@@ -11,6 +11,7 @@ export interface ReviewType {
   comment: string;
   created_at: string;
   updated_at: string;
+  title?: string;
 }
 
 export interface ReviewPostParamType {
