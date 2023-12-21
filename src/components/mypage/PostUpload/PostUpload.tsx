@@ -13,6 +13,7 @@ import postShow from "@/apis/postShow";
 import { toast } from "react-toastify";
 import styles from "./PostUpload.module.css";
 import classNames from "classnames/bind";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -45,6 +46,7 @@ function bytesToBase64(bytes: Uint8Array): string {
 }
 
 const PostUpload = () => {
+  const navigate = useNavigate();
   const [form, onChange] = useInputs(defaultValues);
 
   const [tagsInput, setTagInputs] = useState<string[]>([]);
@@ -210,7 +212,10 @@ const PostUpload = () => {
   const { mutate } = useMutation({
     mutationFn: (formData: FormData) => postShow(formData),
     onSuccess: (data) => {
-      if (data) toast("게시글 업로드 성공");
+      if (data) {
+        toast.info("게시글 업로드 성공");
+        navigate("/mypage/post");
+      }
     },
     onError: (err) => {
       console.log(err);
