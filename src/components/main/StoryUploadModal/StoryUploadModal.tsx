@@ -30,6 +30,10 @@ const StoryUploadModal = () => {
   });
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (objUrl) {
+      URL.revokeObjectURL(objUrl);
+    }
+
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
     const imgSrc = URL.createObjectURL(selectedFile);
