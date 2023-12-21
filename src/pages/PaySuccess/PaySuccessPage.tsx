@@ -1,33 +1,49 @@
 import { useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import CheckBoxIconSrc from "@/assets/checkbox-payment.svg";
 import axios from "axios";
+import { useReservationFormStore } from "@/stores/useReservationFormStore";
+import CheckBoxIconSrc from "@/assets/checkbox-payment.svg";
+import { postReservation } from "@/apis";
 
+interface ErrorType {
+  response: { data: { code: string; message: string } };
+}
 const PaySuccessPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const orderId = searchParams.get("orderId");
+  const amount = searchParams.get("amount");
+  const paymentKey = searchParams.get("paymentKey");
+
+  const { reservationForm } = useReservationFormStore();
 
   useEffect(() => {
     const requestData = {
-      orderId: searchParams.get("orderId"),
-      amount: searchParams.get("amount"),
-      paymentKey: searchParams.get("paymentKey"),
+      orderId,
+      amount,
+      paymentKey,
     };
 
-    const secretKey = import.meta.env.TOSS_PAYMENTS_SECRET_KEY as string;
+    const secretKey = import.meta.env.VITE_APP_TOSS_PAYMENTS_SECRET_KEY as string;
     const encryptedSecretKey = `Basic ${btoa(secretKey + ":")}`;
 
     const confirm = async () => {
-      const { data, status } = await axios.post("https://api.tosspayments.com/v1/payments/confirm", requestData, {
-        headers: {
-          Authorization: encryptedSecretKey,
-          "Content-Type": "application/json",
-        },
-      });
+      try {
+        await axios.post("https://api.tosspayments.com/v1/payments/confirm", requestData, {
+          headers: {
+            Authorization: encryptedSecretKey,
+            "Content-Type": "application/json",
+          },
+        });
 
-      if (status !== 200) {
-        navigate(`/payment/fail?code=${data.code}&message=${data.message}`);
-        return;
+        await postReservation({ orderId: orderId!, amount: amount!, ...reservationForm! });
+      } catch (err) {
+        if (err === "서버 요청 실패") {
+          // Todo 성공했던 결제 취소 및 navigate
+          return;
+        }
+        const { code, message } = (err as ErrorType).response.data;
+        navigate(`/payment/fail?code=${code}&message=${message}`);
       }
     };
     confirm();
