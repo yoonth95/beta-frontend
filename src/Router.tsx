@@ -4,6 +4,7 @@ import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage
 import { InfoSection, ReviewSection } from "@/components/detail";
 import Mypage from "@/pages/Mypage/Mypage";
 import { Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage, PostUpload } from "@/components/mypage";
+import PostUpdate from "./components/mypage/PostUpdate/PostUpdate";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
           {
             path: "post/upload",
             element: <PostUpload />,
+          },
+          {
+            path: "post/update",
+            element: <PostUpdate />,
           },
         ],
       },
