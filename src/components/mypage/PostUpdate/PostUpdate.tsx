@@ -11,8 +11,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import styles from "./PostUpdate.module.css";
 import classNames from "classnames/bind";
-import { getShowInfo, getShowReservationInfo } from "@/apis";
-import { useLocation } from "react-router-dom";
+import { deleteShow, getShowInfo, getShowReservationInfo, putShow } from "@/apis";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -44,6 +44,7 @@ const roundListToDateTime = (roundList) => {
 };
 
 const PostUpdate = () => {
+  const navigate = useNavigate();
   const locationObj = useLocation();
   const showId = locationObj.state || undefined;
 
@@ -65,6 +66,7 @@ const PostUpdate = () => {
 
   const [imgFiles, setImgFiles] = useState<File[]>([]);
   const [imgPreviewUrls, setImgPreviewUrls] = useState<string[]>([]);
+  const [imgExistingUrls, setImgExistingUrls] = useState<string[]>([]);
   const { data: main_image_color } = useColor(imgPreviewUrls[0], "hex");
   const [editorData, setEditorData] = useState<string>("");
 
@@ -107,16 +109,32 @@ const PostUpdate = () => {
     enabled: false,
   });
 
-  // 게시글 업로드/업데이트
-  // const { mutate } = useMutation({
-  //   mutationFn: (formData: FormData) => postShow(formData),
-  //   onSuccess: (data) => {
-  //     if (data) toast("게시글 업로드 성공");
-  //   },
-  //   onError: (err) => {
-  //     console.log(err);
-  //   },
-  // });
+  // 게시글 수정 업데이트
+  const { mutate: editMutate } = useMutation({
+    mutationFn: (formData: FormData) => putShow(formData),
+    onSuccess: (data) => {
+      if (data) {
+        toast.info("게시글 수정 완료");
+        navigate("/mypage/post");
+      }
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: () => deleteShow(showId),
+    onSuccess: (data) => {
+      if (data) {
+        toast.info("게시글 삭제 완료");
+        navigate("/mypage/post");
+      }
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
 
   useEffect(() => {
     if (status === "success" && showInfoData) {
@@ -129,17 +147,17 @@ const PostUpdate = () => {
       setUniv(showInfoData.univ);
       setDepartment(showInfoData.department);
       setLocation(showInfoData.location);
+      setPosition(JSON.parse(showInfoData.position));
       showInfoData.location_detail && setLocationDetail(showInfoData.location_detail);
       setIsReservation(showInfoData.is_reservation === 1 ? "예" : "아니오");
 
-      setImgPreviewUrls(
+      setImgExistingUrls(
         showInfoData.sub_images_url
           ? [showInfoData.main_image_url, ...(Object.values(JSON.parse(showInfoData.sub_images_url)) as string[])]
           : [showInfoData.main_image_url],
       );
       setDate({ start_date: showInfoData.start_date, end_date: showInfoData.end_date });
-      // 태그 값 출력
-      showInfoData.tags && setTagInputs(Object.values(JSON.parse(showInfoData.tags)).map((item) => item[0] as string));
+      showInfoData.tags && setTagInputs(Object.values(JSON.parse(showInfoData.tags)) as string[]);
       showInfoData.content && setEditorData(new TextDecoder().decode(base64ToBytes(showInfoData.content)));
     }
   }, [showInfoData]);
@@ -166,10 +184,10 @@ const PostUpdate = () => {
   }, [showReservationInfoData]);
 
   if (status === "error") return <h1>{error.message}</h1>;
-  if (status === "pending" || showReservationInfoStatus === "pending") return <h1>loading...</h1>;
+  if (status === "pending") return <h1>loading...</h1>;
 
   if (showReservationInfoStatus === "error") return <h1>{showReservationInfoError.message}</h1>;
-  // if (showReservationInfoStatus === "pending") return <h1>loading...</h1>;
+  if (showReservationInfoStatus === "pending") return <h1>loading...</h1>;
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -196,10 +214,11 @@ const PostUpdate = () => {
     setTagInputs(tags);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  // 수정하기 버튼
+  const handleUpdateShow = async (e) => {
     e.preventDefault();
 
-    if (imgFiles.length < 3) {
+    if (imgFiles.length < 2) {
       toast.error("이미지를 2개 이상 업로드 해주세요.");
       return;
     }
@@ -230,6 +249,12 @@ const PostUpdate = () => {
       }
     }
 
+    // if (imgExistingUrls.length) {
+    //   const urlToFileArray = imgExistingUrls.map((imgUrl) => {
+    //     imgUrl
+    //   });
+    // }
+
     const resizedImgFiles = await Promise.all(
       imgFiles.map(async (file) => {
         const blobString = URL.createObjectURL(file);
@@ -238,22 +263,24 @@ const PostUpdate = () => {
       }),
     );
 
-    const tags = (tagsInput.length && JSON.stringify(convertArrayToObject(tagsInput))) || null;
-
     const base64EncodedContents = (!!editorData && bytesToBase64(new TextEncoder().encode(editorData))) || null;
-
     const base64EncodedNotice = (method === "예매 대행" && !!editorNoticeData && bytesToBase64(new TextEncoder().encode(editorNoticeData))) || null;
 
     const result = {
       main_image_url: resizedImgFiles[0],
       sub_images_url: resizedImgFiles.slice(1),
       main_image_color,
+      show_type: showType,
       show_sub_type: showType === "전시" ? null : showSubType,
+      title,
+      univ,
+      department,
       start_date: date.start_date,
       end_date: date.end_date,
       location,
+      location_detail: locationDetail,
       position: JSON.stringify(position),
-      tags,
+      tags: (tagsInput.length && JSON.stringify(convertArrayToObject(tagsInput))) || null,
       content: base64EncodedContents,
       is_reservation: isReservation === "예" ? "1" : "0",
       //
@@ -266,45 +293,55 @@ const PostUpdate = () => {
     };
     console.log(result);
 
-    //   const formData = new FormData();
+    const formData = new FormData();
 
-    //   // 이미지 파일
-    //   formData.append("mainImage", result.main_image_url); // 메인 이미지
-    //   for (let i = 0; i < result.sub_images_url.length; i++) {
-    //     formData.append("subImages", result.sub_images_url[i]); // 서브 이미지
-    //   }
+    // 이미지 파일
+    formData.append("mainImage", result.main_image_url); // 메인 이미지
+    for (let i = 0; i < result.sub_images_url.length; i++) {
+      formData.append("subImages", result.sub_images_url[i]); // 서브 이미지
+    }
 
-    //   const fileNames: { [key: number]: string } = {};
-    //   result.sub_images_url.forEach((file, index) => (fileNames[index + 1] = file.name));
+    const fileNames: { [key: number]: string } = {};
+    result.sub_images_url.forEach((file, index) => (fileNames[index + 1] = file.name));
 
-    //   // 텍스트
-    //   formData.append("show_type", result.show_type);
-    //   result.show_sub_type && formData.append("show_sub_type", result.show_sub_type);
-    //   formData.append("title", result.title);
-    //   formData.append("start_date", result.start_date);
-    //   formData.append("end_date", result.end_date);
-    //   formData.append("location", result.location);
-    //   result.location_detail && formData.append("location_detail", result.location_detail);
-    //   formData.append("position", result.position);
-    //   formData.append("main_image_color", result.main_image_color as string);
-    //   formData.append("sub_images_url", JSON.stringify(fileNames));
-    //   formData.append("univ", result.univ);
-    //   formData.append("department", result.department);
-    //   result.tags && formData.append("tags", result.tags);
-    //   formData.append("content", result.content);
-    //   result.is_reservation && formData.append("is_reservation", result.is_reservation);
-    //   result.method && formData.append("method", result.method);
-    //   result.google_form_url && formData.append("google_form_url", result.google_form_url);
-    //   result.price && formData.append("price", result.price.toString());
-    //   result.head_count && formData.append("head_count", result.head_count.toString());
-    //   result.notice && formData.append("notice", result.notice);
-    //   result.date_time && formData.append("date_time", result.date_time);
+    // 텍스트
+    formData.append("show_id", showId);
+    formData.append("show_type", result.show_type);
+    result.show_sub_type && formData.append("show_sub_type", result.show_sub_type);
+    formData.append("title", result.title);
+    formData.append("start_date", result.start_date);
+    formData.append("end_date", result.end_date);
+    formData.append("location", result.location);
+    result.location_detail && formData.append("location_detail", result.location_detail);
+    formData.append("position", result.position);
+    formData.append("main_image_color", result.main_image_color as string);
+    formData.append("sub_images_url", JSON.stringify(fileNames));
+    formData.append("univ", result.univ);
+    formData.append("department", result.department);
+    result.tags && formData.append("tags", result.tags);
+    result.content && formData.append("content", result.content);
+    result.is_reservation && formData.append("is_reservation", result.is_reservation);
+    result.method && formData.append("method", result.method);
+    result.google_form_url && formData.append("google_form_url", result.google_form_url);
+    result.price && formData.append("price", result.price.toString());
+    result.head_count && formData.append("head_count", result.head_count.toString());
+    result.notice && formData.append("notice", result.notice);
+    result.date_time && formData.append("date_time", result.date_time);
 
-    //   mutate(formData);
+    editMutate(formData);
+  };
+
+  // 삭제하기 버튼
+  const handleDeleteShow = (e) => {
+    e.preventDefault();
+    if (confirm("정말 삭제하시겠습니까?")) {
+      deleteMutate();
+      return;
+    }
   };
 
   return (
-    <form className={styles["post-update-section-form"]} onSubmit={handleSubmit}>
+    <form className={styles["post-update-section-form"]}>
       <section>
         <h2 className={styles["title"]}>공연/전시/스포츠 이미지</h2>
         <div className={styles["update-imgs-wrapper"]}>
@@ -313,14 +350,22 @@ const PostUpdate = () => {
             <input type="file" accept="image/*" multiple onChange={handleChangeImage} />
           </label>
           <ul className={styles["imgs-list"]}>
-            {imgPreviewUrls.map((image) => (
+            {imgExistingUrls.map((image) => (
+              <li key={image}>
+                <div className={styles["img-cover"]}>
+                  <img src={import.meta.env.VITE_APP_IMAGE_DOMAIN + image} alt="" />
+                  <DeleteButton spanHidden="해당 이미지 삭제" onClick={() => handleRemoveImage(image)} forImage />
+                </div>
+              </li>
+            ))}
+            {/* {imgPreviewUrls.map((image) => (
               <li key={image}>
                 <div className={styles["img-cover"]}>
                   <img src={image} alt="" />
                   <DeleteButton spanHidden="해당 이미지 삭제" onClick={() => handleRemoveImage(image)} forImage />
                 </div>
               </li>
-            ))}
+            ))} */}
           </ul>
         </div>
       </section>
@@ -400,7 +445,7 @@ const PostUpdate = () => {
 
       <section className={styles["tags-section"]}>
         <h2 className={styles["title"]}>태그</h2>
-        <TagInput handleChange={handleChangeTags} />
+        <TagInput defaultValue={tagsInput} handleChange={handleChangeTags} />
       </section>
 
       <section>
@@ -444,7 +489,12 @@ const PostUpdate = () => {
         )}
       </section>
 
-      <Button type="submit">업로드하기</Button>
+      <Button type="submit" onClick={handleUpdateShow}>
+        수정하기
+      </Button>
+      <Button type="submit" onClick={handleDeleteShow}>
+        삭제하기
+      </Button>
     </form>
   );
 };
