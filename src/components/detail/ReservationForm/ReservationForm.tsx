@@ -11,6 +11,17 @@ import { postReservation } from "@/apis";
 
 const cx = classNames.bind(RadioStyles);
 
+// 디코딩
+function base64ToBytes(base64: string): Uint8Array {
+  try {
+    const binString = window.atob(base64);
+    return Uint8Array.from(binString, (c) => c.codePointAt(0) ?? 0);
+  } catch (error) {
+    console.error("Error decoding base64:", error);
+    return new Uint8Array();
+  }
+}
+
 interface PropsType {
   showInfo: AgencyReservationInfoType;
   userInfo: MemberType;
@@ -19,13 +30,12 @@ interface PropsType {
 
 const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentStep }) => {
   const { setOpenModal } = useModalStore();
-  const { location, price, notice, date_time } = showInfo;
+  const { location, price, date_time, notice } = showInfo;
 
   const { user_name, user_email, phone_number } = userInfo;
   const [email1, email2] = user_email.split("@");
   const [phone1, phone2, phone3] = phone_number.split("-");
-  const noticeBufferData = notice && new Uint8Array(notice.data);
-  const noticeDecodedString = noticeBufferData && new TextDecoder("utf-8").decode(noticeBufferData);
+  const decodedNotice = new TextDecoder().decode(base64ToBytes(notice));
 
   const [form, onChange] = useInputs<UserReservationInputsType>({
     show_times_id: date_time[0].id,
@@ -73,7 +83,7 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
 
       <div className={styles["show-notice"]}>
         <h2>티켓 예매 시 유의 사항</h2>
-        <div>{noticeDecodedString}</div>
+        <div>{decodedNotice}</div>
       </div>
 
       <form id="reservation" onSubmit={handleSubmit}>
