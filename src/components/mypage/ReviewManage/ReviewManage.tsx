@@ -1,7 +1,7 @@
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import ReviewMypageItem from "../ReviewMypageItem/ReviewMypageItem";
 import { getUserReviewList } from "@/apis";
+import nullImage from "@/assets/null-page.png";
 import styles from "./ReviewManage.module.css";
 
 const ReviewManage = () => {
@@ -19,9 +19,17 @@ const ReviewManage = () => {
 
   return (
     <div className={styles["review-container"]}>
-      {userReviewList.map((item) => (
-        <ReviewMypageItem key={item.id} {...item} />
-      ))}
+      {userReviewList.length > 0 ? (
+        userReviewList.map((item) => <ReviewMypageItem key={item.id} {...item} />)
+      ) : (
+        <div className={styles["review-null"]}>
+          <img src={nullImage} alt="빈 화면" />
+          <p>
+            아직 후기가 없어요! <br />
+            응원의 한마디를 남겨주시면 어떨까요?
+          </p>
+        </div>
+      )}
     </div>
   );
 };
