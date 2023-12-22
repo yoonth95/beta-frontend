@@ -66,7 +66,7 @@ const PostManage = () => {
       <div className={styles["container"]}>
         <ul className={cx("list", "gray-scrollbar")}>
           {showList.map((item) => (
-            <li className={cx("list-row", "list-item")} key={item}>
+            <li className={cx("list-row", "list-item")} key={item.id}>
               <Link to={`/detail/${item.id}`} className={styles["list-row-left"]}>
                 <h3 className={cx("list-item__title", "ellipsis-multi")}>{item.title}</h3>
                 <p className={styles["list-item__date"]}>{item.start_date + " ~ " + item.end_date}</p>

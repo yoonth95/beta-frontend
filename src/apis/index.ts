@@ -20,6 +20,7 @@ import getUserReviewList from "./getUserReviewList";
 import getMyShowList from "./getMyShowList";
 import getAdminReservationList from "./getAdminReservationList";
 import getAdminReservationDetail from "./getAdminReservationDetail";
+import getSignUserInfo from "./getSignUserInfo";
 
 export {
   getShows,
@@ -44,4 +45,5 @@ export {
   getMyShowList,
   getAdminReservationList,
   getAdminReservationDetail,
+  getSignUserInfo,
 };

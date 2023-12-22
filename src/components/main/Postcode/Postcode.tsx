@@ -9,7 +9,7 @@ const getAddressCoords = (address: string) => {
   const geoCoder = new kakao.maps.services.Geocoder();
 
   return new Promise((resolve, reject) => {
-    geoCoder.addressSearch(address, (result: AddressSearchResult[], status: any) => {
+    geoCoder.addressSearch(address, (result: AddressSearchResult[], status: kakao.maps.services.Status) => {
       if (status === kakao.maps.services.Status.OK) {
         const coords = new kakao.maps.LatLng(+result[0].x, +result[0].y);
         resolve(coords);
@@ -22,7 +22,7 @@ const getAddressCoords = (address: string) => {
 
 const getPosition = async (data: Address) => {
   try {
-    const coords = await getAddressCoords(data.roadAddress || data.jibunAddress);
+    const coords = (await getAddressCoords(data.roadAddress || data.jibunAddress)) as kakao.maps.LatLng;
     const x = coords.getLng();
     const y = coords.getLat();
 
@@ -50,7 +50,6 @@ const getLocation = (data: Address) => {
     fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     //조건 판단 완료 후 지역 주소 및 상세주소 state 수정
   }
-  console.log(fullAddress);
   return fullAddress;
 };
 
@@ -65,9 +64,10 @@ const Postcode: React.FC<PropsType> = ({ setPosition, setLocation }) => {
   const handleComplete = async (data: Address) => {
     try {
       const position = await getPosition(data);
+      console.log(position);
 
       if (position) {
-        setLocation(await getLocation(data));
+        setLocation(getLocation(data));
         setPosition(position);
       }
     } catch (e) {
