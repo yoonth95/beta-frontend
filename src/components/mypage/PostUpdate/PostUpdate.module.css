@@ -116,3 +116,9 @@
 .tags-section :global(.tagify__tag__removeBtn) {
   flex-shrink: 0;
 }
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
