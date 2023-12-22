@@ -1,6 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import useAuth from "@/hooks/useAuth";
-import { useState } from "react";
 
 const PrivateRoute = () => {
   const { isLoading, isError, user } = useAuth();

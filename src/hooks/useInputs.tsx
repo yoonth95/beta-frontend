@@ -1,5 +1,5 @@
 import { FormInputs } from "@/types";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 const objectTypeNames = ["phone", "email"];
 
