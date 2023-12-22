@@ -7,9 +7,10 @@ import classNames from "classnames/bind";
 import styles from "./PostManage.module.css";
 import LikeIcon from "@/assets/like.svg?react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { deleteReview, getMyShowList, getReviews } from "@/apis";
+import { deleteReviewAdmin, getMyShowList, getReviews } from "@/apis";
 import { ReviewDeleteParamType, ReviewType } from "@/types";
 import getElapsedTime from "@/utils/getElapsedTime";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,7 @@ const PostManage = () => {
   const navigate = useNavigate();
   const { openModal, setOpenModal } = useModalStore();
   const [showId, setShowId] = useState<string>("");
+  const [showTitle, setShowTitle] = useState<string>("");
 
   // 게시글 리스트를 가져오는 쿼리
   const {
@@ -42,16 +44,18 @@ const PostManage = () => {
 
   // 후기 삭제를 위한 뮤테이션
   const { mutate: deleteMutate } = useMutation({
-    mutationFn: (review: ReviewDeleteParamType) => deleteReview(review),
+    mutationFn: (review: ReviewDeleteParamType) => deleteReviewAdmin(review),
     onSuccess: () => refetchReviews(),
+    onError: () => toast.error("댓글 삭제 실패"),
   });
 
   if (statusShowList === "pending") return <h1>loading...</h1>;
   if (statusShowList === "error") return <h1>{errorShowList.message}</h1>;
 
   const handleClickReviewsCnt = async (title: string, showId: string) => {
-    setOpenModal({ state: true, type: title });
+    setOpenModal({ state: true, type: "reivewManage" });
     setShowId(() => showId);
+    setShowTitle(() => title);
   };
 
   const handleClickDelete = (item: ReviewType) => () => {
@@ -99,7 +103,7 @@ const PostManage = () => {
       </Button>
 
       {openModal.state && (
-        <Modal title={openModal.type}>
+        <Modal title={showTitle}>
           {statusReviewList === "error" && <h1>{errorReviewList.message}</h1>}
           {statusReviewList !== "success" ? (
             <h1>loading...</h1>
@@ -108,8 +112,8 @@ const PostManage = () => {
               <strong className={styles["review-count"]}>총 후기수: {reviewList.length}명</strong>
               {reviewList.length ? (
                 <ul className={styles["review-list"]}>
-                  {reviewList.map((item) => (
-                    <li className={styles["review"]}>
+                  {reviewList.map((item, index) => (
+                    <li className={styles["review"]} key={index}>
                       <div className={styles["review-contents"]}>
                         <strong className={styles["review__nickname"]}>{item.login_id.slice(0, 3) + "***"}</strong>
                         <p className={styles["review__content"]}>{item.comment}</p>
