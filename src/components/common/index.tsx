@@ -15,6 +15,7 @@ import RadioButtonGroup from "./RadioButtonGroup/RadioButtonGroup";
 import DatePicker from "./DatePicker/DatePicker";
 import Editor from "./Editor/Editor";
 import DeleteButton from "./DeleteButton/DeleteButton";
+import UserAccessModal from "./UserAccessModal/UserAccessModal";
 
 export {
   Button,
@@ -34,4 +35,5 @@ export {
   DatePicker,
   Editor,
   DeleteButton,
+  UserAccessModal,
 };

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useLoginStore } from "@/stores/useLoginStore";
-import styles from "./GuestAccess.module.css";
+import styles from "./UserAccessModal.module.css";
 
-const GuestAccess = () => {
+const UserAccessModal = () => {
   const {
     userState: { user_role },
   } = useLoginStore();
@@ -38,4 +38,4 @@ const GuestAccess = () => {
   );
 };
 
-export default GuestAccess;
+export default UserAccessModal;
