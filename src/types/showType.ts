@@ -23,6 +23,7 @@ export interface ShowType {
   is_reservation: number;
   user_liked?: 0 | 1;
   created_at: string;
+  user_reserved?: 0 | 1;
 }
 
 export interface ShowFilterRequestType {
