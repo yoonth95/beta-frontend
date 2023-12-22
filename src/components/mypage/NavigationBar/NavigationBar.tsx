@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { NavLink, useLocation, useSearchParams } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import classNames from "classnames/bind";
 import { useLoginStore } from "@/stores/useLoginStore";
 import styles from "./NavigationBar.module.css";

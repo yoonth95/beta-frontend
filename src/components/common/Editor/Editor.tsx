@@ -30,7 +30,8 @@ interface PropsType {
 }
 
 const Editor: React.FC<PropsType> = ({ editorData, setEditorData }) => {
-  const handleEditorChange = (event, editor) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleEditorChange = (_event: any, editor: ClassicEditor) => {
     const data = editor.getData();
     setEditorData(data);
   };

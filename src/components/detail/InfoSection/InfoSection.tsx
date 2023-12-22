@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./InfoSection.module.css";
 import LocationMap from "./LocationMap";
 import { useShowInfoStore } from "@/stores/useShowInfoStore";

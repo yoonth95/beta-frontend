@@ -86,27 +86,6 @@ svg.cmt-icon {
   stroke: var(--gray400-color);
 }
 
-/* list scroll bar styling */
-.list::-webkit-scrollbar {
-  width: 0.5rem;
-}
-.list::-webkit-scrollbar-track {
-  background-color: var(--gray100-color);
-}
-
-.list::-webkit-scrollbar-thumb {
-  background-color: var(--gray200-color);
-  border: 2px solid var(--gray100-color);
-  border-radius: 1rem;
-}
-
-.list::-webkit-scrollbar-track:hover {
-  background-color: var(--gray100-color);
-}
-.list::-webkit-scrollbar-thumb:hover {
-  background-color: var(--gray300-color);
-}
-
 /* review modal */
 .review-count {
   display: block;

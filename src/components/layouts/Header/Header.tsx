@@ -11,16 +11,15 @@ import styles from "./Header.module.css";
 const cx = classNames.bind(styles);
 
 const Header = () => {
+  const navigate = useNavigate();
   const { userState, setUserState } = useLoginStore();
   const [isMyPageNavbarShow, setIsMyPageNavbarShow] = useState(false);
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const isInMyPage = useMemo(() => location.pathname.includes("/mypage"), [location.pathname]);
 
   useEffect(() => {
     setIsMyPageNavbarShow(false);
-  }, [searchParams]);
+  }, [location.pathname]);
 
   const handleOpen = () => {
     document.body.style.overflow = "hidden";
@@ -38,6 +37,11 @@ const Header = () => {
       setUserState({ isLogin: false, login_id: "", user_name: "", user_role: "" });
       navigate("/");
     }
+  };
+
+  const handleClickLogout = () => {
+    handleLogout();
+    handleClose();
   };
 
   return (
@@ -81,14 +85,7 @@ const Header = () => {
               <NavbarCloseIcon />
             </button>
             <NavigationBar />
-            <button
-              type="button"
-              className={styles["button-logout"]}
-              onClick={() => {
-                handleLogout();
-                handleClose();
-              }}
-            >
+            <button type="button" className={styles["button-logout"]} onClick={handleClickLogout}>
               로그아웃
             </button>
           </div>

@@ -1,7 +1,6 @@
 import React, { useState, SetStateAction } from "react";
 import { BirthdateGenderValues, EmailValues, PhoneValues, PropsType } from "./InputFieldGroupType";
 import { getYears, getMonths, getDays } from "@/utils/dateSelect";
-import univList from "@/data/univList.json";
 import styles from "./InputFieldGroup.module.css";
 
 /** 수정필요

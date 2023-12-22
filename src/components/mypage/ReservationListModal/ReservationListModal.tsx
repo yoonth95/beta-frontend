@@ -1,42 +1,79 @@
-import { Button, SelectBox } from "@/components/common";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { SelectBox } from "@/components/common";
+import { UserReservation } from "@/apis/getAdminReservationDetail";
+import { getAdminReservationDetail } from "@/apis/";
 import classNames from "classnames/bind";
 import styles from "./ReservationListModal.module.css";
-
 const cx = classNames.bind(styles);
 
-const item = {
-  user: "신은수",
-  email: "ses2201@naver.com",
-  date: "2023-12-04 12시",
-  likeCount: 46,
-  reviewCount: 2,
-  id: 4,
-};
+interface PropsType {
+  id: number | null;
+}
 
-const ReservationListModal = () => {
+const ReservationListModal: React.FC<PropsType> = ({ id }) => {
+  const [selectedDateTime, setSelectedDateTime] = useState("전체");
+  const [userList, setUserList] = useState<UserReservation[] | []>([]);
+
+  const { data, status, error } = useQuery({
+    queryKey: ["reservationList", id],
+    queryFn: () => getAdminReservationDetail(id!),
+  });
+
+  useEffect(() => {
+    setSelectedDateTime("전체");
+    data && setUserList(data.user_reservation);
+  }, [data]);
+
+  if (status === "pending") return <>loading...</>;
+  if (status === "error") return <>{error.message}</>;
+
+  const show_times = data.show_times.map((item) => item.date_time);
+  const dateTimeOptions = ["전체", ...show_times];
+
+  const handleClickDateTimeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const value = (e.target as HTMLButtonElement).textContent!;
+    if (value === "전체") {
+      setUserList(data.user_reservation);
+    } else {
+      const index = data.show_times.findIndex((item) => item.date_time === value);
+      const showTimeId = data.show_times[index].id;
+      const user_list = data.user_reservation.filter((item) => item.show_times_id === showTimeId);
+      setUserList(user_list);
+    }
+    setSelectedDateTime(value);
+  };
+
   return (
     <>
       <div className={styles["top-section"]}>
-        <SelectBox options={["전체", "2023-12-03 12시", "2023-12-03 17시"]} onClick={() => {}} selectedValue="전체" name={"date"} />
-        <strong className={styles["person"]}>총 인원: 2명</strong>
+        <SelectBox options={dateTimeOptions} onClick={handleClickDateTimeSelect} selectedValue={selectedDateTime} />
+        <strong className={styles["person"]}>
+          총 인원: {userList.length}/{data.show_reservation_info[0].head_count}명
+        </strong>
       </div>
-      <div className={styles["container"]}>
+      <div className={cx("list-section", "gray-scrollbar")}>
         <div className={cx("list-row", "list-header")}>
-          <strong>이름</strong>
-          <strong>이메일</strong>
-          <strong>날짜</strong>
+          <strong>아이디</strong>
+          <strong>결제번호</strong>
+          <strong>결제날짜</strong>
         </div>
         <ul className={styles["list"]}>
-          {Array(10)
-            .fill(item)
-            .map((item) => (
-              <li className={cx("list-row", "list-item")}>
-                <p className={styles["list-item__user"]}>{item.user}</p>
-                <p className={styles["list-item__email"]}>{item.email}</p>
-                <p>{item.date}</p>
-                <Button reverseColor={true}>취소</Button>
-              </li>
-            ))}
+          {userList.map((item) => (
+            <li key={item.id} className={cx("list-row", "list-item")}>
+              <strong>{item.user_id}</strong>
+              <strong>{item.orderId}</strong>
+              <strong>
+                {new Date(item.created_at).toLocaleString("ko-Kr", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </strong>
+            </li>
+          ))}
         </ul>
       </div>
     </>
