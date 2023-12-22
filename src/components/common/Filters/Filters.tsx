@@ -90,13 +90,13 @@ const Filters: React.FC<PropsType> = ({ filterRequest, setFilterRequest }) => {
     setFilterRequest({ ...filterRequest, progress: progressStatus });
   };
 
-  //  location을 all, 강남구, ..., 중랑구로 set하는 함수
-  const locationSetFunc = (value: string) => {
+  // date, progress를 제외한 나머지 항목 set하는 함수
+  const etcSetFunc = (name: string, value: string) => {
     if (value === "전체") {
-      setFilterRequest({ ...filterRequest, location: "all" });
+      setFilterRequest({ ...filterRequest, [name]: "all" });
       return;
     }
-    setFilterRequest({ ...filterRequest, location: value });
+    setFilterRequest({ ...filterRequest, [name]: value });
   };
 
   // FilterButton을 눌렀을 때 동작하는 함수
@@ -106,10 +106,8 @@ const Filters: React.FC<PropsType> = ({ filterRequest, setFilterRequest }) => {
       dateSetFunc(value!);
     } else if (name === "progress") {
       progressSetFunc(value!);
-    } else if (name === "location") {
-      locationSetFunc(value!);
     } else {
-      setFilterRequest({ ...filterRequest, [name]: value });
+      etcSetFunc(name, value!);
     }
     setFilter((prev) => ({ ...prev, [name]: value }));
   };
