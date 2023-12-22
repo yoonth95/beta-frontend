@@ -1,7 +1,3 @@
-.reservation-section * {
-  box-sizing: border-box;
-}
-
 .show-info,
 .show-notice,
 .show-round,
@@ -10,11 +6,6 @@
   margin: 2.5rem 0;
 }
 
-.reservation-section h2 {
-  font-size: 1.2rem;
-  font-weight: 400;
-  margin-bottom: 1rem;
-}
 .show-info {
   margin-top: 1rem;
 }
