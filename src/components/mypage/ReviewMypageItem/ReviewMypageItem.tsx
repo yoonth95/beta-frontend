@@ -1,38 +1,45 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { DeleteButton } from "@/components/common";
 import getElapsedTime from "@/utils/getElapsedTime";
 import isWithinOneDay from "@/utils/isWithinOneDay";
+import { ReviewType } from "@/types";
+import { deleteReview } from "@/apis";
+import { queryClient } from "@/main";
 import styles from "./ReviewMypageItem.module.css";
 
-interface ReviewMypageItemProps {
-  login_id: string;
-  title: string;
-  comment: string;
-  date: string;
-}
+const ReviewMypageItem: React.FC<ReviewType> = (item) => {
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: (review: { review_id: number; show_id: number }) => deleteReview(review),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["userReviewList"],
+      });
+    },
+  });
 
-const ReviewMypageItem: React.FC<ReviewMypageItemProps> = (item) => {
-  const handleClickDeleteButton = () => {
-    console.log("삭제");
+  const handleClickDeleteButton = (review_id: number, show_id: number) => {
+    deleteMutate({ review_id, show_id });
   };
 
-  const elapsedTime = getElapsedTime(item.date);
-  const isNew = isWithinOneDay(item.date);
-  console.log(isNew);
+  const elapsedTime = getElapsedTime(item.created_at);
+  const isNew = isWithinOneDay(item.created_at);
+
   return (
     <div className={styles["reviewItem-container"]}>
-      <div className={styles["reviewItem-box"]}>
+      <Link to={`/detail/${item.show_id}/review`} className={styles["reviewItem-box"]}>
         <div className={styles["reviewItem-section-top"]}>
-          <strong>{item.login_id}</strong>
-          <span className="ellipsis">{item.title}</span>
+          <strong className="ellipsis">{item.title}</strong>
+          <span>@{item.login_id.slice(0, 3) + "***"}</span>
         </div>
         <div className={styles["reviewItem-section-bottom"]}>
           <span className="ellipsis">{item.comment}</span>
           <strong>{elapsedTime}</strong>
           {isNew && <div className={styles["new-circle"]}>N</div>}
         </div>
-      </div>
-      <DeleteButton onClick={handleClickDeleteButton} spanHidden="삭제" />
+      </Link>
+      <DeleteButton onClick={() => handleClickDeleteButton(item.id, item.show_id)} spanHidden="삭제" />
     </div>
   );
 };

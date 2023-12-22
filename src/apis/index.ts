@@ -13,6 +13,11 @@ import deleteReview from "./deleteReview";
 import patchReview from "./patchReview";
 import postLike from "./postLike";
 import deleteLike from "./deleteLike";
+import putShow from "./putShow";
+import deleteShow from "./deleteShow";
+import postReservation from "./postReservation";
+import getUserReviewList from "./getUserReviewList";
+import getMyShowList from "./getMyShowList";
 
 export {
   getShows,
@@ -29,5 +34,10 @@ export {
   patchReview,
   postLike,
   deleteLike,
+  postReservation,
   getUserLikeList,
+  putShow,
+  deleteShow,
+  getUserReviewList,
+  getMyShowList,
 };

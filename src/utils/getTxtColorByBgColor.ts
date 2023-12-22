@@ -1,4 +1,4 @@
-const getTxtColorByBgColor = (hexColor: string | undefined) => {
+const getTxtColorByBgColor = (hexColor: string | null) => {
   if (!hexColor) return "black";
 
   const c = hexColor.substring(1);

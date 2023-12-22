@@ -5,8 +5,7 @@ export interface UserReservationInputsType {
 }
 
 export interface UserReservationFormType {
-  user_id: number;
   show_id: number;
   show_times_id: number;
-  is_receive_email: number;
+  is_receive_email: 1 | 0;
 }

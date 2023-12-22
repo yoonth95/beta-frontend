@@ -1,3 +1,7 @@
+.reservation-section * {
+  box-sizing: border-box;
+}
+
 .show-info,
 .show-notice,
 .show-round,

@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/main";
 import { Button, Carousel, Modal } from "@/components/common";
-import { LikeButton, ReservationFormModal, SubMenuSection } from "@/components/detail";
 import { NavBar } from "@/components/layouts";
-import styles from "./DetaiPage.module.css";
+import { LikeButton, ReservationModal, SubMenuSection } from "@/components/detail";
 import { useShowInfoStore } from "@/stores/useShowInfoStore";
+import { useLoginStore } from "@/stores/useLoginStore";
 import { useModalStore } from "@/stores/useModalStore";
-import { deleteLike, getShowInfo, getShowReservationInfo, postLike } from "@/apis";
-import { ShowReservationInfoType, ShowType } from "@/types";
+import { AgencyReservationInfoType, ShowType } from "@/types";
+import { getShowInfo, getShowReservationInfo, deleteLike, postLike } from "@/apis";
+import styles from "./DetaiPage.module.css";
 
 const submenuList = [
   { pathname: "", text: "정보" },
@@ -17,10 +18,13 @@ const submenuList = [
 ];
 
 const DetailPage = () => {
+  const {
+    userState: { user_role },
+  } = useLoginStore();
   const { openModal, setOpenModal } = useModalStore();
   const { id: showId } = useParams();
   const { setShowInfo } = useShowInfoStore();
-  const [showReservationInfo, setShowReservationInfo] = useState<Omit<ShowReservationInfoType, "method" | "google_form_url"> | null>(null);
+  const [agencyReservationInfo, setAgencyReservationInfo] = useState<AgencyReservationInfoType | null>(null);
 
   const {
     status,
@@ -63,13 +67,13 @@ const DetailPage = () => {
 
   const subImgs = (infoData.sub_images_url && Object.values(JSON.parse(infoData.sub_images_url))) || [];
 
-  const handleReservationButton = async () => {
+  const handleReservationButtonClick = async () => {
     const data = await getShowReservationInfo(showId!);
-    const { method, google_form_url, ...reservationInfo } = data;
+    const { method, google_form_url, ...rest } = data;
+
     if (method === "google" && google_form_url) window.open(google_form_url, "_blank");
     else {
-      // TODO: 회원아니면 guestAccess 모달창 띄우기
-      setShowReservationInfo(reservationInfo);
+      setAgencyReservationInfo(rest);
       setOpenModal({ state: true, type: "reservation" });
     }
   };
@@ -85,17 +89,20 @@ const DetailPage = () => {
             </div>
           ))}
         </Carousel>
-        <div className={styles["btn-group"]}>
-          <LikeButton active={infoData.user_liked !== 0 && true} onClick={() => likeMutate()} />
-          <Button borderRadius="0.5rem" onClick={handleReservationButton} disabled={!infoData.is_reservation}>
-            예매하기
-          </Button>
-          {openModal.state && openModal.type === "reservation" && showReservationInfo && (
-            <Modal title={infoData.title} width={"600px"}>
-              <ReservationFormModal showReservationInfo={showReservationInfo} />
-            </Modal>
-          )}
-        </div>
+        {user_role === "user" && (
+          <div className={styles["btn-group"]}>
+            <LikeButton active={infoData.user_liked !== 0 && true} onClick={() => likeMutate()} />
+            <Button borderRadius="0.5rem" disabled={!infoData.is_reservation} onClick={handleReservationButtonClick}>
+              예매하기
+            </Button>
+            {openModal.state && openModal.type === "reservation" && agencyReservationInfo && (
+              <Modal title={infoData.title} width={"600px"}>
+                <ReservationModal agencyReservationInfo={agencyReservationInfo} />
+              </Modal>
+            )}
+          </div>
+        )}
+
         <SubMenuSection submenuList={submenuList} baseUrl={`/detail/${showId}`} />
       </main>
     </>

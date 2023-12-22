@@ -1,35 +1,25 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 import ReviewMypageItem from "../ReviewMypageItem/ReviewMypageItem";
+import { getUserReviewList } from "@/apis";
 import styles from "./ReviewManage.module.css";
 
-const dummy = [
-  {
-    id: 1,
-    login_id: "yoonth0919",
-    title: "전시 제목",
-    comment: "너무 잘하셨어요",
-    date: "2023-12-19",
-  },
-  {
-    id: 1,
-    login_id: "yoonth0919",
-    title: "전시 제목",
-    comment: "너무 좋았습니다",
-    date: "2023-12-06",
-  },
-  {
-    id: 3,
-    login_id: "yoonth0919",
-    title: "전시 제목",
-    comment: "신선했어요",
-    date: "2023-12-05",
-  },
-];
-
 const ReviewManage = () => {
+  const {
+    status,
+    error,
+    data: userReviewList,
+  } = useQuery({
+    queryKey: ["userReviewList"],
+    queryFn: () => getUserReviewList(),
+  });
+
+  if (status === "pending") return <h1>loading...</h1>;
+  if (status === "error") return <h1>{error.message}</h1>;
+
   return (
     <div className={styles["review-container"]}>
-      {dummy.map((item) => (
+      {userReviewList.map((item) => (
         <ReviewMypageItem key={item.id} {...item} />
       ))}
     </div>

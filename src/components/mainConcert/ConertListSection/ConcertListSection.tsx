@@ -1,5 +1,5 @@
-import { TicketCard } from "@/components/mainConcert";
 import { useQuery } from "@tanstack/react-query";
+import { TicketCard } from "@/components/common/";
 import { getShows } from "@/apis";
 import { ShowFilterRequestType } from "@/types";
 import styles from "./ConcertListSection.module.css";

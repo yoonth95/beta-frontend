@@ -1,0 +1,15 @@
+.tags-input {
+  width: 100%;
+}
+.tagify__tag {
+  max-width: calc(100% - 10px);
+}
+.tagify__tag > div::before {
+  --tag-inset-shadow-size: 10rem;
+}
+.tagify__tag-text {
+  word-break: break-all;
+}
+.tagify__tag__removeBtn {
+  flex-shrink: 0;
+}

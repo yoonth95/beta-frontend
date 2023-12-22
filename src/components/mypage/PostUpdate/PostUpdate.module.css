@@ -1,43 +1,43 @@
-.post-upload-section-form {
+.post-update-section-form {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
 }
-.post-upload-section-form .title {
+.post-update-section-form .title {
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
 
-.post-upload-section-form h3.title {
+.post-update-section-form h3.title {
   margin-top: 2.5rem;
 }
 
-.post-upload-section-form > section > fieldset {
+.post-update-section-form > section > fieldset {
   margin-top: 1.5rem;
 }
 
-.upload-imgs-wrapper {
+.update-imgs-wrapper {
   display: flex;
   gap: 1rem;
 }
-.upload-img-input {
+.update-img-input {
   cursor: pointer;
   flex-shrink: 0;
   background-color: var(--gray200-color);
   border-radius: 0.5rem;
   margin-bottom: 1rem;
 }
-.upload-img-input,
+.update-img-input,
 .img-cover {
   width: 15vw;
   min-width: 130px;
   max-width: 10rem;
   aspect-ratio: 1/1;
 }
-.upload-img-input input {
+.update-img-input input {
   display: none;
 }
-.upload-img-input svg {
+.update-img-input svg {
   position: relative;
   top: 50%;
   left: 50%;
@@ -99,4 +99,16 @@
 
 .tags-section :global(.tags-input) {
   width: 100%;
+}
+.tags-section :global(.tagify__tag) {
+  max-width: calc(100% - 10px);
+}
+.tags-section :global(.tagify__tag > div::before) {
+  --tag-inset-shadow-size: 10rem;
+}
+.tags-section :global(.tagify__tag-text) {
+  word-break: break-all;
+}
+.tags-section :global(.tagify__tag__removeBtn) {
+  flex-shrink: 0;
 }
