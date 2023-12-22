@@ -18,6 +18,7 @@ import deleteShow from "./deleteShow";
 import postReservation from "./postReservation";
 import getUserReviewList from "./getUserReviewList";
 import getMyShowList from "./getMyShowList";
+import getSignUserInfo from "./getSignUserInfo";
 
 export {
   getShows,
@@ -40,4 +41,5 @@ export {
   deleteShow,
   getUserReviewList,
   getMyShowList,
+  getSignUserInfo,
 };
