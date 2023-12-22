@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 
 const useFilterSlide = () => {
   // 훅으로 뺄 예정

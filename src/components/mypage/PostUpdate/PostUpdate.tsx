@@ -39,7 +39,7 @@ function base64ToBytes(base64: string): Uint8Array {
   }
 }
 
-const roundListToDateTime = (roundList) => {
+const roundListToDateTime = (roundList: DateWithTime[]) => {
   return roundList.map((item) => item.date + " - " + item.time);
 };
 
@@ -218,7 +218,7 @@ const PostUpdate = () => {
     setImgPreviewUrls((prev) => prev.filter((previewUrl) => previewUrl !== image));
   };
   // 기존 이미지들 삭제
-  const handleRemoveExistingImage = (image) => {
+  const handleRemoveExistingImage = (image: string) => {
     setImgExistingUrls((prev) => prev.filter((previewUrl) => previewUrl !== image));
   };
 
@@ -232,7 +232,7 @@ const PostUpdate = () => {
   };
 
   // 수정하기 버튼
-  const handleUpdateShow = async (e) => {
+  const handleUpdateShow = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const imgCnt = imgFiles.length + imgExistingUrls.length;
@@ -349,7 +349,7 @@ const PostUpdate = () => {
   };
 
   // 삭제하기 버튼
-  const handleDeleteShow = (e) => {
+  const handleDeleteShow = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (confirm("정말 삭제하시겠습니까?")) {
       deleteMutate();

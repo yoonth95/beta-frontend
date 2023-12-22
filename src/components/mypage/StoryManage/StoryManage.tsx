@@ -1,4 +1,3 @@
-import React from "react";
 import StoryItem from "../StoryItem/StoryItem";
 import styles from "./StoryManage.module.css";
 

@@ -14,20 +14,30 @@
   min-width: 17.5rem;
   height: calc(100vh - 2.5rem);
   max-height: 90vh;
+  display: flex;
+  flex-direction: column;
   position: relative;
   background-color: #fff;
   border-radius: 5px;
   margin: auto;
+  padding: 1.5rem 1.25rem;
 }
 
 .modal h1 {
-  padding: 1.5625rem 1.25rem 1.25rem 1.25rem;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 0.625rem;
+}
+
+.modal h1 > span {
+  display: block;
+  width: calc(100% - 3.5rem);
 }
 
 .modal > div {
+  flex: 1 1 auto;
   box-sizing: border-box;
-  padding: 0 1.25rem 1.25rem 1.25rem;
-  height: calc(100% - 3.8125rem);
   overflow-y: auto;
 }
 
@@ -35,9 +45,8 @@
   width: 2rem;
   height: 2rem;
   position: absolute;
-  top: 1rem;
+  top: 0.8rem;
   right: 1rem;
-  padding: 0.5rem;
   border-radius: 50%;
   transform: rotate(45deg);
   background: url("@/assets/plus.svg") no-repeat center/ 1rem;

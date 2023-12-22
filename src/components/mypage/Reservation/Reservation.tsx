@@ -1,8 +1,4 @@
-import React, { useState } from "react";
-import classNames from "classnames/bind";
 import styles from "./Reservation.module.css";
-
-const cx = classNames.bind(styles);
 
 const Reservation = () => {
   return (
