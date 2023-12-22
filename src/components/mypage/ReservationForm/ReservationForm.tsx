@@ -3,8 +3,10 @@ import { DatePicker, Editor, InputField, DeleteButton } from "@/components/commo
 import styles from "./ReservationForm.module.css";
 import { DateInputType, DateWithTime } from "@/types";
 import { toast } from "react-toastify";
+import { type DatePickerRef } from "@/components/common/DatePicker/DatePicker";
 
 interface PropsType {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   form?: any;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   price?: number | null;
@@ -29,7 +31,7 @@ const ReservationForm: React.FC<PropsType> = ({
   editorNoticeData,
   setEditorNoticeData,
 }) => {
-  const datePickerInputRef = useRef<HTMLDivElement | null>(null);
+  const datePickerInputRef = useRef<DatePickerRef | null>(null);
   const [dateTime, setDateTime] = useState({
     date: "",
     time: "",
@@ -49,7 +51,7 @@ const ReservationForm: React.FC<PropsType> = ({
         return;
       }
       setRoundList([...roundList, dateTime]);
-      datePickerInputRef.current && datePickerInputRef.current.clearDatePicker();
+      (datePickerInputRef.current as DatePickerRef).clearDatePicker();
     }
   };
 
