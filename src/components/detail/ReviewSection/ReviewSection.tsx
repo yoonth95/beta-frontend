@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Modal } from "@/components/common";
-import { ReviewItem, ReviewForm, GuestAccess } from "@/components/detail";
+import { Button } from "@/components/common";
+import { ReviewItem, ReviewForm } from "@/components/detail";
 import { useModalStore } from "@/stores/useModalStore";
 import { useLoginStore } from "@/stores/useLoginStore";
 import { getReviews } from "@/apis";
@@ -14,9 +14,9 @@ const ReviewSection = () => {
   const [page, setPage] = useState(1);
 
   const {
-    userState: { login_id: isLogin },
+    userState: { user_role },
   } = useLoginStore();
-  const { openModal, setOpenModal } = useModalStore();
+  const { setOpenModal } = useModalStore();
 
   const {
     data: reviewData,
@@ -34,19 +34,12 @@ const ReviewSection = () => {
   return (
     <>
       <section className={styles["review-upload-section"]}>
-        {isLogin ? (
+        {user_role === "user" ? (
           <ReviewForm />
         ) : (
-          <>
-            <Button onClick={() => setOpenModal({ state: true, type: "guestAccess" })}>
-              <h3>방명록 작성하기</h3>
-            </Button>
-            {openModal.state && openModal.type === "guestAccess" && (
-              <Modal title="회원가입/로그인으로 이동" titleHidden width="600px" height="500px">
-                <GuestAccess />
-              </Modal>
-            )}
-          </>
+          <Button onClick={() => setOpenModal({ state: true, type: "guestAccess" })}>
+            <h3>방명록 작성하기</h3>
+          </Button>
         )}
       </section>
 
