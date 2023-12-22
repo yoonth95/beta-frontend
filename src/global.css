@@ -212,6 +212,8 @@ button:disabled {
   background-color: var(--gray100-color);
   border: 1px solid var(--gray100-color);
 }
+
+/* 기본 스크롤바 스타일링 */
 *::-webkit-scrollbar {
   background-color: inherit;
   width: 1rem;
@@ -231,8 +233,30 @@ button:disabled {
   background-color: var(--gray300-color);
 }
 
+/* 모달창 켜졌을때 스크롤바  */
 .modal::-webkit-scrollbar-track {
   background-color: var(--modal-bg-color);
+}
+
+/* 회색스크롤바 */
+.gray-scrollbar::-webkit-scrollbar {
+  width: 0.5rem;
+}
+.gray-scrollbar::-webkit-scrollbar-track {
+  background-color: var(--gray100-color);
+}
+
+.gray-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--gray200-color);
+  border: 2px solid var(--gray100-color);
+  border-radius: 1rem;
+}
+
+.gray-scrollbar::-webkit-scrollbar-track:hover {
+  background-color: var(--gray100-color);
+}
+.gray-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gray300-color);
 }
 
 /* 스크롤 없애기 */

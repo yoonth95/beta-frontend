@@ -1,24 +1,29 @@
 .top-section {
-  margin-top: 0.625rem;
   display: flex;
   align-items: center;
+  padding: 0.625rem 0.1rem;
+}
+
+.top-section > :first-child {
+  min-width: 180px;
+  font-size: 0.75rem;
 }
 
 .top-section > :last-child {
   font-size: 0.75rem;
-  width: 6.25rem;
+  flex-shrink: 0;
   margin-left: auto;
   text-align: right;
 }
 
-.container {
+.list-section {
   box-sizing: border-box;
   width: 100%;
-  margin-top: 0.625rem;
+  height: calc(100% - 3.25rem);
   border: 1px solid var(--gray300-color);
   border-radius: 5px;
   background-color: var(--gray200-color);
-  overflow: hidden;
+  overflow: auto;
 }
 
 .list {
@@ -31,9 +36,8 @@
 }
 
 .list-row {
-  width: ;
   display: grid;
-  grid-template-columns: 10% 30% 30% 15%;
+  grid-template-columns: 20% 30% 30%;
   gap: 5%;
   align-items: center;
   padding: 1.125rem 1.5rem;
@@ -51,6 +55,7 @@
   word-break: keep-all;
 }
 .list-item > button {
+  height: 2rem;
   font-size: 0.75rem;
   word-break: keep-all;
 }
