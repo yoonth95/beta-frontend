@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Carousel, Modal } from "@/components/common";
+import { Carousel, Modal, UserAccessModal } from "@/components/common";
 import { StoryCard, StoryUploadModal, StoryViewModal, StorySectionSkeleton } from "@/components/main";
 import { useModalStore } from "@/stores/useModalStore";
+import { useLoginStore } from "@/stores/useLoginStore";
 import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 import { getStories } from "@/apis";
+import { isNotUser } from "@/utils";
 import styles from "./StorySection.module.css";
-import { useLoginStore } from "@/stores/useLoginStore";
 
 const StorySection = () => {
   const { openModal, setOpenModal } = useModalStore();
@@ -23,6 +24,11 @@ const StorySection = () => {
   });
 
   const handleClickUploadBtn = () => {
+    if (isNotUser(user_role)) {
+      setOpenModal({ state: true, type: "guestAccess" });
+      return;
+    }
+
     setOpenModal({ state: true, type: "upload" });
   };
 
@@ -45,11 +51,9 @@ const StorySection = () => {
       <section className={styles["section"]}>
         <div className={styles["header"]}>
           <h2 className={styles["header__title"]}>스토리</h2>
-          {user_role === "user" && (
-            <button type="button" className={styles["story-add-btn"]} onClick={handleClickUploadBtn}>
-              <span className="a11y-hidden">스토리 추가버튼</span>
-            </button>
-          )}
+          <button type="button" className={styles["story-add-btn"]} onClick={handleClickUploadBtn}>
+            <span className="a11y-hidden">스토리 추가버튼</span>
+          </button>
           <button className={styles["story-more-btn"]} type="button" onClick={handleClickMoreBtn}>
             더보기
           </button>
@@ -70,13 +74,18 @@ const StorySection = () => {
         {openModal.state && (
           <>
             {openModal.type === "upload" && (
-              <Modal width={"18.75rem"} height={"33.75rem"} title={"스토리 업로드"}>
+              <Modal width={"18.75rem"} height={"36.25rem"} title={"스토리 업로드"}>
                 <StoryUploadModal />
               </Modal>
             )}
             {openModal.type === "more" && (
               <Modal title={"스토리"} titleHidden={true}>
                 <StoryViewModal initialSlide={initialSlide} />
+              </Modal>
+            )}
+            {openModal.type === "guestAccess" && (
+              <Modal title="회원가입/로그인으로 이동" titleHidden width="600px" height="500px">
+                <UserAccessModal />
               </Modal>
             )}
           </>
