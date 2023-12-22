@@ -33,15 +33,15 @@ const Modal: React.FC<PropsType> = ({ children, width, height, title, titleHidde
   };
 
   const renderModal = (
-    <article className={styles["modal-background"]} onClick={closeModal}>
-      <div className={styles["modal"]} style={{ maxWidth: width, maxHeight: height }}>
+    <div className={styles["modal-background"]} onClick={closeModal}>
+      <article className={styles["modal"]} style={{ maxWidth: width, maxHeight: height }}>
         <button onClick={closeModal} className={styles["modal__close"]}></button>
         <h1>
           <span className={cx(titleHidden && "a11y-hidden")}>{title}</span>
         </h1>
         <div>{children}</div>
-      </div>
-    </article>
+      </article>
+    </div>
   );
 
   const rootElement = document.getElementById("root");

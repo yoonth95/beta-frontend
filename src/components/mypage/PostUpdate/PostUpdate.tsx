@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
-import { Postcode } from "@/components/main";
+import { Postcode } from "@/components/mypage";
 import { ReservationForm } from "..";
 import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
 import reduceImageSize from "@/utils/reduceImageSize";
