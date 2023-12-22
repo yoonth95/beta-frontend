@@ -20,7 +20,7 @@ const SubMenuSection: React.FC<PropsType> = ({ submenuList, baseUrl }) => {
   };
 
   return (
-    <section>
+    <section style={{ marginTop: "2rem" }}>
       <div style={{ display: "flex" }}>
         {submenuList.map((menu) => (
           <SubMenuBar key={menu.text} selected={!!checkUrl(menu.pathname)} url={`${menu.pathname}`}>
