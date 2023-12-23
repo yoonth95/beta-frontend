@@ -360,7 +360,7 @@ const PostUpdate = () => {
     const fileNames: { [key: number]: string } = {};
     let finalSubImageUrls;
     if (imgExistingUrls.length > 1) {
-      const existingFileNames = imgExistingUrls.slice(1).map((url) => url.split("/show/")[0]);
+      const existingFileNames = imgExistingUrls.slice(1).map((url) => url.split("/show/")[1]);
       const newFileNames = finalSubImageFiles.map((file) => file.name);
       finalSubImageUrls = [...existingFileNames, ...newFileNames];
     } else {
