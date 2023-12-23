@@ -13,7 +13,7 @@ import styles from "./PostUpdate.module.css";
 import classNames from "classnames/bind";
 import { deleteShow, getShowInfo, getShowReservationInfo, putShow } from "@/apis";
 import { useLocation, useNavigate } from "react-router-dom";
-import { convertUrlToFile } from "@/utils";
+import { base64ToBytes, bytesToBase64, convertUrlToFile } from "@/utils";
 
 const cx = classNames.bind(styles);
 
@@ -22,23 +22,6 @@ const concertCategoryList = ["음악", "연극", "기타"];
 const sportsCategoryList = ["야구", "축구", "농구"];
 const isReservationList = ["예", "아니오"];
 const methodList = ["구글폼", "예매 대행"];
-
-// 인코딩
-function bytesToBase64(bytes: Uint8Array): string {
-  const binString = String.fromCodePoint(...Array.from(bytes));
-  return btoa(binString);
-}
-
-// 디코딩
-function base64ToBytes(base64: string): Uint8Array {
-  try {
-    const binString = window.atob(base64);
-    return Uint8Array.from(binString, (c) => c.codePointAt(0) ?? 0);
-  } catch (error) {
-    console.error("Error decoding base64:", error);
-    return new Uint8Array();
-  }
-}
 
 const roundListArrToObj = (roundList: DateWithTimeObj[]) => {
   const obj: { [key: string]: string } = {};

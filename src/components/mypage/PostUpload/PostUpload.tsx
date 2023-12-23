@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import styles from "./PostUpload.module.css";
 import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
+import { bytesToBase64 } from "@/utils";
 
 const cx = classNames.bind(styles);
 
@@ -38,12 +39,6 @@ const defaultValues = {
   head_count: "",
   date_time: [],
 };
-
-// 인코딩
-function bytesToBase64(bytes: Uint8Array): string {
-  const binString = String.fromCodePoint(...Array.from(bytes));
-  return btoa(binString);
-}
 
 const PostUpload = () => {
   const navigate = useNavigate();
