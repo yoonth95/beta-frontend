@@ -35,7 +35,7 @@ const PostUpdate = () => {
   const navigate = useNavigate();
   const locationObj = useLocation();
   const showId = locationObj.state || undefined;
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 게시글 정보
   const [showType, setShowType] = useState(categoryList[0]);
@@ -110,7 +110,7 @@ const PostUpdate = () => {
     onSuccess: (data) => {
       if (data) {
         toast.info("게시글 수정 완료");
-        // navigate("/mypage/post");
+        navigate("/mypage/post");
       }
     },
     onError: (err) => {
@@ -156,7 +156,7 @@ const PostUpdate = () => {
       showInfoData.content && setEditorData(new TextDecoder().decode(base64ToBytes(showInfoData.content)));
 
       if (!showInfoData.is_reservation) {
-        setIsLoading(() => true);
+        setIsLoading(() => false);
       }
     }
   }, [showInfoData]);
@@ -180,6 +180,7 @@ const PostUpdate = () => {
         showReservationInfoData.notice && setEditorNoticeData(new TextDecoder().decode(base64ToBytes(showReservationInfoData.notice)));
       }
     }
+    setIsLoading(() => false);
   }, [showReservationInfoData]);
 
   if (status === "error") return <h1>{error.message}</h1>;
@@ -188,7 +189,7 @@ const PostUpdate = () => {
   if (showReservationInfoStatus === "error") return <h1>{showReservationInfoError.message}</h1>;
   if (showInfoData.is_reservation && showReservationInfoStatus === "pending") return <h1>loading reservationInfo...</h1>;
 
-  if (!isLoading) return <h1>loading state update ...</h1>;
+  if (isLoading) return <h1>loading state update ...</h1>;
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
