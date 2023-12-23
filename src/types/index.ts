@@ -3,7 +3,7 @@ import { StoryResponseType, StoryType } from "./storyType";
 import { ShowReservationInfoResponseType, ShowReservationInfoType, AgencyReservationInfoType } from "./showReservationInfoType";
 import { UserReservationFormType, UserReservationInputsType } from "./userReservationFormType";
 import { MemberResponseType, MemberType } from "./memberType";
-import { DateInputType, DateWithTime } from "./datePickerInputType";
+import { DateInputType, DateWithTime, DateWithTimeObj } from "./datePickerInputType";
 import { FormInputs } from "./formInputsType";
 import { ReviewsGetResponse, ReviewType, ReviewPostParamType, ReviewDeleteParamType, ReviewPatchParamType } from "./reviewType";
 
@@ -22,6 +22,7 @@ export {
   type MemberResponseType,
   type DateInputType,
   type DateWithTime,
+  type DateWithTimeObj,
   type FormInputs,
   type ReviewsGetResponse,
   type ReviewType,
