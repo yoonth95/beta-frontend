@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import ReviewMypageItem from "../ReviewMypageItem/ReviewMypageItem";
 import { getUserReviewList } from "@/apis";
-import nullImage from "@/assets/null-page.png";
+import { NullField } from "@/components/common";
 import styles from "./ReviewManage.module.css";
 
 const ReviewManage = () => {
@@ -22,13 +22,7 @@ const ReviewManage = () => {
       {userReviewList.length > 0 ? (
         userReviewList.map((item) => <ReviewMypageItem key={item.id} {...item} />)
       ) : (
-        <div className={styles["review-null"]}>
-          <img src={nullImage} alt="빈 화면" />
-          <p>
-            아직 후기가 없어요! <br />
-            응원의 한마디를 남겨주시면 어떨까요?
-          </p>
-        </div>
+        <NullField text1="아직 후기가 없어요!" text2="응원의 한마디를 남겨주시면 어떨까요?" />
       )}
     </div>
   );
