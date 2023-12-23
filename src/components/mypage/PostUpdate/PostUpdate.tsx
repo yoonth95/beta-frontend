@@ -265,7 +265,7 @@ const PostUpdate = () => {
         toast.error("구글폼 URL을 입력해주세요.");
         return;
       }
-      if (method === "예매 대행" && (!price || !headCount || !roundList.length || !editorNoticeData)) {
+      if (method === "예매 대행" && (price === null || !headCount || !roundList.length || !editorNoticeData)) {
         toast.error("예매 폼을 완성해주세요.");
         return;
       }
@@ -292,8 +292,8 @@ const PostUpdate = () => {
       //
       method: isReservation === "예" ? (method === "구글폼" ? "google" : "agency") : null,
       google_form_url: (method === "구글폼" && googleFormUrl) || null,
-      price: (method === "예매 대행" && price) || null,
-      head_count: (method === "예매 대행" && headCount) || null,
+      price: (method === "예매 대행" && price?.toString()) || null,
+      head_count: (method === "예매 대행" && headCount?.toString()) || null,
       date_time: (method === "예매 대행" && JSON.stringify(convertArrayToObject(roundListToDateTime(roundList)))) || null,
       notice: base64EncodedNotice,
     };
@@ -318,8 +318,8 @@ const PostUpdate = () => {
     result.is_reservation && formData.append("is_reservation", result.is_reservation);
     result.method && formData.append("method", result.method);
     result.google_form_url && formData.append("google_form_url", result.google_form_url);
-    result.price && formData.append("price", result.price.toString());
-    result.head_count && formData.append("head_count", result.head_count.toString());
+    result.price !== null && formData.append("price", result.price);
+    result.head_count && formData.append("head_count", result.head_count);
     result.notice && formData.append("notice", result.notice);
     result.date_time && formData.append("date_time", result.date_time);
 
