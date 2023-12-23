@@ -17,6 +17,7 @@ import Editor from "./Editor/Editor";
 import DeleteButton from "./DeleteButton/DeleteButton";
 import TicketCard from "./TicketCard/TicketCard";
 import UserAccessModal from "./UserAccessModal/UserAccessModal";
+import NullField from "./NullField/NullField";
 
 export {
   Button,
@@ -38,4 +39,5 @@ export {
   DeleteButton,
   TicketCard,
   UserAccessModal,
+  NullField,
 };
