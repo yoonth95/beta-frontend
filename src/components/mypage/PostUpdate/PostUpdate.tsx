@@ -252,12 +252,12 @@ const PostUpdate = () => {
       toast.error("주최자 정보를 입력해주세요.");
       return;
     }
-    if (!date.start_date || !date.end_date) {
-      toast.error("기간을 입력해주세요.");
-      return;
-    }
     if (!location) {
       toast.error("주소를 입력해주세요.");
+      return;
+    }
+    if (!date.start_date || !date.end_date) {
+      toast.error("기간을 입력해주세요.");
       return;
     }
     if (isReservation === "예") {
@@ -265,12 +265,12 @@ const PostUpdate = () => {
         toast.error("구글폼 URL을 입력해주세요.");
         return;
       }
-      if (method === "예매 대행" && !price && !headCount && !roundList.length && !editorNoticeData) {
+      if (method === "예매 대행" && (!price || !headCount || !roundList.length || !editorNoticeData)) {
         toast.error("예매 폼을 완성해주세요.");
         return;
       }
     }
-
+    console.log(editorNoticeData);
     const base64EncodedContents = (!!editorData && bytesToBase64(new TextEncoder().encode(editorData))) || null;
     const base64EncodedNotice = (method === "예매 대행" && !!editorNoticeData && bytesToBase64(new TextEncoder().encode(editorNoticeData))) || null;
 

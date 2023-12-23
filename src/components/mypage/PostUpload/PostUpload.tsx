@@ -114,12 +114,12 @@ const PostUpload = () => {
       toast.error("기간을 입력해주세요.");
       return;
     }
-    if (!tagsInput.length) {
-      toast.error("tag를 입력해주세요.");
-      return;
-    }
     if (!location) {
       toast.error("주소를 입력해주세요.");
+      return;
+    }
+    if (!tagsInput.length) {
+      toast.error("tag를 입력해주세요.");
       return;
     }
     if (form.is_reservation === "예") {
@@ -127,7 +127,7 @@ const PostUpload = () => {
         toast("구글폼 URL을 입력해주세요.");
         return;
       }
-      if (form.method === "예매 대행" && !form.price && !form.head_count && !form.date_time.length) {
+      if (form.method === "예매 대행" && (!form.price || !form.head_count || !form.date_time.length || !editorNoticeData)) {
         toast("예매 작성 폼을 완성해주세요.");
         return;
       }
