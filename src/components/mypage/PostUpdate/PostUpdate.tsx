@@ -6,7 +6,7 @@ import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
 import reduceImageSize from "@/utils/reduceImageSize";
 import convertArrayToObject from "@/utils/convertArrayToObject";
 import { useColor } from "color-thief-react";
-import { DateInputType, DateWithTime } from "@/types";
+import { DateInputType, DateWithTimeObj } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import styles from "./PostUpdate.module.css";
@@ -40,8 +40,12 @@ function base64ToBytes(base64: string): Uint8Array {
   }
 }
 
-const roundListToDateTime = (roundList: DateWithTime[]) => {
-  return roundList.map((item) => item.date + " - " + item.time);
+const roundListArrToObj = (roundList: DateWithTimeObj[]) => {
+  const obj: { [key: string]: string } = {};
+  roundList.forEach((item) => {
+    obj[item.id] = item.date + " - " + item.time;
+  });
+  return obj;
 };
 
 const PostUpdate = () => {
@@ -84,7 +88,7 @@ const PostUpdate = () => {
   const [googleFormUrl, setGoogleFormUrl] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(null);
   const [headCount, setHeadCount] = useState<number | null>(null);
-  const [roundList, setRoundList] = useState<DateWithTime[]>([]);
+  const [roundList, setRoundList] = useState<DateWithTimeObj[]>([{ id: "", date: "", time: "" }]);
   const [editorNoticeData, setEditorNoticeData] = useState<string>("");
 
   useEffect(() => {
@@ -123,7 +127,7 @@ const PostUpdate = () => {
     onSuccess: (data) => {
       if (data) {
         toast.info("게시글 수정 완료");
-        navigate("/mypage/post");
+        // navigate("/mypage/post");
       }
     },
     onError: (err) => {
@@ -187,12 +191,11 @@ const PostUpdate = () => {
         setRoundList(
           showReservationInfoData.date_time.map((round) => {
             const [date, time] = round.date_time.split(" - ");
-            return { date, time };
+            return { id: round.id.toString(), date, time };
           }),
         );
         showReservationInfoData.notice && setEditorNoticeData(new TextDecoder().decode(base64ToBytes(showReservationInfoData.notice)));
       }
-      setIsLoading(() => true);
     }
   }, [showReservationInfoData]);
 
@@ -294,7 +297,7 @@ const PostUpdate = () => {
       google_form_url: (method === "구글폼" && googleFormUrl) || null,
       price: (method === "예매 대행" && price?.toString()) || null,
       head_count: (method === "예매 대행" && headCount?.toString()) || null,
-      date_time: (method === "예매 대행" && JSON.stringify(convertArrayToObject(roundListToDateTime(roundList)))) || null,
+      date_time: (method === "예매 대행" && JSON.stringify(roundListArrToObj(roundList))) || null,
       notice: base64EncodedNotice,
     };
 
