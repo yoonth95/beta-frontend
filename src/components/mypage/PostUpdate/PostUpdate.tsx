@@ -13,6 +13,7 @@ import styles from "./PostUpdate.module.css";
 import classNames from "classnames/bind";
 import { deleteShow, getShowInfo, getShowReservationInfo, putShow } from "@/apis";
 import { useLocation, useNavigate } from "react-router-dom";
+import { convertUrlToFile } from "@/utils";
 
 const cx = classNames.bind(styles);
 
@@ -70,6 +71,7 @@ const PostUpdate = () => {
   const [imgFiles, setImgFiles] = useState<File[]>([]);
   const [imgPreviewUrls, setImgPreviewUrls] = useState<string[]>([]);
   const [imgExistingUrls, setImgExistingUrls] = useState<string[]>([]);
+  const [originMainUrl, setOriginMainUrl] = useState<string>("");
   const { data: main_image_color } = useColor(
     imgExistingUrls[0] ? `${import.meta.env.VITE_APP_IMAGE_DOMAIN + imgExistingUrls[0]}` : imgPreviewUrls[0],
     "hex",
@@ -156,6 +158,7 @@ const PostUpdate = () => {
       showInfoData.location_detail && setLocationDetail(showInfoData.location_detail);
       setIsReservation(showInfoData.is_reservation === 1 ? "예" : "아니오");
 
+      setOriginMainUrl(showInfoData.main_image_url);
       setImgExistingUrls(
         showInfoData.sub_images_url
           ? [showInfoData.main_image_url, ...(Object.values(JSON.parse(showInfoData.sub_images_url)) as string[])]
@@ -219,7 +222,7 @@ const PostUpdate = () => {
   };
   // 기존 이미지들 삭제
   const handleRemoveExistingImage = (image: string) => {
-    setImgExistingUrls((prev) => prev.filter((previewUrl) => previewUrl !== image));
+    setImgExistingUrls((prev) => prev.filter((existingUrl) => existingUrl !== image));
   };
 
   const handleDateInput = (event: DateInputType) => {
@@ -262,19 +265,11 @@ const PostUpdate = () => {
         toast.error("구글폼 URL을 입력해주세요.");
         return;
       }
-      if (method === "예매 대행" && !price && !headCount && !roundList.length) {
+      if (method === "예매 대행" && !price && !headCount && !roundList.length && !editorNoticeData) {
         toast.error("예매 폼을 완성해주세요.");
         return;
       }
     }
-
-    const resizedImgFiles = await Promise.all(
-      imgFiles.map(async (file) => {
-        const blobString = URL.createObjectURL(file);
-        const jpeg = await reduceImageSize(blobString);
-        return new File([jpeg], new Date().toISOString(), { type: "image/jpeg" });
-      }),
-    );
 
     const base64EncodedContents = (!!editorData && bytesToBase64(new TextEncoder().encode(editorData))) || null;
     const base64EncodedNotice = (method === "예매 대행" && !!editorNoticeData && bytesToBase64(new TextEncoder().encode(editorNoticeData))) || null;
@@ -302,25 +297,8 @@ const PostUpdate = () => {
       date_time: (method === "예매 대행" && JSON.stringify(convertArrayToObject(roundListToDateTime(roundList)))) || null,
       notice: base64EncodedNotice,
     };
-    console.log(result);
 
     const formData = new FormData();
-
-    // 기존 이미지, 추가된 이미지 리스트 종합해서 main, sub 이미지 고르기
-    let finalSubImages;
-    if (imgExistingUrls.length) {
-      finalSubImages = resizedImgFiles;
-    } else {
-      formData.append("mainImage", resizedImgFiles[0]); // 메인 이미지
-      finalSubImages = resizedImgFiles.slice(1);
-    }
-    for (let i = 0; i < finalSubImages.length; i++) {
-      formData.append("subImages", finalSubImages[i]); // 서브 이미지
-    }
-
-    const fileNames: { [key: number]: string } = {};
-    finalSubImages.forEach((file, index) => (fileNames[index + 1] = file.name));
-    formData.append("sub_images_url", JSON.stringify(fileNames));
 
     // 텍스트
     formData.append("show_id", showId);
@@ -344,6 +322,52 @@ const PostUpdate = () => {
     result.head_count && formData.append("head_count", result.head_count.toString());
     result.notice && formData.append("notice", result.notice);
     result.date_time && formData.append("date_time", result.date_time);
+
+    // 이미지
+    const resizedImgFiles = await Promise.all(
+      imgFiles.map(async (file) => {
+        const blobString = URL.createObjectURL(file);
+        const jpeg = await reduceImageSize(blobString);
+        return new File([jpeg], new Date().toISOString(), { type: "image/jpeg" });
+      }),
+    );
+
+    // 서버에 새로 업로드할 이미지들 고르기
+    let finalSubImageFiles;
+    // 기존 이미지가 남아있으면
+    if (imgExistingUrls.length) {
+      finalSubImageFiles = resizedImgFiles;
+      // 기존 메인 이미지가 변경되면 (그대로면 보내지 않음)
+      if (imgExistingUrls[0] !== originMainUrl) {
+        // imgExistingUrls[0]을 file로 변환하고 jpeg 리사이즈해서 보내기
+        const mainImageFile = await convertUrlToFile(import.meta.env.VITE_APP_IMAGE_DOMAIN + imgExistingUrls[0]);
+        const blobString = URL.createObjectURL(mainImageFile);
+        const jpeg = await reduceImageSize(blobString);
+        const finalMainImageFile = new File([jpeg], imgExistingUrls[0], { type: "image/jpeg" });
+        formData.append("mainImage", finalMainImageFile); // 메인 이미지
+      }
+    } // 기존 이미지가 다 삭제되면
+    else {
+      formData.append("mainImage", resizedImgFiles[0]); // 메인 이미지
+      finalSubImageFiles = resizedImgFiles.slice(1);
+    }
+
+    for (let i = 0; i < finalSubImageFiles.length; i++) {
+      formData.append("subImages", finalSubImageFiles[i]); // 서브 이미지
+    }
+
+    // 이미지 순서와 저장된 기존 서브 이미지 name를 파악하기 위한 file name list 만들기
+    const fileNames: { [key: number]: string } = {};
+    let finalSubImageUrls;
+    if (imgExistingUrls.length > 1) {
+      const existingFileNames = imgExistingUrls.slice(1).map((url) => url.split("/show/")[0]);
+      const newFileNames = finalSubImageFiles.map((file) => file.name);
+      finalSubImageUrls = [...existingFileNames, ...newFileNames];
+    } else {
+      finalSubImageUrls = finalSubImageFiles.map((file) => file.name);
+    }
+    finalSubImageUrls.forEach((fileName, index) => (fileNames[index + 1] = fileName));
+    formData.append("sub_images_url", JSON.stringify(fileNames));
 
     editMutate(formData);
   };
