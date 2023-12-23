@@ -7,6 +7,7 @@ import MenuIcon from "@/assets/menu.svg?react";
 import NavbarCloseIcon from "@/assets/navbar-close.svg?react";
 import classNames from "classnames/bind";
 import styles from "./Header.module.css";
+import logo from "@/assets/beta-logo.png";
 
 const cx = classNames.bind(styles);
 
@@ -47,8 +48,10 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles["header-wrapper"]}>
-        <h1 className={styles["header-txt"]}>
-          <Link to={"/"}>BETA</Link>
+        <h1 className={styles["header-logo"]}>
+          <Link to={"/"}>
+            <img src={logo} alt="beta-logo" />
+          </Link>
         </h1>
 
         <div className={styles["button-group"]}>
