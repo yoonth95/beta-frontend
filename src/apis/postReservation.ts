@@ -10,7 +10,8 @@ interface PostReservationParamType {
 
 const postReservation = async (data: PostReservationParamType) => {
   try {
-    await axios.post("/api/confirm", data);
+    const result = await axios.post("/api/confirm", data);
+    return result.data;
   } catch (err) {
     throw "서버 요청 실패";
   }

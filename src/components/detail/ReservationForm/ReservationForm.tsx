@@ -64,15 +64,25 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
     setBtnDisabled(true);
     const toastId = toast.loading("예매 진행 중...");
     try {
-      await postReservation(result);
-      toast.update(toastId, {
-        render: "예매 성공하였습니다. 마이페이지에서 확인해주세요",
-        type: toast.TYPE.SUCCESS,
-        isLoading: false,
-        autoClose: 2000,
-      });
-      setBtnDisabled(false);
-      setOpenModal({ state: false, type: "" });
+      const res = await postReservation(result);
+      if (res.ok) {
+        toast.update(toastId, {
+          render: "예매 성공하였습니다. 마이페이지에서 확인해주세요",
+          type: toast.TYPE.SUCCESS,
+          isLoading: false,
+          autoClose: 2000,
+        });
+        setBtnDisabled(false);
+        setOpenModal({ state: false, type: "" });
+      } else {
+        toast.update(toastId, {
+          render: res.message,
+          type: toast.TYPE.ERROR,
+          isLoading: false,
+          autoClose: 2000,
+        });
+        setBtnDisabled(false);
+      }
     } catch (err) {
       // 예매실패
       toast.update(toastId, {
