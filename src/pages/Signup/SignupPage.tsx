@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
 import { SignForm, Button, InputField, InputFieldGroup, Timer } from "@/components/common";
 import { isPasswordCheck, isPasswordDoubleCheck, isEmailCheck } from "@/utils";
-import { getUserInfo, postSignupAPI } from "@/apis";
+import { getSignUserInfo, postSignupAPI } from "@/apis";
 import { SignupBodyType } from "@/types/SignupBodyType";
 import styles from "./SignupPage.module.css";
 
@@ -115,7 +115,7 @@ const SignupPage = () => {
   // 아이디 중복확인
   const handleCheckId = async () => {
     // db 조회 후 중복확인
-    const data = await getUserInfo(id.value);
+    const data = await getSignUserInfo(id.value);
 
     if (!data.ok) {
       alert("이미 가입된 아이디입니다.");

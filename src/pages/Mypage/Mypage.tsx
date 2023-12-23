@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { NavigationBar } from "@/components/mypage";
 import styles from "./Mypage.module.css";
 

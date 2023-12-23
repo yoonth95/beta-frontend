@@ -13,7 +13,7 @@ export interface ShowReservationInfoType {
   position: string;
   price: number | null;
   head_count: number | null;
-  notice: string | null;
+  notice: string;
   date_time: ShowDateTime[];
   title: string;
 }

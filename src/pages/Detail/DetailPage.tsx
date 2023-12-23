@@ -1,15 +1,17 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "@/main";
-import { Button, Carousel, Modal } from "@/components/common";
+import { toast } from "react-toastify";
+import { Button, Carousel, Modal, UserAccessModal } from "@/components/common";
 import { NavBar } from "@/components/layouts";
 import { LikeButton, ReservationModal, SubMenuSection } from "@/components/detail";
-import { useShowInfoStore } from "@/stores/useShowInfoStore";
 import { useLoginStore } from "@/stores/useLoginStore";
+import { useShowInfoStore } from "@/stores/useShowInfoStore";
 import { useModalStore } from "@/stores/useModalStore";
 import { AgencyReservationInfoType, ShowType } from "@/types";
 import { getShowInfo, getShowReservationInfo, deleteLike, postLike } from "@/apis";
+import { isNotUser } from "@/utils";
 import styles from "./DetaiPage.module.css";
 
 const submenuList = [
@@ -21,6 +23,7 @@ const DetailPage = () => {
   const {
     userState: { user_role },
   } = useLoginStore();
+
   const { openModal, setOpenModal } = useModalStore();
   const { id: showId } = useParams();
   const { setShowInfo } = useShowInfoStore();
@@ -67,7 +70,25 @@ const DetailPage = () => {
 
   const subImgs = (infoData.sub_images_url && Object.values(JSON.parse(infoData.sub_images_url))) || [];
 
+  const handleLikeButtonClick = () => {
+    if (isNotUser(user_role)) {
+      setOpenModal({ state: true, type: "guestAccess" });
+      return;
+    }
+
+    likeMutate();
+  };
+
   const handleReservationButtonClick = async () => {
+    if (isNotUser(user_role)) {
+      setOpenModal({ state: true, type: "guestAccess" });
+      return;
+    }
+    if (infoData.user_reserved === 1) {
+      toast.info("이미 예매한 공연/전시입니다");
+      return;
+    }
+
     const data = await getShowReservationInfo(showId!);
     const { method, google_form_url, ...rest } = data;
 
@@ -89,22 +110,27 @@ const DetailPage = () => {
             </div>
           ))}
         </Carousel>
-        {user_role === "user" && (
-          <div className={styles["btn-group"]}>
-            <LikeButton active={infoData.user_liked !== 0 && true} onClick={() => likeMutate()} />
-            <Button borderRadius="0.5rem" disabled={!infoData.is_reservation} onClick={handleReservationButtonClick}>
+        <div className={styles["btn-group"]}>
+          <LikeButton active={infoData.user_liked === 1 && true} onClick={handleLikeButtonClick} />
+          {infoData.is_reservation === 1 && (
+            <Button borderRadius="0.5rem" onClick={handleReservationButtonClick}>
               예매하기
             </Button>
-            {openModal.state && openModal.type === "reservation" && agencyReservationInfo && (
-              <Modal title={infoData.title} width={"600px"}>
-                <ReservationModal agencyReservationInfo={agencyReservationInfo} />
-              </Modal>
-            )}
-          </div>
-        )}
+          )}
+          {openModal.state && openModal.type === "reservation" && agencyReservationInfo && (
+            <Modal title={infoData.title} width={"600px"}>
+              <ReservationModal agencyReservationInfo={agencyReservationInfo} />
+            </Modal>
+          )}
+        </div>
 
         <SubMenuSection submenuList={submenuList} baseUrl={`/detail/${showId}`} />
       </main>
+      {openModal.state && openModal.type === "guestAccess" && (
+        <Modal title="회원가입/로그인으로 이동" titleHidden width="600px" height="500px">
+          <UserAccessModal />
+        </Modal>
+      )}
     </>
   );
 };

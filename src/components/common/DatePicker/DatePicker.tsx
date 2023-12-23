@@ -9,7 +9,7 @@ import { DateInputType } from "@/types";
 import formattingDate from "@/utils/formattingDate";
 import formattingTime from "@/utils/formattingTime";
 
-interface DatePickerRef {
+export interface DatePickerRef {
   clearDatePicker: () => void;
 }
 
@@ -24,7 +24,7 @@ const DatePicker: React.ForwardRefRenderFunction<DatePickerRef, PropsType> = (
   { startDate: defaultStartDate, endDate: defaultEndDate, onChange, type },
   forwardedRef,
 ) => {
-  const datePickerRef = useRef<HTMLDivElement>(null);
+  const datePickerRef = useRef<ReactDatePicker>(null);
   const [startDate, setStartDate] = useState<Date | null>((defaultStartDate && new Date(defaultStartDate)) || null);
   const [endDate, setEndDate] = useState<Date | null>((defaultEndDate && new Date(defaultEndDate)) || null);
 

@@ -5,11 +5,10 @@ import InfoSection from "./InfoSection/InfoSection";
 import ReviewSection from "./ReviewSection/ReviewSection";
 import ReviewForm from "./ReviewForm/ReviewForm";
 import ReviewItem from "./ReviewItem/ReviewItem";
-import GuestAccess from "./GuestAccess/GuestAccess";
+import ReviewEditForm from "./ReviewEditForm/ReviewEditForm";
 import ReservationModal from "./ReservationModal/ReservationModal";
 import ReservationForm from "./ReservationForm/ReservationForm";
 import ReservationPayment from "./ReservationPayment/ReservationPayment";
-import ReviewEditForm from "./ReviewEditForm/ReviewEditForm";
 
 export {
   SubMenuSection,
@@ -19,7 +18,6 @@ export {
   ReviewSection,
   ReviewForm,
   ReviewItem,
-  GuestAccess,
   ReservationModal,
   ReservationForm,
   ReservationPayment,

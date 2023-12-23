@@ -6,6 +6,6 @@ import DateButton from "./DateButton/DateButton";
 import StoryUploadModal from "./StoryUploadModal/StoryUploadModal";
 import StoryViewModal from "./StoryViewModal/StoryViewModal";
 import StoryViewModalCard from "./StoryViewModalCard/StoryViewModalCard";
-import Postcode from "./Postcode/Postcode";
+import StorySectionSkeleton from "./StorySection/StorySectionSkeleton";
 
-export { Banner, StorySection, CalendarSection, StoryCard, DateButton, StoryUploadModal, StoryViewModal, StoryViewModalCard, Postcode };
+export { Banner, StorySection, CalendarSection, StoryCard, DateButton, StoryUploadModal, StoryViewModal, StoryViewModalCard, StorySectionSkeleton };

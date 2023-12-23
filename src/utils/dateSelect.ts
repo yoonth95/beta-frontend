@@ -12,16 +12,16 @@
 
 const getYears = () => {
   const currentYear = new Date().getFullYear();
-  return Array.from({ length: currentYear - 1899 }, (v, i) => 1900 + i);
+  return Array.from({ length: currentYear - 1899 }, (_, i) => 1900 + i);
 };
 
 const getMonths = () => {
-  return Array.from({ length: 12 }, (v, i) => i + 1);
+  return Array.from({ length: 12 }, (_, i) => i + 1);
 };
 
 const getDays = (year: number, month: number) => {
   const daysInMonth = new Date(year, month, 0).getDate();
-  return Array.from({ length: daysInMonth }, (v, i) => i + 1);
+  return Array.from({ length: daysInMonth }, (_, i) => i + 1);
 };
 
 export { getYears, getMonths, getDays };

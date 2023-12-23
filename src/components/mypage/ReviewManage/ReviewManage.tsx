@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import ReviewMypageItem from "../ReviewMypageItem/ReviewMypageItem";
 import { getUserReviewList } from "@/apis";

@@ -26,7 +26,7 @@ const cx = classNames.bind(styles);
 
 interface PropsType {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   type?: "submit";
   borderRadius?: string;
