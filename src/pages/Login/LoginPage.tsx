@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { SignForm, Button, InputField } from "@/components/common";
 import { patchUserLogin } from "@/apis/patchUserLogin";
 import { useLoginStore } from "@/stores/useLoginStore";
@@ -18,9 +19,7 @@ const LoginPage = () => {
     e.preventDefault();
     const res = await patchUserLogin(id, password, userType);
 
-    // TODO: alert 부분은 toast로 변경
     if (res.isSuccess) {
-      // alert("로그인 성공");
       setUserState(res.userLoginInfo);
       if (state?.from) {
         navigate("/", { replace: true });
@@ -30,7 +29,7 @@ const LoginPage = () => {
         navigate("/", { replace: true });
       }
     } else {
-      alert(res.message);
+      toast.error(res.message);
     }
   };
 
