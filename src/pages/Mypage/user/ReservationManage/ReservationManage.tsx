@@ -1,34 +1,53 @@
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Modal, NullField } from "@/components/common";
+import { ReservationItem, ReservationUserModal } from "@/components/mypage";
+import getUserReservationList from "@/apis/getUserReservationList";
+import { useModalStore } from "@/stores/useModalStore";
+import { UserReservationInfoType } from "@/types/userReservationInfoType";
 import styles from "./ReservationManage.module.css";
 
-const ReservationManagePage = () => {
+const ReservationManage = () => {
+  const { openModal, setOpenModal } = useModalStore();
+  const [selectedItem, setSelectedItem] = useState<UserReservationInfoType | null>(null);
+
+  const modalOpen = (item: UserReservationInfoType) => {
+    setSelectedItem(item); // 선택된 item 설정
+    setOpenModal({ state: true, type: "" });
+  };
+
+  const {
+    status,
+    error,
+    data: userReservationList,
+  } = useQuery({
+    queryKey: ["userReservationList"],
+    queryFn: () => getUserReservationList(),
+  });
+
+  if (status === "pending") return <h1>loading...</h1>;
+  if (status === "error") return <h1>{error.message}</h1>;
+
   return (
     <>
-      <div className={styles["reservation-container"]}>
-        <div className={styles["reservation-box"]}>
-          <img className={styles["reservation-img"]} src="" alt="" />
-          <div className={styles["reservation-item"]}>
-            <div className={styles["reservation-info-text"]}>
-              <p>
-                <strong>제목</strong>
-                <span className="ellipsis">홍익대학교홍익대학교홍익대학교 시각디자인학과 졸전</span>
-              </p>
-              <p>
-                <strong>장소</strong>
-                <span className="ellipsis">서울특별시 마포구 와우산로 94</span>
-              </p>
-              <p>
-                <strong>날짜</strong>
-                <span className="ellipsis">2022-12-04 ~ 2023-12-12</span>
-              </p>
-            </div>
-            <div className={styles["reservation-info-button"]}>
-              <button className={styles["reservation-delete-button"]}>예매 정보</button>
-            </div>
+      {userReservationList.length === 0 ? (
+        <NullField text1="예매 내역이 없습니다." text2="" />
+      ) : (
+        <>
+          <div className={styles["reservation-container"]}>
+            {userReservationList.map((item) => (
+              <ReservationItem key={item.id} {...item} modalOpen={() => modalOpen(item)} />
+            ))}
           </div>
-        </div>
-      </div>
+          {openModal.state && (
+            <Modal title="예매 정보" width="600px" height="850px">
+              {selectedItem && <ReservationUserModal item={selectedItem} />}
+            </Modal>
+          )}
+        </>
+      )}
     </>
   );
 };
 
-export default ReservationManagePage;
+export default ReservationManage;

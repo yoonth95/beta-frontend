@@ -7,7 +7,7 @@
   margin: auto; /* 중앙 정렬 */
   padding: 1rem;
   gap: 1.25rem;
-  border: 1px solid var(--gray200-color);
+  /* border: 1px solid var(--gray200-color); */
   box-sizing: border-box;
   margin-bottom: 20px;
 }
