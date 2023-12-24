@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 34.375rem;
   height: 100%;
+  padding: 0 2rem;
   position: relative;
   margin: 4% auto;
   align-items: center;
