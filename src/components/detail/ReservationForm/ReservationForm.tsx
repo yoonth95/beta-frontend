@@ -60,7 +60,12 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
       await postReservation(result);
 
       toast.update(toastId, {
-        render: "예매 성공하였습니다. 마이페이지에서 확인해주세요",
+        render: (
+          <p>
+            예매 성공하였습니다. <br />
+            마이페이지에서 확인하세요.
+          </p>
+        ),
         type: toast.TYPE.SUCCESS,
         isLoading: false,
         autoClose: 2000,
