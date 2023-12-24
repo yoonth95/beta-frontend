@@ -5,9 +5,10 @@ import { useColor } from "color-thief-react";
 import { toast } from "react-toastify";
 import postShow from "@/apis/postShow";
 import useInputs from "@/hooks/useInputs";
+import { bytesToBase64 } from "@/utils";
 import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
 import { Postcode, ReservationForm } from "@/components/mypage";
-import { DateInputType, DateWithTime } from "@/types";
+import { DateInputType, DateWithTimeObj } from "@/types";
 
 import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
 import reduceImageSize from "@/utils/reduceImageSize";
@@ -39,12 +40,6 @@ const defaultValues = {
   date_time: [],
 };
 
-// 인코딩
-function bytesToBase64(bytes: Uint8Array): string {
-  const binString = String.fromCodePoint(...Array.from(bytes));
-  return btoa(binString);
-}
-
 const PostUploadPage = () => {
   const navigate = useNavigate();
   const [form, onChange] = useInputs(defaultValues);
@@ -59,7 +54,7 @@ const PostUploadPage = () => {
   const [location, setLocation] = useState<string>("");
   const [position, setPosition] = useState<object>({});
   const [editorData, setEditorData] = useState<string>("");
-  const [roundList, setRoundList] = useState<DateWithTime[]>([]);
+  const [roundList, setRoundList] = useState<DateWithTimeObj[]>([]);
   const [editorNoticeData, setEditorNoticeData] = useState<string>("");
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,12 +109,12 @@ const PostUploadPage = () => {
       toast.error("기간을 입력해주세요.");
       return;
     }
-    if (!tagsInput.length) {
-      toast.error("tag를 입력해주세요.");
-      return;
-    }
     if (!location) {
       toast.error("주소를 입력해주세요.");
+      return;
+    }
+    if (!tagsInput.length) {
+      toast.error("tag를 입력해주세요.");
       return;
     }
     if (form.is_reservation === "예") {
@@ -127,7 +122,7 @@ const PostUploadPage = () => {
         toast("구글폼 URL을 입력해주세요.");
         return;
       }
-      if (form.method === "예매 대행" && !form.price && !form.head_count && !form.date_time.length) {
+      if (form.method === "예매 대행" && (!form.price || !form.head_count || !form.date_time.length || !editorNoticeData)) {
         toast("예매 작성 폼을 완성해주세요.");
         return;
       }

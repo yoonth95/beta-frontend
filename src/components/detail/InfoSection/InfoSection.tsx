@@ -1,3 +1,4 @@
+import { base64ToBytes } from "@/utils";
 import styles from "./InfoSection.module.css";
 import LocationMap from "./LocationMap";
 import { useShowInfoStore } from "@/stores/useShowInfoStore";
@@ -13,17 +14,6 @@ const copyClipBoard: onCopyFn = async (text: string) => {
     console.error(error);
   }
 };
-
-// 디코딩
-function base64ToBytes(base64: string): Uint8Array {
-  try {
-    const binString = window.atob(base64);
-    return Uint8Array.from(binString, (c) => c.codePointAt(0) ?? 0);
-  } catch (error) {
-    console.error("Error decoding base64:", error);
-    return new Uint8Array();
-  }
-}
 
 const InfoSection = () => {
   const { showInfo } = useShowInfoStore();
