@@ -1,10 +1,27 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage, MainExhibitionPage, PaySuccessPage, PayFailPage } from "@/pages";
+import {
+  LoginPage,
+  SignupPage,
+  MainPage,
+  MainConcertPage,
+  MainExhibitionPage,
+  DetailPage,
+  ErrorPage,
+  PaySuccessPage,
+  PayFailPage,
+  Mypage,
+  ProfilePage,
+  PostManagePage,
+  PostUpdatePage,
+  PostUploadPage,
+  ReservationManagePage,
+  LikeManagePage,
+  ReviewManagePage,
+  StoryManagePage,
+  ReservationPage,
+} from "@/pages";
 import { InfoSection, ReviewSection } from "@/components/detail";
-import Mypage from "@/pages/Mypage/Mypage";
-import { Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage, PostUpload } from "@/components/mypage";
-import PostUpdate from "./components/mypage/PostUpdate/PostUpdate";
 
 const router = createBrowserRouter([
   {
@@ -54,39 +71,49 @@ const router = createBrowserRouter([
           {
             index: true,
             path: "profile",
-            element: <Profile />,
+            element: <ProfilePage />,
           },
           {
-            path: "like",
-            element: <LikeManage />,
+            path: "user",
+            children: [
+              {
+                path: "like",
+                element: <LikeManagePage />,
+              },
+              {
+                path: "review",
+                element: <ReviewManagePage />,
+              },
+              {
+                path: "story",
+                element: <StoryManagePage />,
+              },
+              {
+                path: "reservation",
+                element: <ReservationManagePage />,
+              },
+            ],
           },
           {
-            path: "review",
-            element: <ReviewManage />,
-          },
-          {
-            path: "story",
-            element: <StoryManage />,
-          },
-          {
-            path: "reservation",
-            element: <Reservation />,
-          },
-          {
-            path: "reservation-manage",
-            element: <ReservationManage />,
-          },
-          {
-            path: "post",
-            element: <PostManage />,
-          },
-          {
-            path: "post/upload",
-            element: <PostUpload />,
-          },
-          {
-            path: "post/update",
-            element: <PostUpdate />,
+            path: "admin",
+            children: [
+              {
+                path: "reservation-manage",
+                element: <ReservationManagePage />,
+              },
+              {
+                path: "post",
+                element: <PostManagePage />,
+              },
+              {
+                path: "post/upload",
+                element: <PostUploadPage />,
+              },
+              {
+                path: "post/update",
+                element: <PostUpdatePage />,
+              },
+            ],
           },
         ],
       },

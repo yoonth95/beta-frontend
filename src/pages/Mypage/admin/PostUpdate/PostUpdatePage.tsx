@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
-import { Postcode } from "@/components/mypage";
-import { ReservationForm } from "..";
-import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useColor } from "color-thief-react";
+import { toast } from "react-toastify";
 import reduceImageSize from "@/utils/reduceImageSize";
 import convertArrayToObject from "@/utils/convertArrayToObject";
-import { useColor } from "color-thief-react";
-import { DateInputType, DateWithTime } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { toast } from "react-toastify";
-import styles from "./PostUpdate.module.css";
-import classNames from "classnames/bind";
 import { deleteShow, getShowInfo, getShowReservationInfo, putShow } from "@/apis";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
+import { Postcode, ReservationForm } from "@/components/mypage";
+import { DateInputType, DateWithTime } from "@/types";
+
+import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
+import styles from "./PostUpdatePage.module.css";
+import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
@@ -43,7 +43,7 @@ const roundListToDateTime = (roundList: DateWithTime[]) => {
   return roundList.map((item) => item.date + " - " + item.time);
 };
 
-const PostUpdate = () => {
+const PostUpdatePage = () => {
   const navigate = useNavigate();
   const locationObj = useLocation();
   const showId = locationObj.state || undefined;
@@ -121,7 +121,7 @@ const PostUpdate = () => {
     onSuccess: (data) => {
       if (data) {
         toast.info("게시글 수정 완료");
-        navigate("/mypage/post");
+        navigate("/mypage/admin/post");
       }
     },
     onError: (err) => {
@@ -134,7 +134,7 @@ const PostUpdate = () => {
     onSuccess: (data) => {
       if (data) {
         toast.info("게시글 삭제 완료");
-        navigate("/mypage/post");
+        navigate("/mypage/admin/post");
       }
     },
     onError: (err) => {
@@ -518,4 +518,4 @@ const PostUpdate = () => {
   );
 };
 
-export default PostUpdate;
+export default PostUpdatePage;

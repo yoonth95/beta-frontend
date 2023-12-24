@@ -1,6 +1,6 @@
-import styles from "./Reservation.module.css";
+import styles from "./ReservationPage.module.css";
 
-const Reservation = () => {
+const ReservationPage = () => {
   return (
     <>
       <div className={styles["reservation-container"]}>
@@ -31,4 +31,4 @@ const Reservation = () => {
   );
 };
 
-export default Reservation;
+export default ReservationPage;

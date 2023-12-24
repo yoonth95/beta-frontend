@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
-import { Postcode } from "@/components/mypage";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useColor } from "color-thief-react";
+import { toast } from "react-toastify";
+import postShow from "@/apis/postShow";
 import useInputs from "@/hooks/useInputs";
-import { ReservationForm } from "..";
+import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
+import { Postcode, ReservationForm } from "@/components/mypage";
+import { DateInputType, DateWithTime } from "@/types";
+
 import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
 import reduceImageSize from "@/utils/reduceImageSize";
 import convertArrayToObject from "@/utils/convertArrayToObject";
-import { useColor } from "color-thief-react";
-import { DateInputType, DateWithTime } from "@/types";
-import { useMutation } from "@tanstack/react-query";
-import postShow from "@/apis/postShow";
-import { toast } from "react-toastify";
-import styles from "./PostUpload.module.css";
+import styles from "./PostUploadPage.module.css";
 import classNames from "classnames/bind";
-import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -45,7 +45,7 @@ function bytesToBase64(bytes: Uint8Array): string {
   return btoa(binString);
 }
 
-const PostUpload = () => {
+const PostUploadPage = () => {
   const navigate = useNavigate();
   const [form, onChange] = useInputs(defaultValues);
 
@@ -214,7 +214,7 @@ const PostUpload = () => {
     onSuccess: (data) => {
       if (data) {
         toast.info("게시글 업로드 성공");
-        navigate("/mypage/post");
+        navigate("/mypage/admin/post");
       }
     },
     onError: (err) => {
@@ -352,4 +352,4 @@ const PostUpload = () => {
   );
 };
 
-export default PostUpload;
+export default PostUploadPage;

@@ -7,9 +7,9 @@ import isWithinOneDay from "@/utils/isWithinOneDay";
 import { ReviewType } from "@/types";
 import { deleteReview } from "@/apis";
 import { queryClient } from "@/main";
-import styles from "./ReviewMypageItem.module.css";
+import styles from "./ReviewItem.module.css";
 
-const ReviewMypageItem: React.FC<ReviewType> = (item) => {
+const ReviewItem: React.FC<ReviewType> = (item) => {
   const { mutate: deleteMutate } = useMutation({
     mutationFn: (review: { review_id: number; show_id: number }) => deleteReview(review),
     onSuccess: () => {
@@ -44,4 +44,4 @@ const ReviewMypageItem: React.FC<ReviewType> = (item) => {
   );
 };
 
-export default ReviewMypageItem;
+export default ReviewItem;

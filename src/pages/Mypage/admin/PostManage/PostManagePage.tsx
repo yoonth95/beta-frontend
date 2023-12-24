@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Modal, DeleteButton } from "@/components/common";
-import { useModalStore } from "@/stores/useModalStore";
-import CommentIcon from "@/assets/comment.svg?react";
-import classNames from "classnames/bind";
-import styles from "./PostManage.module.css";
-import LikeIcon from "@/assets/like.svg?react";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { deleteReviewAdmin, getMyShowList, getReviews } from "@/apis";
-import { ReviewDeleteParamType, ReviewType } from "@/types";
-import getElapsedTime from "@/utils/getElapsedTime";
 import { toast } from "react-toastify";
+import { useModalStore } from "@/stores/useModalStore";
+import { deleteReviewAdmin, getMyShowList, getReviews } from "@/apis";
+import getElapsedTime from "@/utils/getElapsedTime";
+import { Button, Modal, DeleteButton } from "@/components/common";
+import { ReviewDeleteParamType, ReviewType } from "@/types";
+import LikeIcon from "@/assets/like.svg?react";
+import CommentIcon from "@/assets/comment.svg?react";
+import styles from "./PostManagePage.module.css";
+import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
-const PostManage = () => {
+const PostManagePage = () => {
   const navigate = useNavigate();
   const { openModal, setOpenModal } = useModalStore();
   const [showId, setShowId] = useState<string>("");
@@ -134,4 +134,4 @@ const PostManage = () => {
   );
 };
 
-export default PostManage;
+export default PostManagePage;
