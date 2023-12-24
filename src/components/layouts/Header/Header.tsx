@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { NavigationBar } from "@/components/mypage";
+import { MypageNavBar } from "@/components/layouts";
 import { useLoginStore } from "@/stores/useLoginStore";
 import { patchUserLogout } from "@/apis/patchUserLogout";
 import MenuIcon from "@/assets/menu.svg?react";
@@ -87,7 +87,7 @@ const Header = () => {
               <span className={"a11y-hidden"}>메뉴 닫기</span>
               <NavbarCloseIcon />
             </button>
-            <NavigationBar />
+            <MypageNavBar />
             <button type="button" className={styles["button-logout"]} onClick={handleClickLogout}>
               로그아웃
             </button>

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import StoryItem from "../StoryItem/StoryItem";
 import { getStoryUser } from "@/apis";
+import { StoryItem } from "@/components/mypage";
 import { NullField } from "@/components/common";
-import styles from "./StoryManage.module.css";
+import styles from "./StoryManagePage.module.css";
 
-const StoryManage = () => {
+const StoryManagePage = () => {
   const {
     status,
     error,
@@ -41,4 +41,4 @@ const StoryManage = () => {
   );
 };
 
-export default StoryManage;
+export default StoryManagePage;

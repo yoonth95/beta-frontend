@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useModalStore } from "@/stores/useModalStore";
 import { Button, Modal } from "@/components/common";
 import { ReservationListModal } from "@/components/mypage";
-import { useModalStore } from "@/stores/useModalStore";
 import { getAdminReservationList } from "@/apis/";
+import styles from "./ReservationManagePage.module.css";
 import classNames from "classnames/bind";
-import styles from "./ReservationManage.module.css";
 
 const cx = classNames.bind(styles);
 
-const ReservationManage = () => {
+const ReservationManagePage = () => {
   const { openModal, setOpenModal } = useModalStore();
   const [clickedId, setClickedShowId] = useState<number | null>(null);
   const [modalTitle, setModalTitle] = useState("");
@@ -56,4 +56,4 @@ const ReservationManage = () => {
   );
 };
 
-export default ReservationManage;
+export default ReservationManagePage;

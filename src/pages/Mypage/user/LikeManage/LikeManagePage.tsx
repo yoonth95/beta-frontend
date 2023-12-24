@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import classNames from "classnames/bind";
-import { BasicCard, FilterButton, TicketCard } from "@/components/common";
 import { getUserLikeList } from "@/apis";
-import styles from "./LikeManage.module.css";
+import { BasicCard, FilterButton, TicketCard } from "@/components/common";
+import styles from "./LikeManagePage.module.css";
+import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
 const categories = ["공연", "전시", "스포츠"];
 
-const LikeManage = () => {
+const LikeManagePage = () => {
   const [filter, setFilter] = useState("공연");
 
   const handleClickFilterButton = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -55,4 +55,4 @@ const LikeManage = () => {
   );
 };
 
-export default LikeManage;
+export default LikeManagePage;
