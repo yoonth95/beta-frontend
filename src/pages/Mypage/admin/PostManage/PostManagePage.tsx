@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useModalStore } from "@/stores/useModalStore";
 import { deleteReviewAdmin, getMyShowList, getReviews } from "@/apis";
 import getElapsedTime from "@/utils/getElapsedTime";
-import { Button, Modal, DeleteButton } from "@/components/common";
+import { Button, Modal, DeleteButton, NullField } from "@/components/common";
 import { ReviewDeleteParamType, ReviewType } from "@/types";
 import LikeIcon from "@/assets/like.svg?react";
 import CommentIcon from "@/assets/comment.svg?react";
@@ -67,9 +67,9 @@ const PostManagePage = () => {
 
   return (
     <>
-      <div className={styles["container"]}>
-        <ul className={cx("list", "gray-scrollbar")}>
-          {showList.map((item) => (
+      <ul className={cx("list", "gray-scrollbar")}>
+        {showList.length ? (
+          showList.map((item) => (
             <li className={cx("list-row", "list-item")} key={item.id}>
               <Link to={`/detail/${item.id}`} className={styles["list-row-left"]}>
                 <h3 className={cx("list-item__title", "ellipsis-multi")}>{item.title}</h3>
@@ -95,9 +95,11 @@ const PostManagePage = () => {
                 </Button>
               </div>
             </li>
-          ))}
-        </ul>
-      </div>
+          ))
+        ) : (
+          <NullField text1="아직 등록된 게시글이 없어요!" text2="" />
+        )}
+      </ul>
       <Button style={{ fontSize: "0.75rem", width: "fit-content", marginLeft: "auto" }} onClick={() => navigate("./upload")}>
         게시글 업로드
       </Button>
@@ -124,7 +126,7 @@ const PostManagePage = () => {
                   ))}
                 </ul>
               ) : (
-                <p>댓글이 없습니다</p>
+                <NullField text1="아직 후기/방명록이 없어요!" text2="" />
               )}
             </>
           )}
