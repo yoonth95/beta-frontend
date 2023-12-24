@@ -119,7 +119,7 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
         </div>
 
         <div className={styles["show-reservation-user-info"]}>
-          <h2>예약자 정보</h2>
+          <h2>예매자 정보</h2>
           <InputField type="text" name="name" value={user_name} readOnly>
             이름
           </InputField>
@@ -127,7 +127,7 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
           <InputFieldGroup type="email" name="email" values={{ email1, email2 }} userType="user" readOnly />
 
           <CheckBox inputId="이메일받기" name="is_receive_email" checked={!!form.is_receive_email} onChange={onChange}>
-            예약 완료 이메일 전송 동의
+            예매 완료 이메일 전송 동의
           </CheckBox>
         </div>
       </form>

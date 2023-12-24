@@ -40,7 +40,7 @@
 }
 
 .fieldset input:disabled + span::after {
-  content: "예약마감";
+  content: "예매마감";
   display: inline-block;
   margin-left: 0.625rem;
 }
