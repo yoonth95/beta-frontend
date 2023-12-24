@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { Button, CheckBox, InputField, InputFieldGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
@@ -27,6 +28,8 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
   const [phone1, phone2, phone3] = phone_number.split("-");
   const decodedNotice = new TextDecoder().decode(base64ToBytes(notice));
 
+  const [btnDisabled, setBtnDisabled] = useState(false);
+
   const [form, onChange] = useInputs<UserReservationInputsType>({
     show_times_id: date_time[0].id,
     is_receive_email: false,
@@ -48,12 +51,37 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
       return;
     }
 
+    setBtnDisabled(true);
+    const toastId = toast.loading("예매 진행 중...");
     try {
-      await postReservation(result);
-      setOpenModal({ state: false, type: "" });
-      toast("예매 성공하였습니다. 마이페이지에서 확인해주세요");
+      const res = await postReservation(result);
+      if (res.ok) {
+        toast.update(toastId, {
+          render: "예매 성공하였습니다. 마이페이지에서 확인해주세요",
+          type: toast.TYPE.SUCCESS,
+          isLoading: false,
+          autoClose: 2000,
+        });
+        setBtnDisabled(false);
+        setOpenModal({ state: false, type: "" });
+      } else {
+        toast.update(toastId, {
+          render: res.message,
+          type: toast.TYPE.ERROR,
+          isLoading: false,
+          autoClose: 2000,
+        });
+        setBtnDisabled(false);
+      }
     } catch (err) {
       // 예매실패
+      toast.update(toastId, {
+        render: "예매 실패",
+        type: toast.TYPE.ERROR,
+        isLoading: false,
+        autoClose: 2000,
+      });
+      setBtnDisabled(false);
     }
   };
 
@@ -73,7 +101,7 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
 
       <div className={styles["show-notice"]}>
         <h2>티켓 예매 시 유의 사항</h2>
-        <div>{decodedNotice}</div>
+        <div dangerouslySetInnerHTML={{ __html: decodedNotice }}></div>
       </div>
 
       <form id="reservation" onSubmit={handleSubmit}>
@@ -102,7 +130,7 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
             이름
           </InputField>
           <InputFieldGroup type="phone" name="phone" values={{ phone1, phone2, phone3 }} readOnly />
-          <InputFieldGroup type="email" name="email" values={{ email1, email2 }} readOnly />
+          <InputFieldGroup type="email" name="email" values={{ email1, email2 }} userType="user" readOnly />
 
           <CheckBox inputId="이메일받기" name="is_receive_email" checked={!!form.is_receive_email} onChange={onChange}>
             예약 완료 이메일 전송 동의
@@ -110,7 +138,7 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
         </div>
       </form>
 
-      <Button type="submit" form="reservation">
+      <Button type="submit" form="reservation" disabled={btnDisabled}>
         예매하기
       </Button>
     </>

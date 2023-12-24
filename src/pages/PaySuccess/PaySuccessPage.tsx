@@ -76,7 +76,7 @@ const PaySuccessPage = () => {
 
         <div className="w-100 button-group">
           <div className="flex" style={{ gap: "16px" }}>
-            <Link to="/mypage/reservation" className="btn w-100 ">
+            <Link to="/mypage/user/reservation" className="btn w-100 ">
               마이페이지에서 확인
             </Link>
             <Link to="/" className="btn w-100 red">

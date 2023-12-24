@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { NavigationBar } from "@/components/mypage";
+import { MypageNavBar } from "@/components/layouts";
 import { useLoginStore } from "@/stores/useLoginStore";
 import { patchUserLogout } from "@/apis/patchUserLogout";
 import MenuIcon from "@/assets/menu.svg?react";
 import NavbarCloseIcon from "@/assets/navbar-close.svg?react";
 import classNames from "classnames/bind";
 import styles from "./Header.module.css";
+import logo from "@/assets/beta-logo.png";
 
 const cx = classNames.bind(styles);
 
@@ -47,8 +48,10 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles["header-wrapper"]}>
-        <h1 className={styles["header-txt"]}>
-          <Link to={"/"}>BETA</Link>
+        <h1 className={styles["header-logo"]}>
+          <Link to={"/"}>
+            <img src={logo} alt="beta-logo" />
+          </Link>
         </h1>
 
         <div className={styles["button-group"]}>
@@ -84,7 +87,7 @@ const Header = () => {
               <span className={"a11y-hidden"}>메뉴 닫기</span>
               <NavbarCloseIcon />
             </button>
-            <NavigationBar />
+            <MypageNavBar />
             <button type="button" className={styles["button-logout"]} onClick={handleClickLogout}>
               로그아웃
             </button>

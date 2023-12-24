@@ -1,3 +1,7 @@
+:global(.slick-slider) {
+  margin-bottom: 1rem;
+}
+
 .slider__img {
   width: 100%;
   aspect-ratio: 3/4;
@@ -8,7 +12,6 @@
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
-  margin-bottom: 2rem;
 }
 
 .btn-group button {

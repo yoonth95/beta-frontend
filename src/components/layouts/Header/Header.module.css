@@ -4,7 +4,6 @@
   box-sizing: border-box;
   height: 6.875rem;
   display: flex;
-  justify-items: space-between;
   align-items: center;
   border-bottom: 1px solid var(--gray200-color);
 }
@@ -17,12 +16,21 @@
   justify-content: space-between;
 }
 
-.header-txt {
+.header-logo {
+  width: 90px;
+  display: flex;
+  flex-basis: 90px;
+  flex-shrink: 0;
+  align-items: center;
   font-weight: bold;
   font-size: 1.875rem;
   color: var(--main-color);
-  display: flex;
-  align-items: center;
+}
+
+.header-logo img {
+  display: block;
+  width: 100%;
+  height: 1.875rem;
 }
 
 .button-group {

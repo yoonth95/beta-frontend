@@ -22,6 +22,8 @@ import deleteReviewAdmin from "./deleteReviewAdmin";
 import getAdminReservationList from "./getAdminReservationList";
 import getAdminReservationDetail from "./getAdminReservationDetail";
 import getSignUserInfo from "./getSignUserInfo";
+import getStoryUser from "./getStoryUser";
+import deleteStoryUser from "./deleteStoryUser";
 
 export {
   getShows,
@@ -48,4 +50,6 @@ export {
   getAdminReservationList,
   getAdminReservationDetail,
   getSignUserInfo,
+  getStoryUser,
+  deleteStoryUser,
 };
