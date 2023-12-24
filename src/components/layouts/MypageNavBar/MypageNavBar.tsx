@@ -16,7 +16,7 @@ const userNavList = [
 const adminNavList = [
   { type: "info", pathname: "profile", text: "프로필" },
   { type: "manage", pathname: "admin/post", text: "게시글" },
-  { type: "manage", pathname: "admin/reservation-manage", text: "예매관리" },
+  { type: "manage", pathname: "admin/reservation", text: "예매관리" },
 ];
 
 const MypageNavBar = () => {

@@ -12,11 +12,11 @@ import ProfilePage from "./Mypage/ProfilePage/ProfilePage";
 import PostManagePage from "./Mypage/admin/PostManage/PostManagePage";
 import PostUpdatePage from "./Mypage/admin/PostUpdate/PostUpdatePage";
 import PostUploadPage from "./Mypage/admin/PostUpload/PostUploadPage";
-import ReservationManagePage from "./Mypage/admin/ReservationManage/ReservationManagePage";
+import AdminReservationManagePage from "./Mypage/admin/ReservationManage/ReservationManagePage";
 import LikeManagePage from "./Mypage/user/LikeManage/LikeManagePage";
 import ReviewManagePage from "./Mypage/user/ReviewManage/ReviewManagePage";
 import StoryManagePage from "./Mypage/user/StoryManage/StoryManagePage";
-import ReservationPage from "./Mypage/user/Reservation/ReservationPage";
+import UserReservationManagePage from "./Mypage/user/ReservationManage/ReservationManage";
 
 export {
   LoginPage,
@@ -33,8 +33,8 @@ export {
   PostManagePage,
   PostUpdatePage,
   PostUploadPage,
-  ReservationManagePage,
-  ReservationPage,
+  AdminReservationManagePage,
+  UserReservationManagePage,
   LikeManagePage,
   ReviewManagePage,
   StoryManagePage,

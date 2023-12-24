@@ -12,14 +12,14 @@ import {
   PayFailPage,
   Mypage,
   ProfilePage,
-  PostManagePage,
-  PostUpdatePage,
-  PostUploadPage,
-  ReservationManagePage,
   LikeManagePage,
   ReviewManagePage,
   StoryManagePage,
-  ReservationPage,
+  UserReservationManagePage,
+  PostManagePage,
+  PostUpdatePage,
+  PostUploadPage,
+  AdminReservationManagePage,
 } from "@/pages";
 import { InfoSection, ReviewSection } from "@/components/detail";
 
@@ -73,6 +73,28 @@ const router = createBrowserRouter([
             path: "profile",
             element: <ProfilePage />,
           },
+
+          {
+            path: "admin",
+            children: [
+              {
+                path: "reservation",
+                element: <AdminReservationManagePage />,
+              },
+              {
+                path: "post",
+                element: <PostManagePage />,
+              },
+              {
+                path: "post/upload",
+                element: <PostUploadPage />,
+              },
+              {
+                path: "post/update",
+                element: <PostUpdatePage />,
+              },
+            ],
+          },
           {
             path: "user",
             children: [
@@ -90,28 +112,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "reservation",
-                element: <ReservationManagePage />,
-              },
-            ],
-          },
-          {
-            path: "admin",
-            children: [
-              {
-                path: "reservation-manage",
-                element: <ReservationManagePage />,
-              },
-              {
-                path: "post",
-                element: <PostManagePage />,
-              },
-              {
-                path: "post/upload",
-                element: <PostUploadPage />,
-              },
-              {
-                path: "post/update",
-                element: <PostUpdatePage />,
+                element: <UserReservationManagePage />,
               },
             ],
           },
