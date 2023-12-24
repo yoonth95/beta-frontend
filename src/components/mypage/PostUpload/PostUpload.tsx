@@ -17,9 +17,9 @@ import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const categoryList = ["공연", "전시", "스포츠"];
+const categoryList = ["공연", "전시"]; // "스포츠"
 const concertCategoryList = ["음악", "연극", "기타"];
-const sportsCategoryList = ["야구", "축구", "농구"];
+// const sportsCategoryList = ["야구", "축구", "농구"];
 const isReservationList = ["예", "아니오"];
 const methodList = ["구글폼", "예매 대행"];
 
@@ -225,7 +225,7 @@ const PostUpload = () => {
   return (
     <form className={styles["post-upload-section-form"]} onSubmit={handleSubmit}>
       <section>
-        <h2 className={styles["title"]}>공연/전시/스포츠 이미지</h2>
+        <h2 className={styles["title"]}>공연/전시 이미지</h2> {/*스포츠 */}
         <div className={styles["upload-imgs-wrapper"]}>
           <label className={styles["upload-img-input"]}>
             <ImgUploadIcon />
@@ -251,9 +251,9 @@ const PostUpload = () => {
         {form.show_type === "공연" && (
           <RadioButtonGroup radioList={concertCategoryList} name="show_sub_type" defaultValue={form.show_sub_type} onChange={onChange} />
         )}
-        {form.show_type === "스포츠" && (
+        {/* {form.show_type === "스포츠" && (
           <RadioButtonGroup radioList={sportsCategoryList} name="show_sub_type" defaultValue={form.show_sub_type} onChange={onChange} />
-        )}
+        )} */}
       </section>
 
       <section>

@@ -16,9 +16,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
-const categoryList = ["공연", "전시", "스포츠"];
+const categoryList = ["공연", "전시"]; // "스포츠"
 const concertCategoryList = ["음악", "연극", "기타"];
-const sportsCategoryList = ["야구", "축구", "농구"];
+// const sportsCategoryList = ["야구", "축구", "농구"];
 const isReservationList = ["예", "아니오"];
 const methodList = ["구글폼", "예매 대행"];
 
@@ -393,9 +393,9 @@ const PostUpdate = () => {
         {showType === "공연" && (
           <RadioButtonGroup radioList={concertCategoryList} name="show_sub_type" defaultValue={showSubType} onChangeValue={setShowSubType} />
         )}
-        {showType === "스포츠" && (
+        {/* {showType === "스포츠" && (
           <RadioButtonGroup radioList={sportsCategoryList} name="show_sub_type" defaultValue={showSubType} onChangeValue={setShowSubType} />
-        )}
+        )} */}
       </section>
 
       <section>

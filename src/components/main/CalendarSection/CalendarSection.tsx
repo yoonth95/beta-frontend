@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 const tabsInfo = [
   { url: "concert", value: "공연" },
   { url: "exhibition", value: "전시" },
-  { url: "sports", value: "스포츠" },
+  // { url: "sports", value: "스포츠" },
 ];
 
 const CalendarSection = () => {
@@ -43,8 +43,7 @@ const CalendarSection = () => {
 
   return (
     <section className={styles.section}>
-      <h2 className="a11y-hidden">공연/전시/스포츠</h2>
-
+      <h2 className="a11y-hidden">공연/전시</h2> {/* 스포츠 */}
       <div className={cx("date-btns-group", "no-scroll")}>
         {Array(14)
           .fill(0)
