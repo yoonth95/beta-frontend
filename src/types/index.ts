@@ -6,6 +6,7 @@ import { MemberResponseType, MemberType } from "./memberType";
 import { DateInputType, DateWithTime } from "./datePickerInputType";
 import { FormInputs } from "./formInputsType";
 import { ReviewsGetResponse, ReviewType, ReviewPostParamType, ReviewDeleteParamType, ReviewPatchParamType } from "./reviewType";
+import { ResponseUserReservationInfoType, UserReservationInfoType } from "./userReservationInfoType";
 
 export {
   type ShowResponseType,
@@ -28,4 +29,6 @@ export {
   type ReviewPostParamType,
   type ReviewDeleteParamType,
   type ReviewPatchParamType,
+  type ResponseUserReservationInfoType,
+  type UserReservationInfoType,
 };
