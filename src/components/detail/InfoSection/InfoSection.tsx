@@ -43,7 +43,7 @@ const InfoSection = () => {
           <p className={styles["info-title__organizer"]}>{univ + " " + department}</p>
           <h4 className={styles["info-title__title"]}>{title}</h4>
           <p className={styles["info-title__date"]}>{start_date + " ~ " + end_date}</p>
-          <p className={styles["info-title__location"]}>{location + " " + location_detail}</p>
+          <p className={styles["info-title__location"]}>{location_detail === null ? location : location + " " + location_detail}</p>
           {!!tags.length && (
             <ul className={styles["info-title__tags"]}>
               {tags.map((tag) => (
