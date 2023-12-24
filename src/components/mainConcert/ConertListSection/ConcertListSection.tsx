@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { TicketCard, NullField } from "@/components/common/";
 import { getShows } from "@/apis";
 import { ShowFilterRequestType } from "@/types";
@@ -13,6 +13,7 @@ const ConcertListSection: React.FC<PropsType> = ({ filterRequest }) => {
   const { data, status, error } = useQuery({
     queryKey: ["concertData", filterRequest],
     queryFn: async () => await getShows("concert", start_date, end_date, location, progress, category),
+    placeholderData: keepPreviousData,
   });
 
   if (status === "pending") return;
