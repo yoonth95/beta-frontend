@@ -19,7 +19,7 @@ const Header = () => {
   const isInMyPage = useMemo(() => location.pathname.includes("/mypage"), [location.pathname]);
 
   useEffect(() => {
-    setIsMyPageNavbarShow(false);
+    handleClose();
   }, [location.pathname]);
 
   const handleOpen = () => {
