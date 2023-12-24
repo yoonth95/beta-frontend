@@ -1,10 +1,10 @@
 import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 import LocationMap from "@/components/detail/InfoSection/LocationMap";
 import { deleteCancelShow } from "@/apis";
-import styles from "./ReservationUserModal.module.css";
 import { useModalStore } from "@/stores/useModalStore";
-import { useMutation } from "@tanstack/react-query";
 import { queryClient } from "@/main";
+import styles from "./ReservationUserModal.module.css";
 
 type onCopyFn = (text: string) => void;
 
@@ -78,16 +78,16 @@ const ReservationUserModal = ({ ...item }) => {
     <div className={styles["show-reservation-modal"]}>
       <h3>{title}</h3>
       <section className={styles["show-info"]}>
-        <ul>
+        <ul className={styles["show-reservation-modal-ul"]}>
           <h4>{show_type} 정보</h4>
-          <li>
-            <span>
+          <li className={styles["show-reservation-modal-li"]}>
+            <span className={styles["show-reservation-modal-span"]}>
               장소 :&nbsp;{location}
               {location_detail && ` ${location_detail}`}
             </span>
           </li>
-          <li>
-            <span>가격 : {amount ? amount + "원" : "무료"}</span>
+          <li className={styles["show-reservation-modal-li"]}>
+            <span className={styles["show-reservation-modal-span"]}>가격 : {amount ? amount + "원" : "무료"}</span>
           </li>
         </ul>
       </section>
@@ -100,25 +100,25 @@ const ReservationUserModal = ({ ...item }) => {
       )}
 
       <section className={styles["show_time"]}>
-        <ul>
+        <ul className={styles["show-reservation-modal-ul"]}>
           <h4>회차</h4>
-          <li>
-            <span>{date_time}</span>
+          <li className={styles["show-reservation-modal-li"]}>
+            <span className={styles["show-reservation-modal-span"]}>{date_time}</span>
           </li>
         </ul>
       </section>
 
       <section className={styles["show_user"]}>
-        <ul>
+        <ul className={styles["show-reservation-modal-ul"]}>
           <h4>예매자 정보</h4>
-          <li>
-            <span>이름 : {user_name}</span>
+          <li className={styles["show-reservation-modal-li"]}>
+            <span className={styles["show-reservation-modal-span"]}>이름 : {user_name}</span>
           </li>
-          <li>
-            <span>이메일 : {user_email}</span>
+          <li className={styles["show-reservation-modal-li"]}>
+            <span className={styles["show-reservation-modal-span"]}>이메일 : {user_email}</span>
           </li>
-          <li>
-            <span>휴대폰 번호 : {phone_number}</span>
+          <li className={styles["show-reservation-modal-li"]}>
+            <span className={styles["show-reservation-modal-span"]}>휴대폰 번호 : {phone_number}</span>
           </li>
         </ul>
       </section>

@@ -10,13 +10,13 @@
   margin-bottom: 0;
 }
 
-.show-reservation-modal ul > li {
+.show-reservation-modal-li {
   list-style: inside;
   margin: 10px 0 0.5rem;
   margin-left: 0.5rem;
 }
 
-.show-reservation-modal ul > li > span {
+.show-reservation-modal-span {
   margin-left: -0.5rem;
 }
 
