@@ -1,4 +1,4 @@
-.reservation-container {
+.reservation-article {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,6 +22,7 @@
 .reservation-img {
   width: 11.25rem;
   height: 15rem;
+  cursor: pointer;
 }
 
 .reservation-item {
@@ -31,6 +32,10 @@
   width: calc(100% - 11.25rem - 2rem);
   height: 240px;
 }
+
+/* .reservation-info-text {
+  cursor: pointer;
+} */
 
 .reservation-info-text,
 .reservation-info-button {

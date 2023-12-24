@@ -1,3 +1,4 @@
+import { base64ToBytes } from "@/utils";
 import styles from "./InfoSection.module.css";
 import LocationMap from "./LocationMap";
 import { useShowInfoStore } from "@/stores/useShowInfoStore";
@@ -13,17 +14,6 @@ const copyClipBoard: onCopyFn = async (text: string) => {
     console.error(error);
   }
 };
-
-// 디코딩
-function base64ToBytes(base64: string): Uint8Array {
-  try {
-    const binString = window.atob(base64);
-    return Uint8Array.from(binString, (c) => c.codePointAt(0) ?? 0);
-  } catch (error) {
-    console.error("Error decoding base64:", error);
-    return new Uint8Array();
-  }
-}
 
 const InfoSection = () => {
   const { showInfo } = useShowInfoStore();
@@ -43,7 +33,7 @@ const InfoSection = () => {
           <p className={styles["info-title__organizer"]}>{univ + " " + department}</p>
           <h4 className={styles["info-title__title"]}>{title}</h4>
           <p className={styles["info-title__date"]}>{start_date + " ~ " + end_date}</p>
-          <p className={styles["info-title__location"]}>{location + " " + location_detail}</p>
+          <p className={styles["info-title__location"]}>{location_detail === null ? location : location + " " + location_detail}</p>
           {!!tags.length && (
             <ul className={styles["info-title__tags"]}>
               {tags.map((tag) => (

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { DatePicker, Editor, InputField, DeleteButton } from "@/components/common";
 import styles from "./ReservationForm.module.css";
-import { DateInputType, DateWithTime } from "@/types";
+import { DateInputType, DateWithTimeObj } from "@/types";
 import { toast } from "react-toastify";
 import { type DatePickerRef } from "@/components/common/DatePicker/DatePicker";
 
@@ -13,8 +13,8 @@ interface PropsType {
   setPrice?: React.Dispatch<React.SetStateAction<number | null>>;
   headCount?: number | null;
   setHeadCount?: React.Dispatch<React.SetStateAction<number | null>>;
-  roundList: DateWithTime[];
-  setRoundList: React.Dispatch<React.SetStateAction<DateWithTime[]>>;
+  roundList: DateWithTimeObj[];
+  setRoundList: React.Dispatch<React.SetStateAction<DateWithTimeObj[]>>;
   editorNoticeData: string;
   setEditorNoticeData: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -33,6 +33,7 @@ const ReservationForm: React.FC<PropsType> = ({
 }) => {
   const datePickerInputRef = useRef<DatePickerRef | null>(null);
   const [dateTime, setDateTime] = useState({
+    id: "",
     date: "",
     time: "",
   });
@@ -40,7 +41,7 @@ const ReservationForm: React.FC<PropsType> = ({
   const handleDateTimeInput = (event: DateInputType) => {
     if (event.target.value && typeof event.target.value === "object") {
       const { date, time } = event.target.value;
-      setDateTime({ date, time });
+      setDateTime({ id: `new${date}${time}`, date, time });
     }
   };
 
@@ -55,7 +56,7 @@ const ReservationForm: React.FC<PropsType> = ({
     }
   };
 
-  const handleRoundRemove = ({ round: removeRound }: { round: DateWithTime }) => {
+  const handleRoundRemove = ({ round: removeRound }: { round: DateWithTimeObj }) => {
     setRoundList((prev) => prev.filter((round) => round !== removeRound));
   };
 

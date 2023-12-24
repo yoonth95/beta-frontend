@@ -16,7 +16,7 @@ import AdminReservationManagePage from "./Mypage/admin/ReservationManage/Reserva
 import LikeManagePage from "./Mypage/user/LikeManage/LikeManagePage";
 import ReviewManagePage from "./Mypage/user/ReviewManage/ReviewManagePage";
 import StoryManagePage from "./Mypage/user/StoryManage/StoryManagePage";
-import UserReservationManagePage from "./Mypage/user/ReservationManage/ReservationManage";
+import UserReservationManagePage from "./Mypage/user/ReservationManage/ReservationManagePage";
 
 export {
   LoginPage,
