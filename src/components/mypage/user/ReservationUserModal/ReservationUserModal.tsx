@@ -3,6 +3,8 @@ import LocationMap from "@/components/detail/InfoSection/LocationMap";
 import { deleteCancelShow } from "@/apis";
 import styles from "./ReservationUserModal.module.css";
 import { useModalStore } from "@/stores/useModalStore";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/main";
 
 type onCopyFn = (text: string) => void;
 
@@ -47,15 +49,28 @@ const ReservationUserModal = ({ ...item }) => {
   const decodedContent = notice ? new TextDecoder().decode(base64ToBytes(notice)) : null;
   const positionJson = position && JSON.parse(position);
 
-  const cancelShow = async (id: number, show_times_id: number, orderId: string) => {
-    if (window.confirm("정말로 예매를 취소하시겠습니까?")) {
-      const res = await deleteCancelShow(id, show_times_id, orderId);
-      if (res.ok) {
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: ({ id, show_times_id, orderId }: { id: number; show_times_id: number; orderId: string }) =>
+      deleteCancelShow(id, show_times_id, orderId),
+    onSuccess: (data) => {
+      if (data && data.ok) {
         toast.success("예매가 취소되었습니다.");
-        setOpenModal({ state: false, type: "" });
       } else {
         toast.error("예매 취소에 실패했습니다.");
       }
+      queryClient.invalidateQueries({
+        queryKey: ["userReservationList"],
+      });
+      setOpenModal({ state: false, type: "" });
+    },
+    onError: (error) => {
+      toast.error("An error occurred: " + error.message);
+    },
+  });
+
+  const cancelShow = async (id: number, show_times_id: number, orderId: string) => {
+    if (window.confirm("정말로 예매를 취소하시겠습니까?")) {
+      deleteMutate({ id, show_times_id, orderId });
     }
   };
 
