@@ -32,7 +32,7 @@
   width: 15vw;
   min-width: 130px;
   max-width: 10rem;
-  aspect-ratio: 1/1;
+  aspect-ratio: 3/4;
 }
 .update-img-input input {
   display: none;
@@ -58,8 +58,12 @@
   position: relative;
 }
 .img-cover img {
-  object-fit: contain;
   width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
 }
 
 .l_date {
@@ -111,4 +115,10 @@
 }
 .tags-section :global(.tagify__tag__removeBtn) {
   flex-shrink: 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
 }

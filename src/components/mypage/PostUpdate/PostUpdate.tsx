@@ -506,12 +506,14 @@ const PostUpdate = () => {
         )}
       </section>
 
-      <Button type="submit" onClick={handleUpdateShow}>
-        수정하기
-      </Button>
-      <Button type="submit" onClick={handleDeleteShow}>
-        삭제하기
-      </Button>
+      <div className={styles["button-group"]}>
+        <Button type="submit" onClick={handleDeleteShow} reverseColor>
+          삭제하기
+        </Button>
+        <Button type="submit" onClick={handleUpdateShow}>
+          수정하기
+        </Button>
+      </div>
     </form>
   );
 };
