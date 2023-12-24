@@ -4,7 +4,15 @@
   width: 34.375rem;
   height: 100%;
   position: relative;
-  margin: 5% auto;
+  margin: 4% auto;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo-img {
+  width: 8rem;
+  height: 3rem;
+  cursor: pointer;
 }
 
 .sign-section-form {
