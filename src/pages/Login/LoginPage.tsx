@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SignForm, Button, InputField } from "@/components/common";
 import { patchUserLogin } from "@/apis/patchUserLogin";
 import { useLoginStore } from "@/stores/useLoginStore";
+import betaLogo from "@/assets/beta-logo.png";
 import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
@@ -33,8 +34,15 @@ const LoginPage = () => {
     }
   };
 
+  const moveToMain = () => {
+    navigate("/", { replace: true });
+  };
+
   return (
     <main className={styles["login-main"]}>
+      <div className={styles["logo-div"]}>
+        <img src={betaLogo} alt="로고 이미지" className={styles["logo-img"]} onClick={moveToMain} />
+      </div>
       <SignForm userType={userType} setUserType={setUserType}>
         <form onSubmit={handleSubmit} className={styles["login-section-form"]}>
           <InputField required={false} type="text" placeholder="아이디를 입력해주세요." value={id} onChange={(e) => setId(e.target.value)}>
