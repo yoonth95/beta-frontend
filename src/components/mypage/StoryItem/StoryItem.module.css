@@ -2,7 +2,7 @@
   border: 1px solid var(--gray200-color);
   height: 20rem;
   position: relative;
-  cursor: pointer;
+  width: 10.5rem;
 }
 
 .story-item > button {
@@ -14,7 +14,7 @@
 .story-item > img {
   width: 100%;
   height: 100%;
-  object-fit: fill;
+  object-fit: contain;
 }
 
 .story-date {
@@ -23,7 +23,7 @@
   right: 0.8125rem;
   width: 4rem;
   height: 1.375rem;
-  color: white;
+  color: var(--gray400-color);
   font-size: 0.625rem;
   font-weight: bold;
   background-color: var(--gray200-color);

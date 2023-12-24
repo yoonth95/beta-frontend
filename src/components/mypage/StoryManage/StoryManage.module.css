@@ -1,5 +1,12 @@
 .story-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11.25rem, 1fr));
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 10.5rem));
+  justify-content: start;
+  grid-gap: 0;
+}
+
+@media screen and (max-width: 560px) {
+  .story-container {
+    justify-content: center;
+  }
 }
