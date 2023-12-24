@@ -54,42 +54,40 @@ const StorySection = () => {
           <button type="button" className={styles["story-add-btn"]} onClick={handleClickUploadBtn}>
             <span className="a11y-hidden">스토리 추가버튼</span>
           </button>
+          {openModal.state && (
+            <>
+              {openModal.type === "upload" && (
+                <Modal width={"18.75rem"} height={"35.625rem"} title={"스토리 업로드"}>
+                  <StoryUploadModal />
+                </Modal>
+              )}
+              {openModal.type === "guestAccess" && (
+                <Modal title="회원가입/로그인으로 이동" titleHidden width="600px" height="500px">
+                  <UserAccessModal />
+                </Modal>
+              )}
+            </>
+          )}
           <button className={styles["story-more-btn"]} type="button" onClick={handleClickMoreBtn}>
             더보기
           </button>
+          {openModal.state && openModal.type === "more" && (
+            <Modal title={"스토리"} titleHidden={true}>
+              <StoryViewModal initialSlide={initialSlide} />
+            </Modal>
+          )}
         </div>
 
         <div className={styles["carousel-container"]}>
           {status === "pending" && <StorySectionSkeleton />}
-
-          {status !== "pending" && (
-            <Carousel index={1}>
-              {data?.map((item, index) => (
-                <StoryCard key={item.id} item={item} onClick={handleClickStoryCard(index)} />
-              ))}
-            </Carousel>
-          )}
           {status === "error" && <>{error.message}</>}
+
+          <Carousel index={1}>
+            {data?.map((item, index) => (
+              <StoryCard key={item.id} item={item} onClick={handleClickStoryCard(index)} />
+            ))}
+          </Carousel>
         </div>
-        {openModal.state && (
-          <>
-            {openModal.type === "upload" && (
-              <Modal width={"18.75rem"} height={"35.625rem"} title={"스토리 업로드"}>
-                <StoryUploadModal />
-              </Modal>
-            )}
-            {openModal.type === "more" && (
-              <Modal title={"스토리"} titleHidden={true}>
-                <StoryViewModal initialSlide={initialSlide} />
-              </Modal>
-            )}
-            {openModal.type === "guestAccess" && (
-              <Modal title="회원가입/로그인으로 이동" titleHidden width="600px" height="500px">
-                <UserAccessModal />
-              </Modal>
-            )}
-          </>
-        )}
       </section>
     </>
   );
