@@ -91,14 +91,14 @@ const InputFieldGroup: React.FC<PropsType> = ({ type, values, setValues, userTyp
                   </option>
                 ))}
               </select>
-              <select required={required} value={values.month} onChange={(e) => handleSelectChange("month", e.target.value)}>
+              <select required={required} value={String(parseInt(values.month))} onChange={(e) => handleSelectChange("month", e.target.value)}>
                 {months.map((month) => (
                   <option key={month} value={month}>
                     {month}
                   </option>
                 ))}
               </select>
-              <select required={required} value={values.day} onChange={(e) => handleSelectChange("day", e.target.value)}>
+              <select required={required} value={String(parseInt(values.day))} onChange={(e) => handleSelectChange("day", e.target.value)}>
                 {days.map((day) => (
                   <option key={day} value={day}>
                     {day}

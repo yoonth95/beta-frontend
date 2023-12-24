@@ -24,6 +24,8 @@ import getAdminReservationDetail from "./getAdminReservationDetail";
 import getSignUserInfo from "./getSignUserInfo";
 import getStoryUser from "./getStoryUser";
 import deleteStoryUser from "./deleteStoryUser";
+import getUserProfile from "./getUserProfile";
+import putProfileUpdate from "./putProfileUpdate";
 import getUserReservationList from "@/apis/getUserReservationList";
 import deleteCancelShow from "@/apis/deleteCancelShow";
 
@@ -54,6 +56,8 @@ export {
   getSignUserInfo,
   getStoryUser,
   deleteStoryUser,
+  getUserProfile,
+  putProfileUpdate,
   getUserReservationList,
   deleteCancelShow,
 };
