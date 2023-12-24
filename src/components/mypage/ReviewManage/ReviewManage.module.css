@@ -6,3 +6,34 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.review-null {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #999;
+}
+
+.review-null > img {
+  width: 18rem;
+  height: 18rem;
+  opacity: 0.5;
+}
+
+.review-null > p {
+  font-size: 1.25rem;
+  line-height: 2rem;
+  text-align: center;
+  margin-top: -3rem;
+}
+
+@media screen and (max-width: 425px) {
+  .review-null > p {
+    font-size: 1rem;
+  }
+}
