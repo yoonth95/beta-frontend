@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { DateButton } from "@/components/main";
 import { BasicCard, Button, FilterButton } from "@/components/common";
 import getStringDate from "@/utils/getStringDate";
@@ -29,6 +29,7 @@ const CalendarSection = () => {
     queryKey: ["showDatas", selectedTab, selectedDate],
     queryFn: async () => await getShows(selectedTab, selectedDate, selectedDate),
     select: (item) => item.slice(0, 7),
+    placeholderData: keepPreviousData,
   });
 
   const handleClickTab = (value: string) => () => {
