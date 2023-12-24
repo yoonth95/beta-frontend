@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BasicCard } from "@/components/common";
+import { BasicCard, NullField } from "@/components/common";
 import { getShows } from "@/apis";
 import { ShowFilterRequestType } from "@/types";
 import styles from "./ExhibitionListSection.module.css";
@@ -15,19 +15,23 @@ const ExhibitionListSection: React.FC<PropsType> = ({ filterRequest }) => {
     queryFn: async () => await getShows("exhibition", start_date, end_date, location, progress),
   });
 
-  if (status === "pending") return <>loading...</>;
+  if (status === "pending") return;
   if (status === "error") return <>{error.message}</>;
 
   return (
     <section className={styles["section"]}>
       <h2 className="a11y-hidden">전시 리스트</h2>
-      <ul className={styles["exhibition-list"]}>
-        {data.map((item) => (
-          <li>
-            <BasicCard item={item} />
-          </li>
-        ))}
-      </ul>
+      {data.length > 0 ? (
+        <ul className={styles["exhibition-list"]}>
+          {data.map((item) => (
+            <li key={item.id}>
+              <BasicCard item={item} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <NullField text1="조회한 날에 공연이 없습니다!" />
+      )}
     </section>
   );
 };
