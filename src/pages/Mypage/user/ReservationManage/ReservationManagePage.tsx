@@ -5,9 +5,9 @@ import { ReservationItem, ReservationUserModal } from "@/components/mypage";
 import getUserReservationList from "@/apis/getUserReservationList";
 import { useModalStore } from "@/stores/useModalStore";
 import { UserReservationInfoType } from "@/types/userReservationInfoType";
-import styles from "./ReservationManage.module.css";
+import styles from "./ReservationManagePage.module.css";
 
-const ReservationManage = () => {
+const ReservationManagePage = () => {
   const { openModal, setOpenModal } = useModalStore();
   const [selectedItem, setSelectedItem] = useState<UserReservationInfoType | null>(null);
 
@@ -50,4 +50,4 @@ const ReservationManage = () => {
   );
 };
 
-export default ReservationManage;
+export default ReservationManagePage;
