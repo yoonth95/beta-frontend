@@ -1,4 +1,3 @@
-import React from "react";
 import reduceImageSize from "./reduceImageSize";
 
 const getResizedImgFiles = async (imgFiles: File[]) =>
