@@ -160,10 +160,6 @@ const PostUpdatePage = () => {
   }, [showInfoData]);
 
   useEffect(() => {
-    console.log(date);
-  }, [date]);
-
-  useEffect(() => {
     if (showReservationInfoStatus === "success" && showReservationInfoData) {
       setMethod(showReservationInfoData.method === "google" ? "구글폼" : "예매 대행");
       if (showReservationInfoData.method === "google") {
