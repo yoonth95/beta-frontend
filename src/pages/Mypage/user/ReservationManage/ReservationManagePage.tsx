@@ -40,7 +40,7 @@ const ReservationManagePage = () => {
             ))}
           </div>
           {openModal.state && (
-            <Modal title="예매 정보" width="600px" height="850px">
+            <Modal title="예매 정보" width="600px">
               {selectedItem && <ReservationUserModal item={selectedItem} />}
             </Modal>
           )}
