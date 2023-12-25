@@ -7,7 +7,7 @@ import classNames from "classnames/bind";
 
 const cx = classNames.bind(styles);
 
-const categories = ["공연", "전시", "스포츠"];
+const categories = ["공연", "전시"];
 
 const LikeManagePage = () => {
   const [filter, setFilter] = useState("공연");

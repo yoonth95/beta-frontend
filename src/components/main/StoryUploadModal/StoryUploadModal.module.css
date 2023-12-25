@@ -1,4 +1,5 @@
 .form {
+  margin-top: 1.25rem;
   box-sizing: border-box;
   width: 100%;
   display: flex;
@@ -16,6 +17,10 @@
   background-size: cover;
   background-position: center;
   background-color: var(--gray200-color);
+}
+
+.img-upload > input {
+  display: none;
 }
 
 .img-upload::after {
@@ -37,8 +42,8 @@
   background-color: var(--sub2-color);
 }
 
-.img-upload > input {
-  display: none;
+.form > button {
+  width: 90%;
 }
 
 :global(.tags-input) {

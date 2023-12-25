@@ -3,7 +3,7 @@ import styles from "./NullField.module.css";
 
 interface PropsType {
   text1: string;
-  text2: string;
+  text2?: string;
 }
 
 const NullField: React.FC<PropsType> = ({ text1, text2 }) => {
