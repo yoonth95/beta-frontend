@@ -208,7 +208,7 @@ const PostUploadPage = () => {
     mutationFn: (formData: FormData) => postShow(formData),
     onSuccess: (data) => {
       if (data) {
-        toast.info("게시글 업로드 성공");
+        toast.success("게시글 업로드 성공");
         navigate("/mypage/admin/post");
       }
     },

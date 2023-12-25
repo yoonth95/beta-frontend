@@ -108,7 +108,7 @@ const PostUpdatePage = () => {
     mutationFn: (formData: FormData) => putShow(formData),
     onSuccess: (data) => {
       if (data) {
-        toast.info("게시글 수정 완료");
+        toast.success("게시글 수정 완료");
         navigate("/mypage/admin/post");
       }
     },
@@ -121,7 +121,7 @@ const PostUpdatePage = () => {
     mutationFn: () => deleteShow(showId),
     onSuccess: (data) => {
       if (data) {
-        toast.info("게시글 삭제 완료");
+        toast.success("게시글 삭제 완료");
         navigate("/mypage/admin/post");
       }
     },
