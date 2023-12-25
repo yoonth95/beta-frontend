@@ -101,6 +101,32 @@ const settings = [
       },
     ],
   },
+  {
+    dots: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    appendDots: (dots: never) => renderCustomDots(dots),
+    dotsClass: "dots",
+    slidesToShow: 3,
+    swipeToSlide: true,
+    responsive: [
+      {
+        breakpoint: 760,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 400,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+    nextArrow: <NextArrows />,
+    prevArrow: <PrevArrows />,
+  },
 ];
 
 const Carousel: React.FC<PropsType> = ({ index, initialSlide = 0, children }) => {

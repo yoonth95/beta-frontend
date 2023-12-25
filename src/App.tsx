@@ -7,9 +7,11 @@ import PrivateRoute from "./PrivateRoute";
 function App() {
   const location = useLocation();
   const { setOpenModal } = useModalStore();
+
   useEffect(() => {
+    if (location.state?.from !== "detail") window.scrollTo(0, 0);
     setOpenModal({ state: false, type: "" });
-  }, [location.pathname]);
+  }, [location.pathname, setOpenModal]);
 
   return (
     <>

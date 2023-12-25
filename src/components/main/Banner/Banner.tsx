@@ -29,7 +29,7 @@ const Banner = () => {
 
       <>
         {status === "error" && <>{error.message}</>}
-        <Carousel index={0}>
+        <Carousel index={3}>
           {data?.map((item) => (
             <div onClick={handleClickBannerImage(item.show_id)} key={item.id}>
               <img src={`${import.meta.env.VITE_APP_IMAGE_DOMAIN}${item.image_url}`} className={styles["banner-image"]} />

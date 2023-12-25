@@ -1,27 +1,9 @@
-import NavigationBar from "./NavigationBar/NavigationBar";
-import Profile from "./Profile/Profile";
-import LikeManage from "./LikeManage/LikeManage";
-import ReviewManage from "./ReviewManage/ReviewManage";
-import StoryManage from "./StoryManage/StoryManage";
-import Reservation from "./Reservation/Reservation";
-import ReservationManage from "./ReservationManage/ReservationManage";
-import ReservationListModal from "./ReservationListModal/ReservationListModal";
-import PostManage from "./PostManage/PostManage";
-import PostUpload from "./PostUpload/PostUpload";
-import ReservationForm from "./ReservationForm/ReservationForm";
-import Postcode from "./Postcode/Postcode";
+import Postcode from "./admin/Postcode/Postcode";
+import ReservationForm from "./admin/ReservationForm/ReservationForm";
+import ReservationListModal from "./admin/ReservationListModal/ReservationListModal";
+import ReservationItem from "./user/ReservationItem/ReservationItem";
+import ReservationUserModal from "./user/ReservationUserModal/ReservationUserModal";
+import ReviewItem from "./user/ReviewItem/ReviewItem";
+import StoryItem from "./user/StoryItem/StoryItem";
 
-export {
-  NavigationBar,
-  Profile,
-  LikeManage,
-  ReviewManage,
-  StoryManage,
-  Reservation,
-  ReservationManage,
-  PostManage,
-  ReservationListModal,
-  PostUpload,
-  ReservationForm,
-  Postcode,
-};
+export { ReservationListModal, ReservationForm, Postcode, ReviewItem, StoryItem, ReservationItem, ReservationUserModal };
