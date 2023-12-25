@@ -32,6 +32,10 @@ export interface UserReservation {
   is_receive_email: number;
   created_at: string;
   updated_at: string;
+  login_id: string;
+  user_name: string;
+  phone_number: string;
+  user_email: string;
 }
 interface ShowTime {
   id: number;

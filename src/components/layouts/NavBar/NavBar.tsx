@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 const navList = [
   { pathname: "/concert", text: "공연" },
   { pathname: "/exhibition", text: "전시" },
-  { pathname: "/sports", text: "스포츠" },
+  // { pathname: "/sports", text: "스포츠" },
 ];
 
 const NavBar = () => {

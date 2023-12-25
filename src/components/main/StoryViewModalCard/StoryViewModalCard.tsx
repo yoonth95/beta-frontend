@@ -2,6 +2,9 @@ import React, { useMemo } from "react";
 import { StoryType } from "@/types";
 import styles from "./StoryViewModalCard.module.css";
 import { getTxtColorByBgColor } from "@/utils";
+import classNames from "classnames/bind";
+
+const cx = classNames.bind(styles);
 
 interface PropsType {
   item: StoryType;
@@ -12,7 +15,10 @@ const StoryViewModalCard: React.FC<PropsType> = ({ item }) => {
   const tags = useMemo<string[]>(() => Object.values(JSON.parse(item.tags)), [item.tags]);
 
   return (
-    <article className={styles.card} style={{ backgroundColor: item.story_color || "", color: getTxtColorByBgColor(item.story_color) }}>
+    <article
+      className={cx("card", "gray-scrollbar")}
+      style={{ backgroundColor: item.story_color || "", color: getTxtColorByBgColor(item.story_color), borderRadius: "0.5rem" }}
+    >
       <>
         <strong className={styles["card__nickname"]}>@{item.login_id.slice(0, 3)}***</strong>
         <div className={styles["card__img-wrapper"]}>

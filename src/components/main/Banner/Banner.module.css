@@ -1,17 +1,10 @@
 .section {
   width: 100%;
-  aspect-ratio: 6/4;
+  aspect-ratio: 2/1;
 }
 .banner-image {
   width: 100%;
   aspect-ratio: 3/4;
   object-fit: cover;
   cursor: pointer;
-}
-
-@media (max-width: 500px) {
-  .section {
-    width: 100%;
-    aspect-ratio: 3/4;
-  }
 }

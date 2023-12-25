@@ -45,7 +45,7 @@ const ReservationListModal: React.FC<PropsType> = ({ id }) => {
   };
 
   return (
-    <>
+    <div className={styles["modal"]}>
       <div className={styles["top-section"]}>
         <SelectBox options={dateTimeOptions} onClick={handleClickDateTimeSelect} selectedValue={selectedDateTime} />
         <strong className={styles["person"]}>
@@ -54,15 +54,17 @@ const ReservationListModal: React.FC<PropsType> = ({ id }) => {
       </div>
       <div className={cx("list-section", "gray-scrollbar")}>
         <div className={cx("list-row", "list-header")}>
-          <strong>아이디</strong>
-          <strong>결제번호</strong>
-          <strong>결제날짜</strong>
+          <strong>이름</strong>
+          <strong>핸드폰번호</strong>
+          <strong>이메일</strong>
+          <strong>예매날짜</strong>
         </div>
-        <ul className={styles["list"]}>
+        <ul>
           {userList.map((item) => (
             <li key={item.id} className={cx("list-row", "list-item")}>
-              <strong>{item.user_id}</strong>
-              <strong>{item.orderId}</strong>
+              <strong>{item.user_name}</strong>
+              <strong>{item.phone_number}</strong>
+              <strong>{item.user_email}</strong>
               <strong>
                 {new Date(item.created_at).toLocaleString("ko-Kr", {
                   year: "numeric",
@@ -76,7 +78,7 @@ const ReservationListModal: React.FC<PropsType> = ({ id }) => {
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

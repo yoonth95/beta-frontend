@@ -33,3 +33,14 @@
 .fieldset span {
   vertical-align: middle;
 }
+
+.fieldset input:disabled + span {
+  color: var(--gray200-color);
+  text-decoration: line-through;
+}
+
+.fieldset input:disabled + span::after {
+  content: "예매마감";
+  display: inline-block;
+  margin-left: 0.625rem;
+}

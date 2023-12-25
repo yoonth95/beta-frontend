@@ -1,0 +1,92 @@
+.reservation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 768px; /* 최대 너비 설정 */
+  margin: auto; /* 중앙 정렬 */
+  padding: 1rem;
+  gap: 1.25rem;
+  /* border: 1px solid var(--gray200-color); */
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.reservation-box {
+  display: flex;
+  align-items: center; /* 센터 정렬 */
+  width: 100%;
+  gap: 2rem;
+}
+
+.reservation-img {
+  width: 11.25rem;
+  height: 15rem;
+}
+
+.reservation-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: calc(100% - 11.25rem - 2rem);
+  height: 240px;
+}
+
+.reservation-info-text,
+.reservation-info-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5625rem;
+  width: 100%;
+}
+
+.reservation-info-text > * {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.reservation-info-text > * > strong {
+  width: 11%;
+}
+
+.reservation-info-text > * > span {
+  width: 89%;
+}
+
+.reservation-info-button {
+  align-items: flex-end;
+}
+
+.reservation-info-button > button {
+  width: 5.625rem;
+  height: 2.1875rem;
+  background-color: var(--main-color);
+  color: #fff;
+  border-radius: 5px;
+}
+
+/* 미디어 쿼리를 사용하여 작은 화면에서의 스타일 조정 */
+@media screen and (max-width: 600px) {
+  .reservation-box {
+    flex-direction: column;
+  }
+
+  .ellipsis {
+    white-space: normal;
+  }
+
+  .reservation-item {
+    width: 100%;
+    height: auto;
+    gap: 2rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .reservation-info-text > * > strong {
+    width: 15%;
+  }
+}

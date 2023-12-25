@@ -78,17 +78,11 @@ const PostManagePage = () => {
               <div className={styles["list-row-right"]}>
                 <div className={styles["like-cnt"]}>
                   <LikeIcon />
-                  <span>
-                    {item.likes_count}
-                    <span className="a11y-hidden">개의 좋아요</span>
-                  </span>
+                  <span>{item.likes_count}</span>
                 </div>
                 <Button reverseColor={true} onClick={() => handleClickReviewsCnt(item.title, item.id.toString())} style={{ padding: "0.6rem" }}>
                   <CommentIcon className={styles["cmt-icon"]} />
-                  <span>
-                    {item.reviews_count}
-                    <span className="a11y-hidden">개의 댓글</span>
-                  </span>
+                  <span>{item.reviews_count}</span>
                 </Button>
                 <Button reverseColor={true} style={{ padding: "0.6rem" }} onClick={() => navigate("./update", { state: item.id })}>
                   수정/삭제
