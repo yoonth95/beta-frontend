@@ -70,7 +70,7 @@ const PostUpdatePage = () => {
   const [googleFormUrl, setGoogleFormUrl] = useState<string | null>(null);
   const [price, setPrice] = useState<number | null>(null);
   const [headCount, setHeadCount] = useState<number | null>(null);
-  const [roundList, setRoundList] = useState<DateWithTimeObj[]>([{ id: "", date: "", time: "" }]);
+  const [roundList, setRoundList] = useState<DateWithTimeObj[]>([]);
   const [editorNoticeData, setEditorNoticeData] = useState<string>("");
 
   useEffect(() => {
