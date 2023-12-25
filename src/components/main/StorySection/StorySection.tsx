@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Carousel, Modal } from "@/components/common";
-import { StoryCard, StoryUploadModal, StoryViewModal } from "@/components/main";
+import { Carousel, Modal, UserAccessModal } from "@/components/common";
+import { StoryCard, StoryUploadModal, StoryViewModal, StorySectionSkeleton } from "@/components/main";
 import { useModalStore } from "@/stores/useModalStore";
+import { useLoginStore } from "@/stores/useLoginStore";
 import { useCarouselDragStore } from "@/stores/useCarouselDragStore";
 import { getStories } from "@/apis";
+import { isNotUser } from "@/utils";
 import styles from "./StorySection.module.css";
-import StorySectionSkeleton from "./StorySectionSkeleton";
 
 const StorySection = () => {
   const { openModal, setOpenModal } = useModalStore();
+  const {
+    userState: { user_role },
+  } = useLoginStore();
   const [initialSlide, setInitialSlide] = useState(0);
   const { isDragging } = useCarouselDragStore();
 
@@ -20,6 +24,11 @@ const StorySection = () => {
   });
 
   const handleClickUploadBtn = () => {
+    if (isNotUser(user_role)) {
+      setOpenModal({ state: true, type: "guestAccess" });
+      return;
+    }
+
     setOpenModal({ state: true, type: "upload" });
   };
 
@@ -45,36 +54,40 @@ const StorySection = () => {
           <button type="button" className={styles["story-add-btn"]} onClick={handleClickUploadBtn}>
             <span className="a11y-hidden">스토리 추가버튼</span>
           </button>
+          {openModal.state && (
+            <>
+              {openModal.type === "upload" && (
+                <Modal width={"18.75rem"} height={"35.625rem"} title={"스토리 업로드"}>
+                  <StoryUploadModal />
+                </Modal>
+              )}
+              {openModal.type === "guestAccess" && (
+                <Modal title="회원가입/로그인으로 이동" titleHidden width="600px" height="500px">
+                  <UserAccessModal />
+                </Modal>
+              )}
+            </>
+          )}
           <button className={styles["story-more-btn"]} type="button" onClick={handleClickMoreBtn}>
             더보기
           </button>
+          {openModal.state && openModal.type === "more" && (
+            <Modal title={"스토리"} titleHidden={true}>
+              <StoryViewModal initialSlide={initialSlide} />
+            </Modal>
+          )}
         </div>
 
         <div className={styles["carousel-container"]}>
           {status === "pending" && <StorySectionSkeleton />}
-
-          {status !== "pending" && (
-            <Carousel index={1}>
-              {data?.map((item, index) => (
-                <StoryCard key={item.id} item={item} onClick={handleClickStoryCard(index)} />
-              ))}
-            </Carousel>
-          )}
           {status === "error" && <>{error.message}</>}
+
+          <Carousel index={1}>
+            {data?.map((item, index) => (
+              <StoryCard key={item.id} item={item} onClick={handleClickStoryCard(index)} />
+            ))}
+          </Carousel>
         </div>
-        {openModal.state && (
-          <>
-            {openModal.type === "upload" ? (
-              <Modal width={"18.75rem"} height={"33.75rem"} title={"스토리 업로드"}>
-                <StoryUploadModal />
-              </Modal>
-            ) : (
-              <Modal title={"스토리"} titleHidden={true}>
-                <StoryViewModal initialSlide={initialSlide} />
-              </Modal>
-            )}
-          </>
-        )}
       </section>
     </>
   );

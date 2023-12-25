@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import Tags from "@yaireo/tagify/dist/react.tagify"; // React-wrapper file
 import "@yaireo/tagify/dist/tagify.css"; // Tagify CSS
+import "./TagInput.css";
 
 interface PropsType {
   handleChange: (tags: string[]) => void;

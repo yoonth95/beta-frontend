@@ -9,3 +9,7 @@ export interface DateWithTime {
   date: string;
   time: string;
 }
+
+export interface DateWithTimeObj extends DateWithTime {
+  id: string;
+}

@@ -17,6 +17,11 @@ const useInputs = <T extends FormInputs>(initialForm: T): UseInputs<T> => {
       return;
     }
 
+    if (type === "radio" && name === "show_times_id") {
+      setForm((form) => ({ ...form, [name]: Number(value) }));
+      return;
+    }
+
     const typeName = objectTypeNames.find((typeName) => name.includes(typeName));
     // name 예시: phone1, phone2, email1, email2, email3
     if (typeName === "phone" || typeName === "email") {

@@ -13,6 +13,21 @@ import deleteReview from "./deleteReview";
 import patchReview from "./patchReview";
 import postLike from "./postLike";
 import deleteLike from "./deleteLike";
+import putShow from "./putShow";
+import deleteShow from "./deleteShow";
+import postReservation from "./postReservation";
+import getUserReviewList from "./getUserReviewList";
+import getMyShowList from "./getMyShowList";
+import deleteReviewAdmin from "./deleteReviewAdmin";
+import getAdminReservationList from "./getAdminReservationList";
+import getAdminReservationDetail from "./getAdminReservationDetail";
+import getSignUserInfo from "./getSignUserInfo";
+import getStoryUser from "./getStoryUser";
+import deleteStoryUser from "./deleteStoryUser";
+import getUserProfile from "./getUserProfile";
+import putProfileUpdate from "./putProfileUpdate";
+import getUserReservationList from "@/apis/getUserReservationList";
+import deleteCancelShow from "@/apis/deleteCancelShow";
 
 export {
   getShows,
@@ -29,4 +44,20 @@ export {
   patchReview,
   postLike,
   deleteLike,
+  postReservation,
+  getUserLikeList,
+  putShow,
+  deleteShow,
+  getUserReviewList,
+  getMyShowList,
+  deleteReviewAdmin,
+  getAdminReservationList,
+  getAdminReservationDetail,
+  getSignUserInfo,
+  getStoryUser,
+  deleteStoryUser,
+  getUserProfile,
+  putProfileUpdate,
+  getUserReservationList,
+  deleteCancelShow,
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import styles from "./RadioButtonGroup.module.css";
 import classNames from "classnames/bind";
 
@@ -8,17 +8,24 @@ interface PropsType {
   radioList: string[];
   name: string;
   defaultValue?: string;
-  onChange: React.ChangeEventHandler;
+  value?: string;
+  onChange?: React.ChangeEventHandler;
+  onChangeValue?: React.Dispatch<SetStateAction<string>>;
   flexDirectionColumn?: boolean;
 }
 
-const RadioButtonGroup: React.FC<PropsType> = ({ radioList, name, defaultValue, onChange, flexDirectionColumn = false }) => {
+const RadioButtonGroup: React.FC<PropsType> = ({ radioList, name, defaultValue, value, onChange, onChangeValue, flexDirectionColumn = false }) => {
   const [selectedOption, setSelectedOption] = useState(defaultValue || radioList[0]);
 
-  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOptionChange = (e: any) => {
     setSelectedOption(e.target.value);
-    onChange(e);
+    onChange && onChange(e);
+    onChangeValue && onChangeValue(e.target.value);
   };
+
+  useEffect(() => {
+    value && setSelectedOption(value);
+  }, [value]);
 
   return (
     <fieldset className={cx("fieldset", flexDirectionColumn && "column")}>

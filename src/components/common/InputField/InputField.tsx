@@ -29,7 +29,7 @@ interface PropsType {
   type: "text" | "password" | "url" | "number";
   name?: string;
   placeholder?: string;
-  value?: string;
+  value?: string | number | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   labelHidden?: boolean;
   isConfirm?: boolean;
@@ -37,6 +37,7 @@ interface PropsType {
   readOnly?: boolean;
   style?: React.CSSProperties;
   unit?: string;
+  maxlength?: number;
 }
 
 const cx = classNames.bind(styles);
@@ -54,6 +55,7 @@ const InputField: React.FC<PropsType> = ({
   readOnly = false,
   style,
   unit,
+  maxlength,
 }) => {
   const isSignupPassword = name === "password" || name === "id";
 
@@ -66,7 +68,8 @@ const InputField: React.FC<PropsType> = ({
         type={type}
         name={name}
         placeholder={placeholder}
-        value={value || ""}
+        maxLength={maxlength}
+        value={value ?? ""}
         onChange={onChange}
         style={{ ...style }}
       />

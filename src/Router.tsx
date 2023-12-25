@@ -1,9 +1,27 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import { LoginPage, SignupPage, MainPage, MainConcertPage, DetailPage, ErrorPage, MainExhibitionPage } from "@/pages";
+import {
+  LoginPage,
+  SignupPage,
+  MainPage,
+  MainConcertPage,
+  MainExhibitionPage,
+  DetailPage,
+  ErrorPage,
+  PaySuccessPage,
+  PayFailPage,
+  Mypage,
+  ProfilePage,
+  LikeManagePage,
+  ReviewManagePage,
+  StoryManagePage,
+  UserReservationManagePage,
+  PostManagePage,
+  PostUpdatePage,
+  PostUploadPage,
+  AdminReservationManagePage,
+} from "@/pages";
 import { InfoSection, ReviewSection } from "@/components/detail";
-import Mypage from "@/pages/Mypage/Mypage";
-import { Profile, LikeManage, ReviewManage, StoryManage, Reservation, ReservationManage, PostManage, PostUpload } from "@/components/mypage";
 
 const router = createBrowserRouter([
   {
@@ -53,35 +71,63 @@ const router = createBrowserRouter([
           {
             index: true,
             path: "profile",
-            element: <Profile />,
+            element: <ProfilePage />,
+          },
+
+          {
+            path: "admin",
+            children: [
+              {
+                path: "reservation",
+                element: <AdminReservationManagePage />,
+              },
+              {
+                path: "post",
+                element: <PostManagePage />,
+              },
+              {
+                path: "post/upload",
+                element: <PostUploadPage />,
+              },
+              {
+                path: "post/update",
+                element: <PostUpdatePage />,
+              },
+            ],
           },
           {
-            path: "like",
-            element: <LikeManage />,
+            path: "user",
+            children: [
+              {
+                path: "like",
+                element: <LikeManagePage />,
+              },
+              {
+                path: "review",
+                element: <ReviewManagePage />,
+              },
+              {
+                path: "story",
+                element: <StoryManagePage />,
+              },
+              {
+                path: "reservation",
+                element: <UserReservationManagePage />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "/payment",
+        children: [
+          {
+            path: "success",
+            element: <PaySuccessPage />,
           },
           {
-            path: "review",
-            element: <ReviewManage />,
-          },
-          {
-            path: "story",
-            element: <StoryManage />,
-          },
-          {
-            path: "reservation",
-            element: <Reservation />,
-          },
-          {
-            path: "reservation-manage",
-            element: <ReservationManage />,
-          },
-          {
-            path: "post",
-            element: <PostManage />,
-          },
-          {
-            path: "post/upload",
-            element: <PostUpload />,
+            path: "fail",
+            element: <PayFailPage />,
           },
         ],
       },

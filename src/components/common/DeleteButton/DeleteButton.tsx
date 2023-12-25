@@ -6,14 +6,15 @@ import classNames from "classnames/bind";
 const cx = classNames.bind(styles);
 
 interface PropsType {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   spanHidden: string;
   forImage?: boolean;
+  name?: string;
 }
 
-const DeleteButton: React.FC<PropsType> = ({ onClick, spanHidden, forImage = false }) => {
+const DeleteButton: React.FC<PropsType> = ({ onClick, spanHidden, forImage = false, name }) => {
   return (
-    <button onClick={onClick} type="button" className={cx("delete-btn", forImage && "img-delete-btn")}>
+    <button onClick={onClick} type="button" name={name} className={cx("delete-btn", forImage && "img-delete-btn")}>
       <DeleteIcon />
       <span className="a11y-hidden">{spanHidden}</span>
     </button>

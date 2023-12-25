@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { FilterButton, SelectBox } from "@/components/common";
 import getTodayStringDate from "@/utils/getTodayStringDate";
 import { useFilterSlide } from "@/hooks";
@@ -62,8 +63,22 @@ const Filters: React.FC<PropsType> = ({ filterRequest, setFilterRequest }) => {
     progress: "전체",
   });
 
+  const isEndDateAfterStartDate = (startDate: string, endDate: string) => {
+    const start_date = new Date(startDate).getTime();
+    const end_date = new Date(endDate).getTime();
+
+    if (end_date >= start_date) {
+      return true;
+    } else return false;
+  };
+
   const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as HTMLInputElement;
+    if (name === "end_date" && !isEndDateAfterStartDate(filterRequest.start_date, value)) {
+      toast.warn("시작날짜보다 끝나는 날짜가 앞설 수 없습니다. 날짜를 다시 설정해주세요.");
+      return;
+    }
+
     setFilterRequest((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -90,13 +105,13 @@ const Filters: React.FC<PropsType> = ({ filterRequest, setFilterRequest }) => {
     setFilterRequest({ ...filterRequest, progress: progressStatus });
   };
 
-  //  location을 all, 강남구, ..., 중랑구로 set하는 함수
-  const locationSetFunc = (value: string) => {
+  // date, progress를 제외한 나머지 항목 set하는 함수
+  const etcSetFunc = (name: string, value: string) => {
     if (value === "전체") {
-      setFilterRequest({ ...filterRequest, location: "all" });
+      setFilterRequest({ ...filterRequest, [name]: "all" });
       return;
     }
-    setFilterRequest({ ...filterRequest, location: value });
+    setFilterRequest({ ...filterRequest, [name]: value });
   };
 
   // FilterButton을 눌렀을 때 동작하는 함수
@@ -106,10 +121,8 @@ const Filters: React.FC<PropsType> = ({ filterRequest, setFilterRequest }) => {
       dateSetFunc(value!);
     } else if (name === "progress") {
       progressSetFunc(value!);
-    } else if (name === "location") {
-      locationSetFunc(value!);
     } else {
-      setFilterRequest({ ...filterRequest, [name]: value });
+      etcSetFunc(name, value!);
     }
     setFilter((prev) => ({ ...prev, [name]: value }));
   };

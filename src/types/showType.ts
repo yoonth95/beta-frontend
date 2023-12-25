@@ -12,22 +12,18 @@ export interface ShowType {
   end_date: string;
   location: string;
   location_detail: string | null;
-  position: string | null;
+  position: string;
   main_image_url: string;
   sub_images_url: string | null;
   main_image_color: string | null;
   univ: string;
   department: string;
   tags: string | null;
-  content: Content;
+  content: string;
   is_reservation: number;
-  user_liked: 0 | 1;
+  user_liked?: 0 | 1;
   created_at: string;
-}
-
-export interface Content {
-  type: string;
-  data: number[];
+  user_reserved?: 0 | 1;
 }
 
 export interface ShowFilterRequestType {

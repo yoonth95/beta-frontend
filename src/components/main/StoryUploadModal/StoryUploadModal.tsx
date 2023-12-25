@@ -1,33 +1,38 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FormEvent, useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "@/main";
 import { useColor } from "color-thief-react";
+import { toast } from "react-toastify";
 import { Button, TagInput } from "@/components/common";
 import reduceImageSize from "@/utils/reduceImageSize";
 import convertArrayToObject from "@/utils/convertArrayToObject";
-import { useLoginStore } from "@/stores/useLoginStore";
 import { useModalStore } from "@/stores/useModalStore";
 import { postStory } from "@/apis";
 import styles from "./StoryUploadModal.module.css";
 
 const StoryUploadModal = () => {
-  const queryClient = useQueryClient();
-  const { userState } = useLoginStore();
   const { setOpenModal } = useModalStore();
   const [objUrl, setObjUrl] = useState<string>("");
   const [tagsInput, setTagInputs] = useState<string[]>([]);
   const { data: story_color } = useColor(objUrl, "hex");
+
   const { mutate } = useMutation({
     mutationFn: (formData: FormData) => postStory(formData),
     onSuccess: () => {
+      toast.success("스토리 업로드 성공!");
       setOpenModal({ state: false, type: "" });
       queryClient.invalidateQueries({ queryKey: ["storyData"] });
     },
-    onError: (err) => {
-      console.log(err);
+    onError: () => {
+      toast.error("스토리 업로드에 실패하였습니다. 다시 시도해주세요");
     },
   });
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (objUrl) {
+      URL.revokeObjectURL(objUrl);
+    }
+
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
     const imgSrc = URL.createObjectURL(selectedFile);
@@ -50,7 +55,6 @@ const StoryUploadModal = () => {
 
     const formData = new FormData();
     formData.append("story_image_url", file);
-    formData.append("login_id", userState.login_id);
     formData.append("tags", tags);
     formData.append("story_color", story_color as string);
 
@@ -71,7 +75,7 @@ const StoryUploadModal = () => {
         <input type="file" id="img" accept="image/*" onChange={handleChangeImage} />
       </label>
       <TagInput handleChange={handleChangeTags} />
-      <Button type="submit" borderRadius={"16px"} form={"story-upload-modal"}>
+      <Button type="submit" borderRadius={"0.5rem"} form={"story-upload-modal"}>
         업로드하기
       </Button>
     </form>

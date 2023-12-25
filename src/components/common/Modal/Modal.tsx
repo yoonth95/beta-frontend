@@ -4,6 +4,7 @@ import { useModalStore } from "@/stores/useModalStore";
 import { usePreventScroll } from "@/hooks";
 import classNames from "classnames/bind";
 import styles from "./Modal.module.css";
+import { queryClient } from "@/main";
 
 const cx = classNames.bind(styles);
 
@@ -16,7 +17,7 @@ interface PropsType {
 }
 
 const Modal: React.FC<PropsType> = ({ children, width, height, title, titleHidden = false }) => {
-  const { setOpenModal } = useModalStore();
+  const { openModal, setOpenModal } = useModalStore();
 
   usePreventScroll();
 
@@ -24,20 +25,23 @@ const Modal: React.FC<PropsType> = ({ children, width, height, title, titleHidde
     const targetClassName = (e.target as HTMLElement).className;
 
     if (targetClassName.includes("modal-background") || targetClassName.includes("modal__close")) {
+      if (openModal.type === "reivewManage") {
+        queryClient.fetchQuery({ queryKey: ["showList"] });
+      }
       setOpenModal({ state: false, type: "" });
     }
   };
 
   const renderModal = (
-    <article className={styles["modal-background"]} onClick={closeModal}>
-      <div className={styles["modal"]} style={{ maxWidth: width, maxHeight: height }}>
+    <div className={styles["modal-background"]} onClick={closeModal}>
+      <article className={styles["modal"]} style={{ maxWidth: width, maxHeight: height }}>
         <button onClick={closeModal} className={styles["modal__close"]}></button>
         <h1>
           <span className={cx(titleHidden && "a11y-hidden")}>{title}</span>
         </h1>
         <div>{children}</div>
-      </div>
-    </article>
+      </article>
+    </div>
   );
 
   const rootElement = document.getElementById("root");

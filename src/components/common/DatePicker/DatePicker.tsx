@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import ko from "date-fns/locale/ko";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,7 +9,7 @@ import { DateInputType } from "@/types";
 import formattingDate from "@/utils/formattingDate";
 import formattingTime from "@/utils/formattingTime";
 
-interface DatePickerRef {
+export interface DatePickerRef {
   clearDatePicker: () => void;
 }
 
@@ -24,9 +24,14 @@ const DatePicker: React.ForwardRefRenderFunction<DatePickerRef, PropsType> = (
   { startDate: defaultStartDate, endDate: defaultEndDate, onChange, type },
   forwardedRef,
 ) => {
-  const datePickerRef = useRef<HTMLDivElement>(null);
+  const datePickerRef = useRef<ReactDatePicker>(null);
   const [startDate, setStartDate] = useState<Date | null>((defaultStartDate && new Date(defaultStartDate)) || null);
   const [endDate, setEndDate] = useState<Date | null>((defaultEndDate && new Date(defaultEndDate)) || null);
+
+  useEffect(() => {
+    setStartDate((defaultStartDate && new Date(defaultStartDate)) || null);
+    setEndDate((defaultEndDate && new Date(defaultEndDate)) || null);
+  }, [defaultStartDate, defaultEndDate]);
 
   // 날짜와 시간을 고르는 input
   const handleChangeDateWithTimeInput = (name: string, value: Date | null) => {

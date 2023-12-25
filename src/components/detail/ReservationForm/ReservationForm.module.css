@@ -1,0 +1,19 @@
+.show-info,
+.show-notice,
+.show-round,
+.show-reservation-user-info,
+.show-agreement {
+  margin: 2.5rem 0;
+}
+
+.show-info {
+  margin-top: 1rem;
+}
+
+.show-info span::before {
+  content: "• ";
+}
+
+.show-reservation-user-info > * {
+  margin: 1rem 0;
+}

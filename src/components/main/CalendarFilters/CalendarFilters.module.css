@@ -1,0 +1,16 @@
+.date-btns-group {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  margin-bottom: 30px;
+  overflow: auto;
+}
+
+.tabs {
+  display: flex;
+  gap: 2.5rem;
+  margin-bottom: 1.375rem;
+  overflow: auto;
+}
