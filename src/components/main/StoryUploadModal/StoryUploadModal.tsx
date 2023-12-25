@@ -19,7 +19,7 @@ const StoryUploadModal = () => {
   const { mutate } = useMutation({
     mutationFn: (formData: FormData) => postStory(formData),
     onSuccess: () => {
-      toast.info("스토리 업로드 성공!");
+      toast.success("스토리 업로드 성공!");
       setOpenModal({ state: false, type: "" });
       queryClient.invalidateQueries({ queryKey: ["storyData"] });
     },
