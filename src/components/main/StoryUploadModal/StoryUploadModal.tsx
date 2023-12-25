@@ -77,7 +77,7 @@ const StoryUploadModal = () => {
         <input type="file" id="img" accept="image/*" onChange={handleChangeImage} />
       </label>
       <TagInput handleChange={handleChangeTags} />
-      <Button type="submit" borderRadius={"16px"} form={"story-upload-modal"}>
+      <Button type="submit" borderRadius={"0.5rem"} form={"story-upload-modal"}>
         업로드하기
       </Button>
     </form>
