@@ -69,7 +69,7 @@ const InputField: React.FC<PropsType> = ({
         name={name}
         placeholder={placeholder}
         maxLength={maxlength}
-        value={value || ""}
+        value={value ?? ""}
         onChange={onChange}
         style={{ ...style }}
       />

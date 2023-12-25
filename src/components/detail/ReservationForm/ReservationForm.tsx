@@ -9,19 +9,9 @@ import styles from "./ReservationForm.module.css";
 import classNames from "classnames/bind";
 import RadioStyles from "@/components/common/RadioButtonGroup/RadioButtonGroup.module.css";
 import { postReservation } from "@/apis";
+import { base64ToBytes } from "@/utils";
 
 const cx = classNames.bind(RadioStyles);
-
-// 디코딩
-function base64ToBytes(base64: string): Uint8Array {
-  try {
-    const binString = window.atob(base64);
-    return Uint8Array.from(binString, (c) => c.codePointAt(0) ?? 0);
-  } catch (error) {
-    console.error("Error decoding base64:", error);
-    return new Uint8Array();
-  }
-}
 
 interface PropsType {
   showInfo: AgencyReservationInfoType;

@@ -1,4 +1,4 @@
 .modal {
   box-sizing: border-box;
-  height: 100%;
+  height: calc(100vh - 12.5rem);
 }

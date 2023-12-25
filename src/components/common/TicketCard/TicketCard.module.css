@@ -57,24 +57,25 @@
   line-height: 1.6;
 }
 
-.card__info h3 {
+.card__info__title {
   font-size: clamp(0.75rem, 1.5vw, 1.125rem);
   margin-bottom: 10%;
 }
 
-.card__info p {
+.card__info__date {
   margin-bottom: 8%;
   font-size: clamp(0.5rem, 1vw, 1rem);
 }
-.card__info p:last-child {
-  margin: 0;
+.card__info__location {
+  font-size: clamp(0.5rem, 1vw, 1rem);
 }
 
 @media (max-width: 689.5px) {
-  .card__info h3 {
+  .card__info__title {
     font-size: 3vw;
   }
-  .card__info p {
+  .card__info__date,
+  .card__info__location {
     font-size: 2vw;
   }
 }
