@@ -122,7 +122,7 @@ const PostUploadPage = () => {
         toast.error("구글폼 URL을 입력해주세요.");
         return;
       }
-      if (form.method === "예매 대행" && (!form.price || !form.head_count || !form.date_time.length || !editorNoticeData)) {
+      if (form.method === "예매 대행" && (form.price === null || !form.head_count || form.date_time.length || !editorNoticeData)) {
         toast.error("예매 작성 폼을 완성해주세요.");
         return;
       }
