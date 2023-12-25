@@ -81,7 +81,7 @@ const PostUpdatePage = () => {
     };
   }, [imgPreviewUrls]);
 
-  // 기존 게시글 데이터 가져오기
+  // 기존 게시글 GET
   const {
     data: showInfoData,
     status,
@@ -92,7 +92,7 @@ const PostUpdatePage = () => {
     enabled: !!showId,
   });
 
-  // 게시글 예매 정보 가져오기
+  // 기존 게시글 예매 정보 GET
   const {
     data: showReservationInfoData,
     status: showReservationInfoStatus,
@@ -103,12 +103,12 @@ const PostUpdatePage = () => {
     enabled: !!showInfoData?.is_reservation,
   });
 
-  // 게시글 수정 업데이트
+  // 게시글 수정 PUT
   const { mutate: editMutate } = useMutation({
     mutationFn: (formData: FormData) => putShow(formData),
     onSuccess: (data) => {
       if (data) {
-        toast.info("게시글 수정 완료");
+        toast.success("게시글 수정 완료");
         navigate("/mypage/admin/post");
       }
     },
@@ -117,11 +117,12 @@ const PostUpdatePage = () => {
     },
   });
 
+  // 게시글 삭제 DELETE
   const { mutate: deleteMutate } = useMutation({
     mutationFn: () => deleteShow(showId),
     onSuccess: (data) => {
       if (data) {
-        toast.info("게시글 삭제 완료");
+        toast.success("게시글 삭제 완료");
         navigate("/mypage/admin/post");
       }
     },
@@ -149,7 +150,7 @@ const PostUpdatePage = () => {
           : [showInfoData.main_image_url],
       );
       setDate({ start_date: showInfoData.start_date, end_date: showInfoData.end_date });
-      showInfoData.tags && setTagInputs(Object.values(JSON.parse(showInfoData.tags)) as string[]);
+      showInfoData.tags?.length && setTagInputs(Object.values(JSON.parse(showInfoData.tags)) as string[]);
       showInfoData.content && setEditorData(new TextDecoder().decode(base64ToBytes(showInfoData.content)));
 
       if (!showInfoData.is_reservation) {
@@ -157,6 +158,10 @@ const PostUpdatePage = () => {
       }
     }
   }, [showInfoData]);
+
+  useEffect(() => {
+    console.log(date);
+  }, [date]);
 
   useEffect(() => {
     if (showReservationInfoStatus === "success" && showReservationInfoData) {
@@ -234,12 +239,16 @@ const PostUpdatePage = () => {
       toast.error("주최자 정보를 입력해주세요.");
       return;
     }
+    if (!date.start_date || !date.end_date) {
+      toast.error("기간을 입력해주세요.");
+      return;
+    }
     if (!location) {
       toast.error("주소를 입력해주세요.");
       return;
     }
-    if (!date.start_date || !date.end_date) {
-      toast.error("기간을 입력해주세요.");
+    if (!tagsInput.length) {
+      toast.error("tag를 입력해주세요.");
       return;
     }
     if (isReservation === "예") {
@@ -252,7 +261,7 @@ const PostUpdatePage = () => {
         return;
       }
     }
-    console.log(editorNoticeData);
+
     const base64EncodedContents = (!!editorData && bytesToBase64(new TextEncoder().encode(editorData))) || null;
     const base64EncodedNotice = (method === "예매 대행" && !!editorNoticeData && bytesToBase64(new TextEncoder().encode(editorNoticeData))) || null;
 
