@@ -5,13 +5,12 @@ import { useColor } from "color-thief-react";
 import { toast } from "react-toastify";
 import postShow from "@/apis/postShow";
 import useInputs from "@/hooks/useInputs";
-import { bytesToBase64 } from "@/utils";
+import { bytesToBase64, getResizedImgFiles } from "@/utils";
 import { Button, DatePicker, DeleteButton, Editor, InputField, RadioButtonGroup, TagInput } from "@/components/common";
 import { Postcode, ReservationForm } from "@/components/mypage";
 import { DateInputType, DateWithTimeObj } from "@/types";
 
 import ImgUploadIcon from "@/assets/ImgUploadIcon.svg?react";
-import reduceImageSize from "@/utils/reduceImageSize";
 import convertArrayToObject from "@/utils/convertArrayToObject";
 import styles from "./PostUploadPage.module.css";
 import classNames from "classnames/bind";
@@ -47,6 +46,7 @@ const PostUploadPage = () => {
   const [tagsInput, setTagInputs] = useState<string[]>([]);
   const [imgFiles, setImgFiles] = useState<File[]>([]);
   const [imgPreviewUrls, setImgPreviewUrls] = useState<string[]>([]);
+  const { data: main_image_color } = useColor(imgPreviewUrls[0], "hex");
   const [date, setDate] = useState({
     start_date: "",
     end_date: "",
@@ -63,6 +63,7 @@ const PostUploadPage = () => {
     const previewImgSrc = [...e.target.files].map((file) => URL.createObjectURL(file));
     setImgPreviewUrls([...imgPreviewUrls, ...previewImgSrc]);
   };
+
   const handleRemoveImage = (image: string) => {
     const deleteImgIndex = imgPreviewUrls.indexOf(image);
     // file 객체 리스트에서 제거
@@ -71,6 +72,7 @@ const PostUploadPage = () => {
     // 미리보기 blob url 리스트에서 제거
     setImgPreviewUrls((prev) => prev.filter((previewUrl) => previewUrl !== image));
   };
+
   useEffect(() => {
     return () => {
       if (imgPreviewUrls) {
@@ -87,8 +89,6 @@ const PostUploadPage = () => {
   const handleChangeTags = (tags: string[]) => {
     setTagInputs(tags);
   };
-
-  const { data: main_image_color } = useColor(imgPreviewUrls[0], "hex");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -119,24 +119,17 @@ const PostUploadPage = () => {
     }
     if (form.is_reservation === "예") {
       if (form.method === "구글폼" && !form.google_form_url) {
-        toast("구글폼 URL을 입력해주세요.");
+        toast.error("구글폼 URL을 입력해주세요.");
         return;
       }
       if (form.method === "예매 대행" && (!form.price || !form.head_count || !form.date_time.length || !editorNoticeData)) {
-        toast("예매 작성 폼을 완성해주세요.");
+        toast.error("예매 작성 폼을 완성해주세요.");
         return;
       }
     }
-    const resizedImgFiles = await Promise.all(
-      imgFiles.map(async (file) => {
-        const blobString = URL.createObjectURL(file);
-        const jpeg = await reduceImageSize(blobString);
-        return new File([jpeg], new Date().toISOString(), { type: "image/jpeg" });
-      }),
-    );
 
-    const tags = tagsInput.length ? JSON.stringify(convertArrayToObject(tagsInput)) : null;
-
+    const resizedImgFiles = await getResizedImgFiles(imgFiles);
+    console.log(resizedImgFiles);
     const base64EncodedContents = (!!editorData && bytesToBase64(new TextEncoder().encode(editorData))) || null;
     const base64EncodedNotice =
       (form.method === "예매 대행" && !!editorNoticeData && bytesToBase64(new TextEncoder().encode(editorNoticeData))) || null;
@@ -147,15 +140,14 @@ const PostUploadPage = () => {
 
     const result = {
       ...form,
-      main_image_url: resizedImgFiles[0],
-      sub_images_url: resizedImgFiles.slice(1),
-      main_image_color,
+      main_image_color: main_image_color as string,
       show_sub_type: form.show_type === "전시" ? null : form.show_sub_type,
       start_date: date.start_date,
       end_date: date.end_date,
       location,
+      location_detail: form.location_detail ? form.location_detail : null,
       position: JSON.stringify(position),
-      tags,
+      tags: JSON.stringify(convertArrayToObject(tagsInput)),
       content: base64EncodedContents,
       is_reservation: form.is_reservation === "예" ? "1" : "0",
       method: form.is_reservation === "예" ? (form.method === "구글폼" ? "google" : "agency") : null,
@@ -165,18 +157,18 @@ const PostUploadPage = () => {
       date_time: (form.method === "예매 대행" && JSON.stringify(convertArrayToObject(roundListToDateTime()))) || null,
       notice: base64EncodedNotice,
     };
-    console.log(result);
 
     const formData = new FormData();
 
     // 이미지 파일
-    formData.append("mainImage", result.main_image_url); // 메인 이미지
-    for (let i = 0; i < result.sub_images_url.length; i++) {
-      formData.append("subImages", result.sub_images_url[i]); // 서브 이미지
+    formData.append("mainImage", resizedImgFiles[0]); // 메인 이미지
+    const finalSubImages = resizedImgFiles.slice(1);
+    for (let i = 0; i < finalSubImages.length; i++) {
+      formData.append("subImages", finalSubImages[i]); // 서브 이미지
     }
 
     const fileNames: { [key: number]: string } = {};
-    result.sub_images_url.forEach((file, index) => (fileNames[index + 1] = file.name));
+    finalSubImages.forEach((file: File, index: number) => (fileNames[index + 1] = file.name));
 
     // 텍스트
     formData.append("show_type", result.show_type);
@@ -204,11 +196,12 @@ const PostUploadPage = () => {
     mutate(formData);
   };
 
+  // 게시글 업로드 POST
   const { mutate } = useMutation({
     mutationFn: (formData: FormData) => postShow(formData),
     onSuccess: (data) => {
       if (data) {
-        toast.info("게시글 업로드 성공");
+        toast.success("게시글 업로드 성공");
         navigate("/mypage/admin/post");
       }
     },
