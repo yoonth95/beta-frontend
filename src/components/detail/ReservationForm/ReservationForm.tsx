@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { Button, CheckBox, InputField, InputFieldGroup } from "@/components/common";
 import useInputs from "@/hooks/useInputs";
@@ -31,10 +32,9 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
   const [btnDisabled, setBtnDisabled] = useState(false);
 
   const [form, onChange] = useInputs<UserReservationInputsType>({
-    show_times_id: date_time[0].id,
+    show_times_id: -1,
     is_receive_email: false,
   });
-
   const { setReservationForm } = useReservationFormStore();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,37 +50,36 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
       goToPaymentStep();
       return;
     }
-
+    if (form.show_times_id === -1) {
+      toast.warn("회차를 선택해주세요");
+      return;
+    }
     setBtnDisabled(true);
     const toastId = toast.loading("예매 진행 중...");
     try {
-      const res = await postReservation(result);
-      if (res.ok) {
-        toast.update(toastId, {
-          render: "예매 성공하였습니다. 마이페이지에서 확인해주세요",
-          type: toast.TYPE.SUCCESS,
-          isLoading: false,
-          autoClose: 2000,
-        });
-        setBtnDisabled(false);
-        setOpenModal({ state: false, type: "" });
-      } else {
-        toast.update(toastId, {
-          render: res.message,
-          type: toast.TYPE.ERROR,
-          isLoading: false,
-          autoClose: 2000,
-        });
-        setBtnDisabled(false);
-      }
-    } catch (err) {
-      // 예매실패
+      await postReservation(result);
+
       toast.update(toastId, {
-        render: "예매 실패",
+        render: (
+          <p>
+            예매 성공하였습니다. <br />
+            마이페이지에서 확인하세요.
+          </p>
+        ),
+        type: toast.TYPE.SUCCESS,
+        isLoading: false,
+        autoClose: 2000,
+      });
+      setBtnDisabled(false);
+      setOpenModal({ state: false, type: "" });
+    } catch (err) {
+      toast.update(toastId, {
+        render: (err as AxiosError).message,
         type: toast.TYPE.ERROR,
         isLoading: false,
         autoClose: 2000,
       });
+    } finally {
       setBtnDisabled(false);
     }
   };
@@ -125,7 +124,7 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
         </div>
 
         <div className={styles["show-reservation-user-info"]}>
-          <h2>예약자 정보</h2>
+          <h2>예매자 정보</h2>
           <InputField type="text" name="name" value={user_name} readOnly>
             이름
           </InputField>
@@ -133,7 +132,7 @@ const ReservationForm: React.FC<PropsType> = ({ showInfo, userInfo, goToPaymentS
           <InputFieldGroup type="email" name="email" values={{ email1, email2 }} userType="user" readOnly />
 
           <CheckBox inputId="이메일받기" name="is_receive_email" checked={!!form.is_receive_email} onChange={onChange}>
-            예약 완료 이메일 전송 동의
+            예매 완료 이메일 전송 동의
           </CheckBox>
         </div>
       </form>
