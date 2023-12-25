@@ -19,7 +19,7 @@ const TicketCard: React.FC<PropsType> = ({ item }) => {
           <img src={`${import.meta.env.VITE_APP_IMAGE_DOMAIN}${item.main_image_url}`} alt="" />
         </div>
 
-        <div className={styles["card__info"]} style={{ color: getTxtColorByBgColor(item.main_image_color || "") }}>
+        <div className={styles["card__info"]} style={{ color: getTxtColorByBgColor(item.main_image_color) }}>
           <h3 className={cx("ellipsis-multi", "card__info__title")} style={{ wordBreak: "normal" }}>
             {item.title}
           </h3>
