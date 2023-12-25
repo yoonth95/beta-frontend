@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames/bind";
+import { toast } from "react-toastify";
 import { SignForm, Button, InputField, InputFieldGroup, Timer } from "@/components/common";
 import { isPasswordCheck, isPasswordDoubleCheck, isEmailCheck } from "@/utils";
 import { getSignUserInfo, postSignupAPI } from "@/apis";
 import { SignupBodyType } from "@/types/SignupBodyType";
+import betaLogo from "@/assets/beta-logo.png";
 import styles from "./SignupPage.module.css";
 
 interface BirthdateGenderType {
@@ -59,31 +61,31 @@ const SignupPage = () => {
     e.preventDefault();
 
     if (!id.isConfirm) {
-      alert("아이디 중복확인을 해주세요.");
+      toast.error("아이디 중복확인을 해주세요.");
       return;
     }
     if (!password.isConfirm) {
-      alert("비밀번호는 8자 이상의 영문, 숫자, 특수문자를 사용해 주세요.");
+      toast.error("비밀번호는 8자 이상의 영문, 숫자, 특수문자를 사용해 주세요.");
       return;
     }
     if (!checkPassword.isConfirm) {
-      alert("비밀번호가 일치하지 않습니다.");
+      toast.error("비밀번호가 일치하지 않습니다.");
       return;
     }
     if (!isEmailSend) {
-      alert("이메일 인증을 해주세요.");
+      toast.error("이메일 인증을 해주세요.");
       return;
     }
     if (!isCodeCheck) {
-      alert("인증번호 확인을 해주세요.");
+      toast.error("인증번호 확인을 해주세요.");
       return;
     }
     if (userType === "admin" && !univEmail) {
-      alert("학교 이메일을 입력해주세요.");
+      toast.error("학교 이메일을 입력해주세요.");
       return;
     }
     if (userType === "admin" && !univName) {
-      alert("학교 이름을 입력해주세요.");
+      toast.error("학교 이름을 입력해주세요.");
       return;
     }
 
@@ -107,9 +109,14 @@ const SignupPage = () => {
     if (isSuccess) {
       navigate("/login");
     } else {
-      alert(message);
+      toast.error(message);
       return;
     }
+  };
+
+  // 메인 페이지로 이동
+  const moveToMain = () => {
+    navigate("/");
   };
 
   // 아이디 중복확인
@@ -117,8 +124,18 @@ const SignupPage = () => {
     // db 조회 후 중복확인
     const data = await getSignUserInfo(id.value);
 
+    if (id.value === "") {
+      toast.error("아이디를 입력해주세요.");
+      return;
+    }
+
+    if (id.value.length < 4 || id.value.length > 20) {
+      toast.error("아이디는 4자 이상 20자 이하로 입력해주세요.");
+      return;
+    }
+
     if (!data.ok) {
-      alert("이미 가입된 아이디입니다.");
+      toast.error("이미 가입된 아이디입니다.");
       return;
     }
     setId({ ...id, isConfirm: true });
@@ -137,8 +154,8 @@ const SignupPage = () => {
   // 이메일 전송
   const handleSendEmail = async () => {
     const fullEmail = userType === "admin" ? univEmail : `${email.email1}@${email.email2}`;
+    const toastId = toast.loading("이메일을 전송중입니다.");
     if (isEmailCheck(fullEmail)) {
-      // 인증번호 이메일 발송
       setIsCodeCheck(false);
       setIsStop(false);
       const body: { user_email: string; univName?: string } = { user_email: fullEmail };
@@ -146,15 +163,31 @@ const SignupPage = () => {
       const endPoint = userType === "user" ? "/api/send-email" : "/api/send-univ-email";
       const { isSuccess, message } = await postSignupAPI(endPoint, body);
       if (isSuccess) {
+        toast.update(toastId, {
+          render: "이메일이 전송되었습니다.",
+          type: toast.TYPE.SUCCESS,
+          isLoading: false,
+          autoClose: 2000,
+        });
         setTime(180);
         setIsEmailSend(true);
       } else {
-        alert(message);
+        toast.update(toastId, {
+          render: message,
+          type: toast.TYPE.ERROR,
+          isLoading: false,
+          autoClose: 2000,
+        });
         setIsEmailSend(false);
         return;
       }
     } else {
-      alert("이메일 형식이 올바르지 않습니다.");
+      toast.update(toastId, {
+        render: "이메일 형식이 올바르지 않습니다.",
+        type: toast.TYPE.ERROR,
+        isLoading: false,
+        autoClose: 2000,
+      });
       return;
     }
   };
@@ -162,22 +195,35 @@ const SignupPage = () => {
   // 인증번호 확인
   const handleCertConfirm = async () => {
     // 인증번호 확인
+    const toastId = toast.loading("인증번호를 확인중입니다.");
     const fullEmail = userType === "admin" ? univEmail : `${email.email1}@${email.email2}`;
     const body: { user_email: string; code: string; univName?: string } = { user_email: fullEmail, code: emailCertValue };
     if (userType === "admin") body["univName"] = univName;
     const endPoint = userType === "user" ? "/api/verify-code" : "/api/verify-univ-code";
     const { isSuccess, message } = await postSignupAPI(endPoint, body);
     if (isSuccess) {
+      toast.update(toastId, {
+        render: "인증되었습니다.",
+        type: toast.TYPE.SUCCESS,
+        isLoading: false,
+        autoClose: 2000,
+      });
       setIsCodeCheck(true);
       setIsStop(true);
     } else {
-      alert(message);
+      toast.update(toastId, {
+        render: message,
+        type: toast.TYPE.ERROR,
+        isLoading: false,
+        autoClose: 2000,
+      });
       return;
     }
   };
 
   return (
     <main className={styles["sign-main"]}>
+      <img src={betaLogo} alt="로고 이미지" className={styles["logo-img"]} onClick={moveToMain} />
       <SignForm userType={userType} setUserType={setUserType}>
         <form onSubmit={handleSubmit} className={styles["sign-section-form"]}>
           <div className={styles["sign-section-form-group"]}>
@@ -186,6 +232,7 @@ const SignupPage = () => {
               type="text"
               name="id"
               placeholder="아이디를 입력해주세요."
+              maxlength={20}
               value={id.value}
               onChange={(e) => setId({ ...id, value: e.currentTarget.value })}
               isConfirm={id.isConfirm}
