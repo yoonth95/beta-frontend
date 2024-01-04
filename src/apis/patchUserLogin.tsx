@@ -15,6 +15,9 @@ export const patchUserLogin = async (login_id: string, login_pw: string, user_ro
       login_id,
       login_pw,
       user_role,
+    },
+    {
+      withCredentials: true,
     });
     userLoginInfo = data.data;
     userLoginInfo["isLogin"] = true;
